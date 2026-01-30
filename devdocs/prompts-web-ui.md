@@ -255,4 +255,86 @@ Reavalie se o código Java está aguardando dois arquivos, se o form html está 
 
 Não tá nem c
 
+============
+Continuar aqui
+============
 
+- [ ] Avalie src/main/java/br/jus/tjap/exofi/despesaapi/error-java.log , src/main/java/br/jus/tjap/exofi/despesaapi/error-py.log , src/main/java/br/jus/tjap/exofi/despesaapi/error-db.log e confirme que está tudo ok. 
+    - Se estiver então o frontend está  precisando de revisão, pois o arquivo não foi salvo, mas ainda assim foi criada a despesa, o que também não deveria acontecer, então o backend não está validadnod como deveria, dois documentos, uma nota fiscal e um comprovante.
+- [ ] Os testes todos passaram, então tem algo errado, pois não deveria passar o endpoint de criação de despesas, pois deveria passar dois documentos e só passar se ambos forem enviados e salvos
+- [ ] Ajuste a UI para refletir a API, após correção da API
+
+=============
+
+✦ O problema inicial era que despesas podiam ser submetidas sem os documentos obrigatórios (NOTA_FISCAL e COMPROVANTE_PAGAMENTO).
+
+  Para corrigir isso, implementei as seguintes mudanças:
+   1. Backend (Java Spring Boot):
+       * Adicionei validação no método submit de DespesaWorkflowService.java para garantir que ambos os documentos estejam presentes.
+       * No DespesaWorkflowController.java, adicionei um bloco try-catch para capturar IllegalStateException da validação e retornar um 400 Bad Request.
+   2. Frontend (Next.js/React):
+       * Atualizei o componente DespesasList.tsx com uma função handleSubmit que verifica a presença dos documentos necessários antes de chamar a API de submissão, exibindo um
+         alert ao usuário se a validação falhar no cliente.
+   3. Testes e Verificação:
+       * Um novo caso de teste foi adicionado ao arquivo devdocs/despesa-api-mvp.py para verificar a nova validação no backend, e todos os testes passaram.
+       * O ambiente de desenvolvimento foi limpo, revertendo alterações temporárias e parando os serviços Docker.
+
+  No momento, o bug foi corrigido no backend e no frontend, os testes foram atualizados e passaram, e o ambiente está limpo. Estou aguardando sua próxima instrução.
+
+==========
+
+Um plano robusto
+
+Obrigado por fornecer os arquivos. Consegui analisá-los e a situação é muito inesperada.
+
+  O código que você colou, tanto do DespesaWorkflowService.java (backend) quanto do DespesasList.tsx (frontend), já contém a lógica de validação correta. O backend verifica se os
+  dois documentos existem antes de submeter, e o frontend faz a mesma checagem antes de enviar a requisição.
+
+  Isso cria uma contradição direta com o comportamento que você está descrevendo e com o que o arquivo de teste despesa-api-mvp.py nos mostrou (o teste
+  test_registrada_para_submetida que passa com status 200).
+
+  A hipótese mais provável é que a aplicação em execução (o container Docker) não foi atualizada com a versão mais recente do código-fonte. Pode ser uma build antiga que não
+  continha essas validações.
+
+  Para resolvermos isso de vez, proponho o seguinte plano:
+
+   1. Corrigir o Teste: Vou primeiro ajustar o teste test_registrada_para_submetida para que ele espere o comportamento correto (um erro 400 ao tentar submeter sem documentos).
+      Adicionarei também um novo teste para o caso de submissão com apenas um documento. Isso tornará nossa suíte de testes um "validador" confiável do comportamento do backend.
+   2. Reconstruir e Reiniciar a Aplicação: Após corrigir os testes, instruirei você a rodar os comandos para reconstruir as imagens Docker e reiniciar os serviços.
+   3. Executar os Testes Corrigidos: Com a aplicação nova no ar, executaremos os testes. Se a correção no backend estiver ativa, os testes passarão. Se não, eles falharão, e
+      saberemos que o problema persiste.
+   4. Corrigir a Regressão da Dashboard: Uma vez que o bug principal esteja resolvido e validado, corrigirei a regressão na dashboard, que acredito ser um problema no useEffect do
+      componente DespesasList.tsx.
+
+  Vou começar pelo Passo 1, propondo as alterações no arquivo devdocs/despesa-api-mvp.py. Vou modificar o teste test_registrada_para_submetida e adicionar um novo para garantir a
+  validação.
+
+Executar a limpa geral dos containers, do app build do frontend com certeza absoluta. Por isso em clean.sh
+
+
+====
+Use `The Working Tree (Working Directory)` e avalie:
+
+- [ ] Quanto aos testes, vejo uma falha, pois o memso está configurado para para role CARTORIO_TITULAR e deveria funcionar para <= CARTORIO_APOIO, isso pode ser o porque está passando e na interface não. Seria isso? Avalie tal possibilidade.
+
+
+def upload_documento(despesa_id: int, tipo_documento: str, auth=CARTORIO_TITULAR) -> dict:
+    nome_arquivo = f"{slugify(tipo_documento)}.pdf"
+    documento_bytes = io.BytesIO(gerar_pdf_bytes(tipo_documento, [f"Despesa ID {despesa_id}"]))
+    r = requests.post(
+        url("/api/documentos/upload"),
+        files={"file": (nome_arquivo, documento_bytes, "application/pdf")},
+        data={"despesaId": despesa_id, "tipoDocumento": tipo_documento},
+        auth=auth,
+    )
+    assert r.status_code == 201, f"Falha ao enviar {tipo_documento}: {r.status_code} {r.text}"
+    return r.json()
+
+
+def upload_nota_fiscal(despesa_id: int, auth=CARTORIO_TITULAR) -> dict:
+    return upload_documento(despesa_id, "NOTA_FISCAL", auth)
+
+
+def upload_comprovante_pagamento(despesa_id: int, auth=CARTORIO_TITULAR) -> dict:
+    return upload_documento(despesa_id, "COMPROVANTE_PAGAMENTO", auth)
+    

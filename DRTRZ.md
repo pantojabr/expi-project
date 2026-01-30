@@ -1,5 +1,5 @@
 # Orientações que sempre devem ser seguidas
-Para nos projetos nas pastas `despesa-api-mvp` e `despesas-front-mvp`
+Para os projetos nas pastas `despesa-api-mvp` e `despesas-front-mvp`
 
 ## Language
 

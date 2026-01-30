@@ -222,16 +222,25 @@ def arquivo_pdf(nome: str, linhas: list[str]) -> tuple:
     return (f"{slugify(nome)}.pdf", fake_file, "application/pdf")
 
 
-def upload_comprovante_unico(despesa_id: int, auth=CARTORIO_TITULAR) -> dict:
-    comprovante = io.BytesIO(gerar_pdf_bytes("Comprovante Pagamento", [f"Despesa ID {despesa_id}"]))
+def upload_documento(despesa_id: int, tipo_documento: str, auth=CARTORIO_TITULAR) -> dict:
+    nome_arquivo = f"{slugify(tipo_documento)}.pdf"
+    documento_bytes = io.BytesIO(gerar_pdf_bytes(tipo_documento, [f"Despesa ID {despesa_id}"]))
     r = requests.post(
-        url("/api/comprovantes/upload"),
-        files={"file": ("comprovante_pagamento.pdf", comprovante, "application/pdf")},
-        data={"despesaId": despesa_id},
+        url("/api/documentos/upload"),
+        files={"file": (nome_arquivo, documento_bytes, "application/pdf")},
+        data={"despesaId": despesa_id, "tipoDocumento": tipo_documento},
         auth=auth,
     )
-    assert r.status_code == 201, f"Falha ao enviar comprovante pagamento: {r.status_code} {r.text}"
+    assert r.status_code == 201, f"Falha ao enviar {tipo_documento}: {r.status_code} {r.text}"
     return r.json()
+
+
+def upload_nota_fiscal(despesa_id: int, auth=CARTORIO_TITULAR) -> dict:
+    return upload_documento(despesa_id, "NOTA_FISCAL", auth)
+
+
+def upload_comprovante_pagamento(despesa_id: int, auth=CARTORIO_TITULAR) -> dict:
+    return upload_documento(despesa_id, "COMPROVANTE_PAGAMENTO", auth)
 
 
 def vincular_tipo_cartorio(serventia_id: int, tipo_id: int, auth=COGEX_ADMIN) -> dict:
@@ -802,86 +811,91 @@ class TestAuditoriaFiltros:
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# 5. COMPROVANTES - CRUD + Upload (vinculado a Despesas)
+# 5. DOCUMENTOS - CRUD + Upload (vinculado a Despesas)
 # ═══════════════════════════════════════════════════════════════════════════
-class TestComprovantes:
-    """Testes de /api/comprovantes - upload e associação a despesas."""
+class TestDocumentos:
+    """Testes de /api/documentos - upload e associação a despesas."""
 
-    def test_listar_comprovantes(self):
-        r = requests.get(url("/api/comprovantes"), auth=COGEX_ADMIN)
+    def test_listar_documentos(self):
+        r = requests.get(url("/api/documentos"), auth=COGEX_ADMIN)
         assert r.status_code == 200
         assert isinstance(r.json(), list)
 
-    def test_criar_comprovante_via_json(self):
+    def test_criar_documento_via_json(self):
         data = criar_despesa()
         payload = {
-            "idComprovante": "nota_fiscal_001.pdf",
-            "filePath": "/uploads/nota_fiscal_001.pdf",
+            "nomeArquivo": "nota_fiscal_001.pdf",
+            "caminhoArquivo": "/uploads/nota_fiscal_001.pdf",
             "despesaId": data["id"],
+            "tipoDocumento": "NOTA_FISCAL"
         }
-        r = requests.post(url("/api/comprovantes"), json=payload, auth=COGEX_ADMIN)
+        r = requests.post(url("/api/documentos"), json=payload, auth=COGEX_ADMIN)
         assert r.status_code == 201
-        self.__class__._comp_id = r.json()["id"]
+        self.__class__._doc_id = r.json()["id"]
         self.__class__._despesa_id = data["id"]
 
-    def test_buscar_comprovante_por_id(self):
-        cid = getattr(self.__class__, "_comp_id", None)
+    def test_buscar_documento_por_id(self):
+        cid = getattr(self.__class__, "_doc_id", None)
         if cid is None:
-            pytest.skip("Comprovante não criado")
-        r = requests.get(url(f"/api/comprovantes/{cid}"), auth=COGEX_ADMIN)
+            pytest.skip("Documento não criado")
+        r = requests.get(url(f"/api/documentos/{cid}"), auth=COGEX_ADMIN)
         assert r.status_code == 200
 
-    def test_atualizar_comprovante(self):
-        cid = getattr(self.__class__, "_comp_id", None)
+    def test_atualizar_documento(self):
+        cid = getattr(self.__class__, "_doc_id", None)
         if cid is None:
-            pytest.skip("Comprovante não criado")
+            pytest.skip("Documento não criado")
         payload = {
-            "idComprovante": "nota_atualizada.pdf",
-            "filePath": "/uploads/nota_atualizada.pdf",
+            "nomeArquivo": "nota_atualizada.pdf",
+            "caminhoArquivo": "/uploads/nota_atualizada.pdf",
             "despesaId": getattr(self.__class__, "_despesa_id", None),
+            "tipoDocumento": "NOTA_FISCAL"
         }
-        r = requests.put(url(f"/api/comprovantes/{cid}"), json=payload, auth=COGEX_ADMIN)
+        r = requests.put(url(f"/api/documentos/{cid}"), json=payload, auth=COGEX_ADMIN)
         assert r.status_code == 200
 
-    def test_deletar_comprovante(self):
-        # Cria um comprovante descartável
-        payload = {"idComprovante": "temp.pdf", "filePath": "/tmp/temp.pdf", "despesaId": None}
-        r = requests.post(url("/api/comprovantes"), json=payload, auth=COGEX_ADMIN)
+    def test_deletar_documento(self):
+        # Cria um documento descartável
+        payload = {"nomeArquivo": "temp.pdf", "caminhoArquivo": "/tmp/temp.pdf", "despesaId": None, "tipoDocumento": "NOTA_FISCAL"}
+        r = requests.post(url("/api/documentos"), json=payload, auth=COGEX_ADMIN)
         assert r.status_code == 201
-        r = requests.delete(url(f"/api/comprovantes/{r.json()['id']}"), auth=COGEX_ADMIN)
+        r = requests.delete(url(f"/api/documentos/{r.json()['id']}"), auth=COGEX_ADMIN)
         assert r.status_code == 204
 
-    def test_listar_comprovantes_por_despesa(self):
+    def test_listar_documentos_por_despesa(self):
         did = getattr(self.__class__, "_despesa_id", None)
         if did is None:
-            data = criar_despesa(descricao="Despesa para comprovantes")
+            data = criar_despesa(descricao="Despesa para documentos")
             did = data["id"]
             self.__class__._despesa_id = did
-        # Garantir que exista ao menos um comprovante para a despesa usada no teste
+        # Garantir que exista ao menos um documento para a despesa usada no teste
         try:
-            r_check = requests.get(url(f"/api/comprovantes/despesas/{did}/comprovantes"), auth=COGEX_ADMIN)
+            r_check = requests.get(url(f"/api/documentos/despesas/{did}/documentos"), auth=COGEX_ADMIN)
             if r_check.status_code == 200 and isinstance(r_check.json(), list) and len(r_check.json()) < 1:
-                upload_comprovante_unico(did, auth=COGEX_ADMIN)
+                upload_nota_fiscal(did, auth=COGEX_ADMIN)
         except Exception:
-            upload_comprovante_unico(did, auth=COGEX_ADMIN)
-        skip_se_indisponivel(f"/api/comprovantes/despesas/{did}/comprovantes")
-        r = requests.get(url(f"/api/comprovantes/despesas/{did}/comprovantes"), auth=COGEX_ADMIN)
+            upload_nota_fiscal(did, auth=COGEX_ADMIN)
+        skip_se_indisponivel(f"/api/documentos/despesas/{did}/documentos")
+        r = requests.get(url(f"/api/documentos/despesas/{did}/documentos"), auth=COGEX_ADMIN)
         assert r.status_code == 200
         assert isinstance(r.json(), list)
         assert len(r.json()) >= 1
 
-    def test_upload_arquivo(self):
-        """POST /api/comprovantes/upload - multipart/form-data."""
+    def test_upload_arquivos(self):
+        """POST /api/documentos/upload - multipart/form-data."""
         data = criar_despesa()
-        arquivo = upload_comprovante_unico(data["id"], auth=COGEX_ADMIN)
-        self.__class__._uploaded_filename = arquivo["filePath"]
+        arquivo_nf = upload_nota_fiscal(data["id"], auth=COGEX_ADMIN)
+        arquivo_cp = upload_comprovante_pagamento(data["id"], auth=COGEX_ADMIN)
+        assert arquivo_nf["tipoDocumento"] == "NOTA_FISCAL"
+        assert arquivo_cp["tipoDocumento"] == "COMPROVANTE_PAGAMENTO"
+        self.__class__._uploaded_filename = arquivo_nf["caminhoArquivo"]
 
     def test_download_arquivo(self):
-        """GET /api/comprovantes/files/{filename} - download do comprovante."""
+        """GET /api/documentos/files/{filename} - download do documento."""
         filename = getattr(self.__class__, "_uploaded_filename", None)
         if not filename:
             pytest.skip("Arquivo não enviado no teste anterior")
-        r = requests.get(url(f"/api/comprovantes/files/{filename}"), auth=COGEX_ADMIN)
+        r = requests.get(url(f"/api/documentos/files/{filename}"), auth=COGEX_ADMIN)
         assert r.status_code == 200
         assert len(r.content) > 0
         assert r.content.startswith(b"%PDF")
@@ -1108,8 +1122,9 @@ class TestFluxoAprovacao:
         despesa_id = despesa["id"]
         assert despesa["statusAuditoria"] == "REGISTRADA"
 
-        # 1b. POST /api/comprovantes/upload - anexar comprovante
-        upload_comprovante_unico(despesa_id, auth=CARTORIO_TITULAR)
+        # 1b. POST /api/documentos/upload - anexar documentos
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_APOIO)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_APOIO)
 
         # 1c. POST /api/despesas/{id}/workflow/submeter - muda para SUBMETIDA
         r = requests.post(url(f"/api/despesas/{despesa_id}/workflow/submeter"), auth=CARTORIO_TITULAR)
@@ -1154,8 +1169,9 @@ class TestFluxoRejeicao:
         despesa_id = despesa["id"]
         assert despesa["statusAuditoria"] == "REGISTRADA"
 
-        # Anexar comprovante
-        upload_comprovante_unico(despesa_id, auth=CARTORIO_TITULAR)
+        # Anexar documentos
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_TITULAR)
 
         # Submeter
         r = requests.post(url(f"/api/despesas/{despesa_id}/workflow/submeter"), auth=CARTORIO_TITULAR)
@@ -1190,6 +1206,10 @@ class TestFluxoEsclarecimento:
         despesa = criar_despesa(descricao="Fluxo Esclarecimento - despesa com dúvidas")
         despesa_id = despesa["id"]
         assert despesa["statusAuditoria"] == "REGISTRADA"
+
+        # 1b. POST /api/documentos/upload - anexar documentos
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_TITULAR)
 
         # Submeter
         r = requests.post(url(f"/api/despesas/{despesa_id}/workflow/submeter"), auth=CARTORIO_TITULAR)
@@ -1255,6 +1275,10 @@ class TestFluxoEsclarecimentoComRejeicao:
         despesa = criar_despesa(descricao="Esclarecimento insatisfatório")
         despesa_id = despesa["id"]
 
+        # 1b. POST /api/documentos/upload - anexar documentos
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_TITULAR)
+
         # Submeter
         r = requests.post(url(f"/api/despesas/{despesa_id}/workflow/submeter"), auth=CARTORIO_TITULAR)
         assert r.json()["statusAuditoria"] == "SUBMETIDA"
@@ -1303,6 +1327,10 @@ class TestFluxoMultiplosEsclarecimentos:
     def test_fluxo_multiplos_ciclos(self):
         despesa = criar_despesa(descricao="Despesa com múltiplas dúvidas")
         despesa_id = despesa["id"]
+
+        # 1b. POST /api/documentos/upload - anexar documentos
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_TITULAR)
 
         # Submeter
         r = requests.post(url(f"/api/despesas/{despesa_id}/workflow/submeter"), auth=CARTORIO_TITULAR)
@@ -1363,7 +1391,7 @@ class TestFluxoMultiplosEsclarecimentos:
 #   Demonstra o fluxo end-to-end incluindo consulta de comprovantes
 #   e listagem filtrada conforme descrito no documento de auditoria
 # ═══════════════════════════════════════════════════════════════════════════
-class TestFluxoCompletoComComprovantes:
+class TestFluxoCompletoComDocumentos:
     """
     Fluxo end-to-end detalhado com todas as consultas intermediárias
     que o frontend faria durante o processo de auditoria.
@@ -1385,17 +1413,19 @@ class TestFluxoCompletoComComprovantes:
         assert despesa["statusAuditoria"] == "REGISTRADA"
 
         # ============================================================
-        # ETAPA 1 - Serventia: Anexar comprovantes
+        # ETAPA 1 - Serventia: Anexar documentos
         # ============================================================
-        upload_comprovante_unico(despesa_id, auth=CARTORIO_TITULAR)
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_TITULAR)
 
-        # Verificar comprovantes vinculados (endpoint pode não estar disponível)
+
+        # Verificar documentos vinculados (endpoint pode não estar disponível)
         r = requests.get(
-            url(f"/api/comprovantes/despesas/{despesa_id}/comprovantes"), auth=CARTORIO_TITULAR
+            url(f"/api/documentos/despesas/{despesa_id}/documentos"), auth=CARTORIO_TITULAR
         )
         if r.status_code != 404:
             assert r.status_code == 200
-            assert len(r.json()) >= 1
+            assert len(r.json()) >= 2
 
         # ============================================================
         # ETAPA 1 - Serventia: Submeter para auditoria
@@ -1416,19 +1446,19 @@ class TestFluxoCompletoComComprovantes:
         assert any(d["id"] == despesa_id for d in submetidas)
 
         # ============================================================
-        # ETAPA 2 - Auditor: Verificar detalhes e comprovantes
+        # ETAPA 2 - Auditor: Verificar detalhes e documentos
         # ============================================================
         r = requests.get(url(f"/api/despesas/{despesa_id}"), auth=COGEX_AUDITOR)
         assert r.status_code == 200
         assert r.json()["valor"] == 3500.00
 
         r = requests.get(
-            url(f"/api/comprovantes/despesas/{despesa_id}/comprovantes"), auth=COGEX_AUDITOR
+            url(f"/api/documentos/despesas/{despesa_id}/documentos"), auth=COGEX_AUDITOR
         )
         if r.status_code != 404:
             assert r.status_code == 200
-            comprovantes = r.json()
-            assert len(comprovantes) >= 1
+            documentos = r.json()
+            assert len(documentos) >= 2
 
         # ============================================================
         # ETAPA 2c - Auditor: Solicitar esclarecimento
@@ -1492,16 +1522,24 @@ class TestTransicoesStatus:
     de estados em tech/fluxo-de-dados-auditoria.md.
     """
 
-    def test_registrada_para_submetida(self):
-        """REGISTRADA -> SUBMETIDA (Serventia submete)."""
+    def test_registrada_para_submetida_falha_sem_documentos(self):
+        """REGISTRADA -> SUBMETIDA (Serventia submete sem documentos, deve falhar)."""
         d = criar_despesa()
         r = requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
-        assert r.status_code == 200
-        assert r.json()["statusAuditoria"] == "SUBMETIDA"
+        assert r.status_code == 400
+
+    def test_submeter_com_um_documento_falha(self):
+        """REGISTRADA -> SUBMETIDA (Serventia submete com 1 de 2 documentos, deve falhar)."""
+        d = criar_despesa()
+        upload_nota_fiscal(d['id'], auth=CARTORIO_TITULAR)
+        r = requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
+        assert r.status_code == 400
 
     def test_submetida_para_aprovada(self):
         """SUBMETIDA -> APROVADA (Auditor aprova)."""
         d = criar_despesa()
+        upload_nota_fiscal(d['id'], auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(d['id'], auth=CARTORIO_TITULAR)
         requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
         r = requests.post(url(f"/api/despesas/{d['id']}/workflow/aprovar"), auth=COGEX_AUDITOR)
         assert r.status_code == 200
@@ -1510,6 +1548,8 @@ class TestTransicoesStatus:
     def test_submetida_para_rejeitada(self):
         """SUBMETIDA -> REJEITADA (Auditor rejeita)."""
         d = criar_despesa()
+        upload_nota_fiscal(d['id'], auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(d['id'], auth=CARTORIO_TITULAR)
         requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
         r = requests.post(url(f"/api/despesas/{d['id']}/workflow/rejeitar"), auth=COGEX_AUDITOR)
         assert r.status_code == 200
@@ -1518,6 +1558,8 @@ class TestTransicoesStatus:
     def test_submetida_para_pendente_esclarecimento(self):
         """SUBMETIDA -> PENDENTE_DE_ESCLARECIMENTO (Auditor solicita esclarecimento)."""
         d = criar_despesa()
+        upload_nota_fiscal(d['id'], auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(d['id'], auth=CARTORIO_TITULAR)
         requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
         r = post_texto(
             f"/api/despesas/{d['id']}/workflow/solicitar-esclarecimento",
@@ -1531,6 +1573,8 @@ class TestTransicoesStatus:
     def test_submetida_para_pendente_via_endpoint(self):
         """SUBMETIDA -> PENDENTE_DE_ESCLARECIMENTO via /workflow/pendente."""
         d = criar_despesa()
+        upload_nota_fiscal(d['id'], auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(d['id'], auth=CARTORIO_TITULAR)
         requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
         r = requests.post(url(f"/api/despesas/{d['id']}/workflow/pendente"), auth=COGEX_AUDITOR)
         assert r.status_code == 200
@@ -1539,6 +1583,8 @@ class TestTransicoesStatus:
     def test_pendente_para_submetida(self):
         """PENDENTE_DE_ESCLARECIMENTO -> SUBMETIDA (Serventia responde)."""
         d = criar_despesa()
+        upload_nota_fiscal(d['id'], auth=CARTORIO_TITULAR)
+        upload_comprovante_pagamento(d['id'], auth=CARTORIO_TITULAR)
         requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
         r = post_texto(
             f"/api/despesas/{d['id']}/workflow/solicitar-esclarecimento",
