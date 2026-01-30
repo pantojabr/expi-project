@@ -1,0 +1,92 @@
+|nome_cartorio                                                     |
+|------------------------------------------------------------------|
+|1º OFÍCIO DE NOTAS, REGISTROS PÚBLICOS E ANEXOS                   |
+|3º OFÍCIO DE NOTAS, REGISTROS PÚBLICOS E ANEXOS                   |
+|CARTÓRIO DE REGISTRO DE IMÓVEIS DE SANTANA                        |
+|CARTÓRIO-DE REGISTROS PÚBLICOS-E TABELIONATO DE FERREIRA GOMES    |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE LARANJAL DO JARI  |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE SANTANA           |
+|2º OFÍCIO DE NOTAS, REGISTROS PÚBLICOS E ANEXOS                   |
+|CARTÓRIO DE REGISTRO DE IMÓVEIS DE MACAPÁ - ELOY NUNES            |
+|CARTÓRIO-DE REGISTROS PÚBLICOS-E TABELIONATO DE CALÇOENE          |
+|2° REGISTRO DE IMÓVEIS DE MACAPÁ                                  |
+|CARTÓRIO-DE REGISTROS PÚBLICOS-E TABELIONATO DE TARTARUGALZINHO   |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE ITAUBAL           |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE SERRA DO NAVIO    |
+|CARTÓRIO DE REGISTROS PÚBLICOS E TABELIONATO DO BAILIQUE          |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE PRACUÚBA          |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE PORTO GRANDE      |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE AMAPÁ             |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE MAZAGÃO           |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE VITÓRIA DO JARI   |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE PEDRA BRANCA      |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE OIAPOQUE          |
+|CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE CUTIAS DO ARAGUARI|
+
+===================================================================
+1º OFÍCIO DE NOTAS, REGISTROS PÚBLICOS E ANEXOS
+3º OFÍCIO DE NOTAS, REGISTROS PÚBLICOS E ANEXOS
+CARTÓRIO DE REGISTRO DE IMÓVEIS DE SANTANA
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE FERREIRA GOMES 
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE LARANJAL DO JARI
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE SANTANA
+2º OFÍCIO DE NOTAS, REGISTROS PÚBLICOS E ANEXOS
+CARTÓRIO DE REGISTRO DE IMÓVEIS DE MACAPÁ - ELOY NUNES
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE CALÇOENE
+2° REGISTRO DE IMÓVEIS DE MACAPÁ
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE TARTARUGALZINHO
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE ITAUBAL
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE SERRA DO NAVIO
+CARTÓRIO DE REGISTROS PÚBLICOS E TABELIONATO DO BAILIQUE
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE PRACUÚBA
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE PORTO GRANDE
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE AMAPÁ
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE MAZAGÃO
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE VITÓRIA DO JARI
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE PEDRA BRANCA
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE OIAPOQUE
+CARTÓRIO-DE REGISTROS PÚBLICOS E TABELIONATO DE CUTIAS DO ARAGUARI
+
+-----------------tipos
+Registro de Imóveis,RI
+Registro Civil de Pessoas Naturais e de Interdições e Tutelas,RCPN
+Registro Civil das Pessoas Jurídicas, De Títulos e Documentos,RTD
+Tabelionato de Notas e Registro de Contratos Marítimos,TAB
+Protesto de Títulos,PROT
+
+|id |nome                                                         |sigla_cartorio|
+|---|-------------------------------------------------------------|--------------|
+|1  |Registro de Imóveis                                          |RI            |
+|2  |Registro Civil de Pessoas Naturais e de Interdições e Tutelas|RCPN          |
+|3  |Registro Civil das Pessoas Jurídicas, De Títulos e Documentos|RTD           |
+|4  |Tabelionato de Notas e Registro de Contratos Marítimos       |TAB           |
+|5  |Protesto de Títulos                                          |PROT          |
+
+
+
+
+
+INSERT INTO extrajudicial.tipo_cartorios (nome,sigla_cartorio) VALUES
+	 ('Registro de Imóveis','RI'),
+	 ('Registro Civil de Pessoas Naturais e de Interdições e Tutelas','RCPN'),
+	 ('Registro Civil das Pessoas Jurídicas, De Títulos e Documentos','RTD'),
+	 ('Tabelionato de Notas e Registro de Contratos Marítimos','TAB'),
+	 ('Protesto de Títulos','PROT');
+
+
+-- extrajudicial.cartorios_atuacao definition
+
+-- Drop table
+
+-- DROP TABLE extrajudicial.cartorios_atuacao;
+
+CREATE TABLE extrajudicial.cartorios_atuacao (
+	id serial4 NOT NULL,
+	fk_cartorios int4 NULL,
+	fk_tipo_cartorios int4 NULL,
+	usuario varchar(10) DEFAULT '"current_user"()' NULL,
+	dt_atu timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT cartorios_atuacao_pkey PRIMARY KEY (id),
+	CONSTRAINT cartorios_atuacao_fk_cartorios_fkey FOREIGN KEY (fk_cartorios) REFERENCES extrajudicial.cartorios(id),
+	CONSTRAINT cartorios_atuacao_fk_tipo_cartorios_fkey FOREIGN KEY (fk_tipo_cartorios) REFERENCES extrajudicial.tipo_cartorios(id)
+);

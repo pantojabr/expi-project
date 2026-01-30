@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1436.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="lei-n%C2%BA-1436-de-29122009">Lei nº 1.436 de 29/12/2009</h1>
+<p>Dispõe sobre custas judiciais e dos emolumentos dos serviços notariais e de registro(CJESNR) públicos no Estado do Amapá, e dá outras providências.</p>
+<p>O Governador do Estado do Amapá,
+Faço saber que a Assembleia Legislativa do Estado do Amapá aprovou e eu, nos termos do art. 107 da Constituição Estadual, sanciono a seguinte Lei:
+TÍTULO I - PARTE GERAL</p>
+<h2 id="cap%C3%ADtulo-i---das-disposi%C3%A7%C3%B5es-preliminares">CAPÍTULO I - DAS DISPOSIÇÕES PRELIMINARES</h2>
+<p><strong>Art. 1º</strong> Esta Lei fixa as custas judiciais e dos emolumentos dos serviços notariais e de registro(CJESNR) no Estado do Amapá e estabelece regras para cobrança.</p>
+<ul>
+<li>§ 1º As custas judiciais devidas pelo processamento de feitos na Justiça Estadual são fixadas conforme a natureza do processo e a espécie do recurso.</li>
+<li>§ 2º Os emolumentos dos serviços notariais e de registro são fixados de acordo com o ato praticado, correspondendo ao efetivo custo e à adequada e suficiente remuneração dos serviços prestados.</li>
+<li>§ 3º A cobrança das custas judiciais e dos emolumentos dos serviços notariais e de registro(CJESNR) obedecerá ao disposto nesta Lei, na legislação federal aplicável e nas tabelas anexas, cujos valores constam expressos em moeda corrente do país.</li>
+<li>§ 4º As custas judiciais e dos emolumentos dos serviços notariais e de registro(CJESNR), assim como as faixas e limites de valores constantes nas respectivas tabelas, serão atualizados anualmente pelo Índice Nacional de Preços ao Consumidor divulgado pelo Instituto Brasileiro de Geografia e Estatística - INPC-IBGE, cujas tabelas serão publicadas no Diário Oficial, até o último dia do ano, observando-se o princípio da anterioridade.</li>
+</ul>
+<p><strong>Art. 2º</strong> Integram a presente Lei as seguintes tabelas:</p>
+<ul>
+<li>
+<p><em>I</em> - Tabelas de Custas Judiciais, compreendendo:</p>
+<pre><code>  a) Atos das Secretarias do Tribunal e Porte de Remessa e Retorno - tabela 01;
+  b) Atos das Secretarias dos Juizados Especiais - Tabela 02;
+  c) Atos das Serventias Judiciais - tabela 03;
+  d) Atos dos Distribuidores Judiciais - tabela 04;
+  e) Atos dos Contadores Judiciais - tabela 05;
+  f) Atos dos Avaliadores Judiciais - tabela 06;
+  g) Atos dos Partidores Judiciais - tabela 07;
+  h) Atos dos Analistas Judiciários em Execução de Mandados - tabela 08;
+  i) Atos dos Leiloeiros Judiciais e Porteiros dos Auditórios - tabela 09;
+  j) Atos dos Depositários Judiciais e dos Depositários Públicos - tabela 10.
+</code></pre>
+</li>
+<li>
+<p><em>II</em> - Tabelas dos Emolumentos Extrajudiciais, compreendendo:</p>
+<pre><code>  a) Imóveis - tabela 01, desmembrada em:
+  1. Registro de Imóveis em Geral - tabela 01-A;
+  2. Registros Relativos à Incorporação Imobiliária e à Especificação ou Instituição de Condomínio 
+  - tabela 01-B;
+  3. Averbações Relativas à Incorporação Imobiliária e ao Condomínio - tabela 01-C;
+  4. Registro de Loteamento ou Desmembramento, Urbano ou Rural, Excluídas as Despesas de Publicação, 
+  Por Lote - tabela - 01-D;
+  5. Averbação em Geral - tabela 01-E;
+  6. Pacto Antenupcial - tabela - 01-F;
+  7. Registro de Cédula de Crédito Rural, Comercial e Industrial, Debêntures e Alienação Fiduciária 
+  de Imóveis - tabela 01-G;
+  8. Certidões, Incluindo Buscas - tabela 01-H;
+  9. Registro de Constrições Judiciais - tabela 01-I.
+  b) Oficiais de Registro Civil das Pessoas Naturais - tabela 02, desmembrada em:
+  1. Do Casamento - tabela 02-A;
+  2. Do Juiz de Paz - tabela 02-B;
+  3. Da Retificação e da Inscrição - tabela 02-C;
+  4. Das Segundas Vias de Certidão - tabela 02-D;
+  5. Das Buscas - tabela 02-E.
+  c) Registros de Títulos e Documentos - Tabela 03, desmembrada em:
+  1. Dos Oficiais do Registro de Títulos e Documentos - tabela 03-A;
+  2. Do Registro Integral de Títulos, Documentos ou Papel sem Valor Declarado - tabela 03-B;
+  3. Do Registro Resumido de Contratos, Títulos e Documentos - tabela 03-C;
+  4. Das Diligências para Cumprimento de Notificações - tabela 03-D;
+  5. Das Certidões - tabela 03-E;
+  6. Das Averbações - tabela 03-F.
+  d) Registro Civil das Pessoas Jurídicas - tabela 04, desmembrada em:
+  1. Dos Oficiais de Registro Civil das Pessoas Jurídicas - tabela 04-A;
+  2. Das Averbações, Autenticações e Certidões - tabela 04-B.
+  e) Tabelionato - tabela 05, desmembrada em:
+  1. Das Escrituras Públicas - tabela 05-A;
+  2. Das Escrituras Públicas sem Valor Declarado - tabela 05-B;
+  3. Das Certidões de Traslados - tabela 05-C;
+  4. Das Procurações e Substabelecimentos - tabela 05-D;
+  5. Do Reconhecimento de Firma e da Autenticação - tabela 05-E.
+  f) Oficiais de Protesto de Letras e Títulos - tabela 06, desmembrada em:
+  1. Do Protesto - tabela 06-A;
+  2. Do Apontamento - tabela 06-B;
+  3. Do Cancelamento e da Desistência de Apontamento - tabela 06-C;
+  4. Do Cancelamento do Protesto e da Desistência de Apontamentos - tabela - 06-D;
+  5. Das Intimações - tabela 06-E;
+  6. Das Certidões - tabela 06-F;
+  7. Do Lançamento de Contraprotesto - tabela 06-G;
+  8. Outras Certidões e Buscas - tabela 06-H.
+</code></pre>
+</li>
+</ul>
+<p><strong>Art. 3º</strong> Pelos atos não incluídos em tabela específica e que devam ser praticados, as custas e os emolumentos serão devidos por ato idêntico previsto para outra serventia, vedada a cobrança de quaisquer outras quantias não expressamente previstas nas tabelas.</p>
+<p><strong>Art. 4º</strong> Não haverá restituição de custas ou emolumentos por ato ou diligência efetivamente realizados e posteriormente tornados sem efeito por culpa do interessado.</p>
+<p><strong>Art. 5º</strong> Os prazos para a realização dos atos judiciais ou extrajudiciais somente obrigam o servidor, o notário e o oficial de registro se recolhidas as custas ou os emolumentos correspondentes, ressalvados os casos de imunidade, não-incidência, isenção, gratuidade e suspensão da exigibilidade, previstos em lei.</p>
+<p><strong>Art. 6º</strong> Os recolhimentos das custas judiciais serão certificados nos autos e os recolhimentos dos emolumentos extrajudiciais constarão no próprio ato e à margem dos traslados, certidões, instrumentos e papéis expedidos, indicando os respectivos valores, as tabelas e itens aplicados, assim como a data do efetivo pagamento.</p>
+<p><strong>Art. 7º</strong> É obrigatória a fixação nas serventias judiciais e extrajudiciais, em local visível ao público, de painel reproduzindo integralmente as tabelas desta Lei, para os atos respectivos.</p>
+<ul>
+<li>§ 1º Ato da Corregedoria-Geral da Justiça estabelecerá as dimensões e a forma de apresentação do painel.</li>
+<li>§ 2º A inobservância do disposto neste artigo configurará falta grave do delegatário.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-ii---da-fiscaliza%C3%A7%C3%A3o-e-das-penalidades">CAPÍTULO II - DA FISCALIZAÇÃO E DAS PENALIDADES</h2>
+<p><strong>Art. 8º</strong> Ao Corregedor-Geral da Justiça, aos Juízes, ao Diretor do Departamento Judiciário do Tribunal, aos Chefes de Contadoria, aos Chefes de Secretaria e aos Notários e Registradores, incumbe a fiscalização da cobrança e do recolhimento das custas e emolumentos fixados nesta Lei.</p>
+<p><strong>Art. 9º</strong> Sem prejuízo das sanções disciplinares e penais, na forma da lei, a cobrança indevida ou excessiva de custas ou emolumentos acarretará ao infrator, além da restituição, a aplicação de multa equivalente ao dobro do valor cobrado, a qual será recolhida ao Fundo de Manutenção e Reaparelhamento da Justiça - FMRJ, instituído pelo Decreto nº 156, de 30.09.1991.</p>
+<ul>
+<li>§ 1º Compete ao Corregedor-Geral da Justiça a instauração de procedimento para a apuração da infração prevista no caput deste artigo.</li>
+<li>§ 2º Da decisão no processo administrativo de que trata o § 1º deste artigo caberá recurso ao Pleno do Tribunal de Justiça, no prazo de cinco dias.</li>
+</ul>
+<p><strong>Art. 10.</strong> A restituição e o pagamento da multa previstos no art. 9º deverão ser efetivados pelo agente infrator em cinco dias da ciência da decisão definitiva.
+TÍTULO II - DAS CUSTAS JUDICIAIS</p>
+<h2 id="cap%C3%ADtulo-i---da-contagem">CAPÍTULO I - DA CONTAGEM</h2>
+<p><strong>Art. 11.</strong> Consideram-se custas ou despesas judiciais, a serem contadas para efeitos processuais, o valor monetário correspondente:</p>
+<ul>
+<li><em>I</em> - à prática dos atos processuais previstos nas tabelas anexas;</li>
+<li><em>II</em> - à expedição de atos processuais pêlos serviços de comunicação;</li>
+<li><em>III</em> - à publicação de atos processuais em órgãos de divulgação;</li>
+<li><em>IV</em> - à expedição de certidões pelas Escrivanias das Varas e demais serventias judiciais;</li>
+<li><em>V</em> - às despesas com a guarda e conservação de bens penhorados, arrestados, sequestrados ou apreendidos judicialmente, a qualquer título, ou de bens vagos ou de ausentes, em depósito;</li>
+<li><em>VI</em> - às despesas de demolição, nas ações com tais pedidos e nas de nunciação de obra nova, quando vencido o denunciado;</li>
+<li><em>VII</em> - às despesas de arrombamento e remoção, nas ações de despejo e reintegração de posse, ou de quaisquer outras diligencias preparatórias de ação, quando ordenadas pelo juiz;</li>
+<li><em>VIII</em> - às multas impostas às partes, nos termos da legislação processual;</li>
+<li><em>IX</em> - às despesas de condução e estada, quando necessárias, dos juízes, membros do Ministério Público e serventuários da Justiça, nas diligências que efetuarem;</li>
+<li><em>X</em> - à taxa judiciária;</li>
+<li><em>XI</em> - ao porte de remessa e retorno.
+Parágrafo único. As custas e despesas previstas nesta Lei não excluem outras estabelecidas na legislação processual vigente.</li>
+</ul>
+<p><strong>Art. 12.</strong> Para a inclusão na conta, as despesas deverão ser comprovadas nos autos pelo servidor ou pela parte que as tenha satisfeito.</p>
+<p><strong>Art. 13.</strong> Nos casos dos incisos VI e VII do art. 10, as despesas deverão ser previamente aprovadas pelo juiz, ouvida a parte interessada na diligência.</p>
+<p><strong>Art. 14.</strong> Os valores devidos ao perito, ao intérprete e ao tradutor são fixados pelo juiz em favor de tais profissionais, segundo as tabelas desta Lei.
+Parágrafo único. Na ausência de previsão nas tabelas, ouvidas as partes, deverá o juiz fixar o valor da despesa com base no estabelecido para as respectivas categorias profissionais, atendidos o grau de zelo profissional, o lugar da prestação do serviço, a natureza e a complexidade do trabalho realizado, assim como o tempo exigido para sua realização.</p>
+<p><strong>Art. 15.</strong> É vedada a remessa dos autos à contadoria exclusivamente para contagem de custas, mas estas serão obrigatoriamente contadas, ainda que já recolhidas, sempre que os autos forem remetidos para os cálculos previstos na legislação processual.</p>
+<p><strong>Art. 16.</strong> Não constituem receita do Erário e não serão recolhidas a favor do Fundo de Manutenção e Reaparelhamento do Judiciário - FMRJ, as parcelas consideradas pela Lei Processual como indenização de despesas a cargo da parte vencida nos feitos judiciais, exceto os créditos decorrentes de fianças arbitradas em processos criminais, cuja devolução aos réus absorvidos por sentenças ou acórdãos já transitados em julgado, não tenha, no prazo correspondente a cinco (5) anos, sido por eles pleiteado. (Redação do artigo dada pela Lei Nº 1800 DE 27/02/2014).</p>
+<h2 id="cap%C3%ADtulo-ii---da-condu%C3%A7%C3%A3o-estada-e-dilig%C3%AAncia">CAPÍTULO II - DA CONDUÇÃO, ESTADA E DILIGÊNCIA</h2>
+<p><strong>Art. 17.</strong> Os juízes, membros do Ministério Público e serventuários da Justiça, exceto o Analista Judiciário em Execução de Mandados e o Avaliador Judicial, terão direito à condução e estada quando praticarem atos ou diligências nos processos judiciais, fora do recinto do fórum ou do cartório.</p>
+<h2 id="cap%C3%ADtulo-iii---das-isen%C3%A7%C3%B5es-e-da-n%C3%A3o-incid%C3%AAncia">CAPÍTULO III - DAS ISENÇÕES E DA NÃO-INCIDÊNCIA</h2>
+<p><strong>Art. 18.</strong> São isentos do pagamento de custas:</p>
+<ul>
+<li><em>I</em> - o beneficiário da Justiça gratuita, observada a legislação federal especifica;</li>
+<li><em>II</em> - o réu declarado pobre, nos feitos criminais;</li>
+<li><em>III</em> - o autor nas revisões criminais;</li>
+<li><em>IV</em> - os postulantes em processos e recursos de habeas corpus e habeas data;</li>
+<li><em>V</em> - as partes nos feitos referentes à criança e ao adolescente em situação irregular;</li>
+<li><em>VI</em> - a parte que interpuser o agravo retido;</li>
+<li><em>VII</em> - a parte que interpuser os embargos de declaração;</li>
+<li><em>VIII</em> - a União, os Estados, o Distrito Federal, os Municípios, e suas respectivas autarquias, exceto quanto aos valores devidos a peritos, arbitradores e intérpretes.</li>
+<li>§ 1º As isenções previstas neste artigo não dispensam as pessoas jurídicas de direito público interno e suas autarquias, quando vencidas, de ressarcirem a parte vencedora das custas e demais despesas que esta efetivamente tiver suportado no curso do processo.</li>
+<li>§ 2º As pessoas jurídicas de direito público interno e suas autarquias deverão fornecer os meios para a realização das diligências que requererem.</li>
+</ul>
+<p><strong>Art. 19.</strong> Não há incidência de custas:</p>
+<ul>
+<li><em>I</em> - nas ações relativas aos Juizados Especiais, em primeiro grau de jurisdição;</li>
+<li><em>II</em> - no duplo grau obrigatório de jurisdição;</li>
+<li><em>III</em> - no conflito de competência suscitado por autoridade judiciária;</li>
+<li><em>IV</em> - nas ações propostas e nos recursos interpostos pelo Ministério público e pela Defensoria Pública.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-iv---do-pagamento-das-custas">CAPÍTULO IV - DO PAGAMENTO DAS CUSTAS</h2>
+<p><strong>Art. 20.</strong> As custas serão pagas pelos interessados em estabelecimento bancário indicado pelo Tribunal de Justiça, cabendo ao autor adiantá-las no caso de atos e diligências requeridos pelo Ministério Público ou ordenadas, de oficio, pelo juiz, nos termos da lei processual vigente.</p>
+<p><strong>Art. 21.</strong> A extinção do processo por abandono, desistência ou transação, em qualquer fase, não dispensa o responsável pelo pagamento das custas, nem implica em restituição.</p>
+<p><strong>Art. 22.</strong> As custas referentes às ações de competência originária do Tribunal serão pagas:</p>
+<ul>
+<li>
+<p><em>I</em> - antes da distribuição ou do registro, juntamente com a taxa judiciária, as devidas:</p>
+<pre><code>  a) por atos da Secretaria do Tribunal;
+  b) pelas citações ou intimações, pessoais ou postais, requeridas na petição inicial.
+</code></pre>
+</li>
+<li>
+<p><em>II</em> - antes da prática do ato, nos demais casos.</p>
+</li>
+</ul>
+<p><strong>Art. 23.</strong> Ressalvados os casos orfanológicos excepcionais, a critério do juiz, as custas relativas às causas pertinentes aos demais juízos de 1º grau serão pagas:</p>
+<ul>
+<li>
+<p><em>I</em> - antes da distribuição ou do registro, juntamente com a taxa judiciária, as devidas:</p>
+<pre><code>  a) por atos do Distribuidor e da Serventia Judicial;
+  b) pelas citações ou intimações, pessoais ou postais, requeridas na petição inicial.
+</code></pre>
+</li>
+<li>
+<p><em>II</em> - no ato da interposição do recurso e dentro do prazo previsto pela legislação processual vigente, as devidas por atos das Secretarias dos Tribunais e despesas por porte de remessa e retorno, sob pena de deserção;</p>
+</li>
+<li>
+<p><em>III</em> - antes da prática dos atos, nos demais casos, tais como penhora, arresto, sequestro, perícia, avaliação, busca, certidão, apreensão, intimações para audiências;</p>
+</li>
+<li>
+<p><em>IV</em> - quando houver determinação judicial, as devidas por atos dos inventariantes, leiloeiros, líquidantes, testamenteiros, tutores e depositários;</p>
+</li>
+<li>
+<p><em>V</em> - após o cálculo, as devidas por ato da Serventia Judicial, quando cobradas proporcionalmente.</p>
+</li>
+<li>
+<p>§ 1º Somente com o recolhimento prévio das custas pelo requerente é que será apreciada a admissibilidade do litisconsórcio facultativo, da assistência, da oposição ou de qualquer das modalidades de intervenção de terceiros.</p>
+</li>
+<li>
+<p>§ 2º As custas devidas pelo Registro da Distribuição serão recolhidas antecipadamente à prática do ato.</p>
+</li>
+</ul>
+<p><strong>Art. 24.</strong> Nos Juizados Especiais, interposto recurso, o seu preparo compreenderá as custas e todas as despesas processuais, incluindo aquelas dispensadas em primeiro grau de jurisdição e observada a tabela específica.</p>
+<p><strong>Art. 25.</strong> Sem prejuízo da gratuidade, quando concedida nos termos da lei federal, as custas e a taxa judiciária, quando devidas, serão pagas ao final:</p>
+<ul>
+<li><em>I</em> - na ação popular;</li>
+<li><em>II</em> - nos litígios relativos a acidentes do trabalho;</li>
+<li><em>III</em> - na ação civil pública;</li>
+<li><em>IV</em> - nas ações penais públicas e nas ações penais privadas subsidiárias da pública, em caso de condenação;</li>
+<li><em>V</em> - nas ações penais privadas, propostas nos termos do art. 32 do Código de Processo Penal, em caso de condenação.</li>
+</ul>
+<p><strong>Art. 26.</strong> Nos arrolamentos processados de acordo com a Lei Federal nº 7.019/1982, de competência da Vara de Família, órfãos e Sucessões, os valores atribuídos aos bens imóveis, para efeito de contagem e cobrança de custas, não poderão ser inferiores aos valores venais que serviram de base para lançamento do imposto predial e territorial no exercício imediatamente anterior ao da abertura do processo, competindo ao inventariante fazer a respectiva prova.</p>
+<p><strong>Art. 27.</strong> Nos feitos relativos a ações penais públicas e a ações penais privadas subsidiárias da pública, as custas serão pagas ao final pelo réu, se condenado.
+Parágrafo único. Nos feitos relativos a ações penais privadas, as custas serão recolhidas de acordo com as normas previstas para os feitos cíveis.</p>
+<p><strong>Art. 28.</strong> Nas hipóteses em que admitido o pagamento das custas após a distribuição, esta será cancelada se o feito não for preparado no prazo de trinta dias.
+Parágrafo único. Salvo disposição legal ou determinação judicial em contrário, será de cinco dias o prazo para o recolhimento das custas devidas por atos a serem praticados nos feitos judiciais.</p>
+<p><strong>Art. 29.</strong> Não haverá pagamento de novas custas no caso de redistribuição do feito em virtude de reconhecimento de incompetência entre juízes estaduais, nem restituição quando a competência for declinada para outros órgãos jurisdicionais.</p>
+<p><strong>Art. 30.</strong> Ressalvados os casos de falência e outros previstos em lei, não terá andamento o processo sem a prova do pagamento das custas devidas, juntada aos autos.</p>
+<p><strong>Art. 31.</strong> Incumbe ao juiz, com a colaboração do escrivão, mediante certidão, e à Secretaria do Tribunal, a verificação do exato recolhimento das custas e da taxa judiciária antes da prática de qualquer ato decisório.</p>
+<p><strong>Art. 32.</strong> Os processos findos não poderão ser arquivados sem que o escrivão ou a Secretaria do Tribunal certifique nos autos estarem integralmente pagas as custas e a taxa judiciária.</p>
+<ul>
+<li>§ 1º Constatada a existência de débito, o escrivão ou a Secretaria do Tribunal notificará por via postal a parte devedora, para efetuar o pagamento no prazo de trinta dias.</li>
+<li>§ 2º Decorrido o prazo previsto no § 1º sem que o débito tenha sido quitado, o processo somente poderá ser arquivado após ter o escrivão ou a Secretaria do Tribunal expedido certidão sobre o fato, especificando todas as parcelas devidas, a qual deverá ser encaminhada à Procuradoria Fazendária do Estado, para fins de inscrição do débito na Dívida Ativa e execução.</li>
+<li>§ 3º A inobservância do disposto neste artigo implicará falta funcional grave.</li>
+<li>§ 4º É dispensável a inscrição do débito em Dívida Ativa se o seu valor total não ultrapassar o valor previsto para as custas judiciais mínimas, na data do arquivamento do processo.</li>
+</ul>
+<p><strong>Art. 33.</strong> É vedado a qualquer servidor da Justiça ou agente público, remunerado ou não pelos cofres públicos, inclusive ao juiz de paz, receber valor a titulo de custas ou de taxa judiciária diretamente das partes.</p>
+<p><strong>Art. 34.</strong> Em dia que não houver ou já encerrado o expediente bancário, o juiz poderá autorizar a prática de atos urgentes, independentemente do recolhimento prévio das custas.
+Parágrafo único. Na hipótese referida no caput deste artigo, obriga-se a parte interessada a comprovar o recolhimento das custas no primeiro dia útil subsequente, em que haja expediente bancário, sob pena conversão em multa, no dobro do valor devido.</p>
+<h2 id="cap%C3%ADtulo-v---dos-atos-da-secretaria-do-tribunal-e-porte-e-remessa-e-retorno">CAPÍTULO V - DOS ATOS DA SECRETARIA DO TRIBUNAL E PORTE E REMESSA E RETORNO</h2>
+<p><strong>Art. 35.</strong> Na aplicação das tabelas referentes aos Atos da Secretaria do Tribunal e Porte de Remessa e Retorno serão observados:</p>
+<ul>
+<li><em>I</em> - é de responsabilidade da parte interessada fornecer cópias dos documentos necessários para instruir os recursos, mandados, contrates, traslados, cartas, formais, ofícios e certidões;</li>
+<li><em>II</em> - não serão devidas custas adicionais pela autenticação, na serventia, dos documentos de que trata o inciso I deste artigo;</li>
+<li><em>III</em> - as custas referentes ao porte de remessa e retorno serão recolhidas no ato de interposição do recurso, sob pena de deserção.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-vi---dos-atos-da-secretaria-dos-juizados-especiais">CAPÍTULO VI - DOS ATOS DA SECRETARIA DOS JUIZADOS ESPECIAIS</h2>
+<p><strong>Art. 36.</strong> Nos Atos das Secretarias dos Juizados Especiais, no caso de recurso de qualquer espécie, desarquivamento ou determinação judicial, as custas referentes aos atos processuais terão por base os valores dos atos da Justiça Comum, ressalvada a hipótese de assistência judiciária gratuita, nos termos do art. 54, da Lei nº 9.099, 26 de setembro de 1995.</p>
+<h2 id="cap%C3%ADtulo-vii---dos-atos-dos-contadores-judiciais">CAPÍTULO VII - DOS ATOS DOS CONTADORES JUDICIAIS</h2>
+<p><strong>Art. 37.</strong> Na aplicação das tabelas referentes aos Atos dos Contadores Judiciais serão observados:</p>
+<ul>
+<li><em>I</em> - as custas referentes aos cálculos judiciais serão recolhidas antes da remessa dos autos à Contadoria;</li>
+<li><em>II</em> - as custas serão rateadas no caso de condenação em litis consórcio, proporcionalmente à parcela que cada parte sucumbiu;</li>
+<li><em>III</em> - as custas serão devidas pela metade no caso de atualização ou reajustamento do cálculo anterior;</li>
+<li><em>IV</em> - não serão devidas custas pela reelaboração de cálculo por erro do Contador Judicial ou por esclarecimentos e complementações determinados pelo juízo;</li>
+<li><em>V</em> - o prazo para a realização dos cálculos pelos Contadores Judiciais é de cinco dias, podendo ser prorrogado por quinze dias pelo juízo, em razão da complexidade;</li>
+<li>§ 1º Para fins de prorrogação do prazo de que trata o inciso V deste artigo, consideram-se complexos os cálculos que envolvam rateios, correção monetária de prestações periódicas, emprego de fórmulas detalhadas ou outros cálculos que requeiram maior tempo;</li>
+<li>§ 2º Nos memoriais e planilhas dos cálculos deverão constar as folhas dos autos de onde foram extraídas as informações e os atos processuais que subsidiaram a elaboração dos mesmos, assim como deverão indicar as fontes judiciais, legislativas, jurisprudências, doutrinárias e técnicas que o fundamentaram.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-vii---dos-atos-dos-avaliadores-judiciais">CAPÍTULO VII - DOS ATOS DOS AVALIADORES JUDICIAIS</h2>
+<p><strong>Art. 38.</strong> Na aplicação das tabelas referentes aos Atos dos Avaliadores Judiciais serão observados:</p>
+<ul>
+<li>
+<p><em>I</em> - as custas remuneram todos os atos necessários á avaliação, inclusive despesas de locomoção.</p>
+</li>
+<li>
+<p><em>II</em> - as custas serão devidas pela metade:</p>
+<pre><code>  a) quando a avaliação incidir sobre o único imóvel residencial com área construída igual ou inferior 
+  a cem metros quadrados;
+  b) quando a avaliação incidir sobre fração ideal de bem ou direito igual ou inferior a cinquenta por cento.
+</code></pre>
+</li>
+</ul>
+<p>Parágrafo único. Não serão devidas custas nos casos de reavaliação resultante de impugnação.</p>
+<h2 id="cap%C3%ADtulo-ix---dos-atos-dos-partidores-judiciais">CAPÍTULO IX - DOS ATOS DOS PARTIDORES JUDICIAIS</h2>
+<p><strong>Art. 39.</strong> Na aplicação das tabelas referentes aos Atos dos Partidores Judiciais serão observados:</p>
+<ul>
+<li>
+<p><em>I</em> - as custas previstas serão devidas pela metade quando:</p>
+<pre><code>  a) o passivo corresponder a oitenta por cento ou mais do valor;
+  b) quando o monte bruto for igual ou inferior a R$ 15.000,00 (quinze mil reais) na data da 
+  avaliação ou, na ausência desta, na data do cálculo para recolhimento dos impostos.
+</code></pre>
+</li>
+<li>
+<p>§ 1º Não são devidas custas pela reforma do esboço de partilha, sobrepartilha ou rateio em virtude de erro do Partidor Judicial.</p>
+</li>
+<li>
+<p>§ 2º Funcionando na mesma comarca mais de um Partidor, as custas serão rateadas entre eles, na proporção dos atos praticados.</p>
+</li>
+</ul>
+<h2 id="cap%C3%ADtulo-x---dos-atos-dos-analistas-judici%C3%A1rios-em-execu%C3%A7%C3%A3o-de-mandados">CAPÍTULO X - DOS ATOS DOS ANALISTAS JUDICIÁRIOS EM EXECUÇÃO DE MANDADOS</h2>
+<p><strong>Art. 40.</strong> Na aplicação das tabelas referentes aos Atos dos Analistas Judiciários em Execução de Mandados serão observados:</p>
+<ul>
+<li>
+<p><em>I</em> - as custas previstas remuneram a condução, o depósito, a avaliação prévia e a intimação das partes ou de terceiros para testemunharem a diligência, bem como a necessidade de atuação de mais de um analista no cumprimento da diligência;</p>
+</li>
+<li>
+<p><em>II</em> - as despesas decorrentes do arrombamento e da remoção de bens correrão por conta do requerente, que deverá providenciá-las previamente.</p>
+</li>
+<li>
+<p><em>III</em> - não serão devidas custas:</p>
+<pre><code>  a) nos pregões em audiência;
+  b) pela intimação dos membros do Ministério Público, Defensoria Pública e de servidores da Justiça, 
+  nos feitos em que funcionarem;
+  c) em renovação de citação ou intimação não cumpridas na diligência inicial.
+  § 1º Nos editais de praça ou nos anúncios de leilão, bem como nos pregões, será obrigatória a 
+  informação sobre o valor das custas devidas pela realização do ato.
+</code></pre>
+</li>
+<li>
+<p>§ 2º Os arrematantes ou adjudicatários remissos não ficarão dispensados do pagamento das custas da praça ou do leilão.</p>
+</li>
+</ul>
+<h2 id="cap%C3%ADtulo-xi---dos-atos-dos-deposit%C3%A1rios-judiciais-e-dos-deposit%C3%A1rios-p%C3%BAblicos">CAPÍTULO XI - DOS ATOS DOS DEPOSITÁRIOS JUDICIAIS E DOS DEPOSITÁRIOS PÚBLICOS</h2>
+<p><strong>Art. 41.</strong> Na aplicação das tabelas referentes aos Atos dos Depositários Judiciais e dos Depositários Públicos serão observados:</p>
+<ul>
+<li><em>I</em> - nenhum mandado de levantamento será expedido sem o recolhimento das custas do depósito, bem como o pagamento das despesas extraordinárias realizadas com a guarda, conservação, fiscalização e administração do bem, diante das peculiaridades deste, essas últimas devidamente atestadas pelo depositário e aprovadas pelo juiz;</li>
+<li><em>II</em> - não serão devidas custas quando o depósito consistir em dinheiro ou valores já recolhidos em estabelecimento bancário;</li>
+<li><em>III</em> - as custas serão devidas pela metade se o bem apreendido encontrar-se em depósito público na data da apreensão;</li>
+<li><em>IV</em> - o auto de depósito deverá conter, para sua validade, certidão do analista judiciário em execução de mandados especificando as circunstâncias que o levaram a entregar o bem em depósito, como a incapacidade da parte, suas ausências ou recusas.
+TÍTULO III - DOS EMOLUMENTOS DOS SERVIÇOS NOTARIAIS E DE REGISTRO</li>
+</ul>
+<h2 id="cap%C3%ADtulo-i---parte-geral">CAPÍTULO I - PARTE GERAL</h2>
+<p>(Redação do artigo dada pela Lei Nº 2735 DE 21/06/2022):</p>
+<p><strong>Art. 42.</strong> Os emolumentos correspondem aos custos dos serviços notariais e de registro, compostos dos seguintes valores:</p>
+<ul>
+<li><em>I</em> - 95% (noventa e cinco por cento) destinados a constituir receita dos notários e registradores;</li>
+<li><em>II</em> - 5% (cinco por cento) destinados ao Fundo de Estruturação do Registro Civil (FERC), a fim de garantir a renda mínima para as serventias deficitárias e o custeio dos atos gratuitos praticados por força de lei.</li>
+</ul>
+<p><strong>Art. 43.</strong> 0 gerenciamento administrativo e financeiro dos serviços notariais e de registros é da responsabilidade exclusiva do respectivo delegatário titular, inclusive no que diz respeito às despesas de custeio, investimento e pessoal, nos termos da Lei Federal nº 8.935/1994, não podendo tais despesas, em nenhuma hipótese, ser repassadas ao usuário.</p>
+<p><strong>Art. 44.</strong> Sob pena de infração disciplinar e sem prejuízo das demais cominações legais, é vedada a exigência de qualquer pagamento a título de taxa de urgência, cabendo ao titular da serventia zelar pela agilidade, qualidade e eficiência dos serviços notariais e de registros.</p>
+<p><strong>Art. 45.</strong> A fixação e a cobrança dos emolumentos relativos aos serviços notariais e de registros são regulados pelas tabelas respectivas, observado o limite máximo nelas estabelecido.
+Parágrafo único. Quando o valor declarado para o ato for diverso do atribuído pelo Poder Público, os emolumentos serão calculados sobre o maior valor.</p>
+<h2 id="cap%C3%ADtulo-ii---da-cobran%C3%A7a-e-do-pagamento">CAPÍTULO II - DA COBRANÇA E DO PAGAMENTO</h2>
+<p><strong>Art. 46.</strong> Nos serviços notariais e de registros privatizados nos termos da Lei Federal nº 8.935/1994, os emolumentos serão pagos diretamente ao notário ou registrador, no momento da lavratura do ato ou da apresentação do documento ou requerimento.</p>
+<p><strong>Art. 47.</strong> As despesas postais, de publicação, de reprodução de plantas e cópias de microfilme serão pagas antecipadamente pelo interessado.</p>
+<p><strong>Art. 48.</strong> Havendo num único documento diversos atos a serem praticados, estes serão cobrados separadamente.</p>
+<p><strong>Art. 49.</strong> Não são devidos novos emolumentos pelas retificações, restaurações e repetição de atos decorrentes de erro funcional.</p>
+<p><strong>Art. 50.</strong> De todos os pagamentos efetivados serão obrigatoriamente expedidos recibos para entrega ao usuário, independentemente de solicitação.
+Parágrafo único. As certidões fornecidas pelos serviços notariais e de registro permanecerão disponíveis aos interessados por até noventa dias, a contar de sua expedição, prorrogável uma única vez por igual período.</p>
+<h2 id="cap%C3%ADtulo-iii---da-gratuidade-e-das-isen%C3%A7%C3%B5es">CAPÍTULO III - DA GRATUIDADE E DAS ISENÇÕES</h2>
+<p><strong>Art. 51.</strong> São gratuitos:</p>
+<ul>
+<li><em>I</em> - os atos não estabelecidos expressamente nas tabelas de Custas e Emolumentos, ressalvado o disposto no art. 3º desta Lei;</li>
+<li><em>II</em> - o registro de nascimento e o assento de óbito, a primeira certidão respectiva, bem como, para os reconhecidamente pobres, as demais certidões extraídas pelo registro civil, nos termos da lei;</li>
+<li><em>III</em> - os atos do Oficio de Registro Civil das Pessoas Naturais determinados pela Autoridade Judiciária, relativamente à criança ou ao adolescente em situação irregular;</li>
+<li><em>IV</em> - quaisquer atos notariais ou registrais praticados em beneficio do juridicamente necessitado, assim reconhecido por autoridade judiciária, em feitos de jurisdição voluntária (CPC, artigos 1.103 a 1.210);</li>
+<li><em>V</em> - os atos de retificação, restauração ou repetição decorrentes de erro funcional;</li>
+<li><em>VI</em> - os atos de extração de certidão, quando destinada ao alistamento militar, para fins eleitorais ou previdenciários, ou para outras finalidades cuja gratuidade esteja prevista em lei, delas devendo constar nota relativa à sua finalidade;</li>
+<li><em>VII</em> - o primeiro registro de direito real constituído em favor de beneficiário de regularização fundiária de interesse social em áreas urbanas e em áreas rurais de agricultura familiar, independentemente da comprovação do pagamento de quaisquer tributos, inclusive previdenciários (art. 290-A, da Lei nº 6.015/1973, de 31 de dezembro de 1973).</li>
+<li><em>VIII</em> - a primeira averbação de construção residencial de até setenta metros quadrados de edificação em áreas urbanas objeto de regularização fundiária de interesse social, independentemente da comprovação do pagamento de quaisquer tributos, inclusive previdenciários (art. 290-A, da Lei nº 6.015/1973, de 31 de dezembro de 1973).</li>
+<li><em>IX</em> - quaisquer atos notariais ou de registro praticados pelo Estado do Amapá, suas autarquias e fundações. (Redação do inciso dada pela Lei Nº 3117 DE 23/09/2024).</li>
+<li><em>X</em> - Outras hipóteses criadas por lei. (Inciso acrescentado pela Lei Nº 3117 DE 23/09/2024).</li>
+<li>§ 1º Os atos determinados por ordem judicial em feitos de jurisdição contenciosa devem ser praticados independente do pagamento de emolumentos, quando realizados no interesse da União, dos Estados, dos Municípios e seus respectivos entes, em execução Fiscal (Lei nº 6.830/1980), no interesse de parte beneficiária de gratuidade de Justiça ou determinados pela Justiça do Trabalho no interesse de empregado litigante; uma vez consolidado o ato, o oficial encaminhará comprovante com valor ao juízo de origem, para inclusão na conta das despesas processuais a serem pagas pela parte vencida ao final do respectivo processo, em valores vigentes à época do pagamento.</li>
+<li>§ 2º As determinações judiciais destinadas a produzir atos notariais ou de registro em favor de parte não beneficiária de gratuidade de Justiça, somente serão cumpridas após o pagamento dos emolumentos devidos.</li>
+<li>§ 3º É proibida a cobrança de qualquer despesa sobre eventuais praxes ou estilos forenses.</li>
+<li>§ 4º É obrigatória a afixação, em local visível nos cartórios, da transcrição das gratuidades previstas neste artigo.</li>
+<li>§ 5º Os notários e os registradores poderão celebrar convênios ou parcerias junto aos órgãos públicos e particulares, para a prestação de seus serviços, vedada a transferência total ou parcial de atribuições aos convenentes.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-iv---do-registro-de-im%C3%B3veis-em-geral">CAPÍTULO IV - DO REGISTRO DE IMÓVEIS EM GERAL</h2>
+<p><strong>Art. 52.</strong> Na aplicação das tabelas referentes ao Registro de Imóveis em Geral serão observados:</p>
+<ul>
+<li>
+<p><em>I</em> - os emolumentos relativos aos atos do registro de imóveis em geral incluem o exame do titulo, dos indicadores real e pessoal, da abertura de matrícula quando esta, segundo a lei, houver de ser elaborada simultaneamente, além da expedição e entrega da primeira certidão do registro, sem ônus adicionais;</p>
+</li>
+<li>
+<p><em>II</em> - nos registros com valor declarado, os emolumentos devidos serão calculados com base no valor que o Poder Público atribuir ao bem para fins de imposto de transmissão (ITBI ou ITCMD) quando este for maior ou, não havendo transmissão, no valor-base para o cálculo do IPTU ou ITR, conforme o caso;</p>
+</li>
+<li>
+<p><em>III</em> - nos registros sem valor declarado, os emolumentos devidos serão calculados com base no valor que o Poder Público atribuir ao bem para fins de imposto de transmissão (ITBI ou ITCMD) ou, não havendo transmissão, no valor-base para o cálculo do IPTU ou do ITR, conforme o caso.</p>
+</li>
+<li>
+<p><em>IV</em> - serão reduzidos em cinquenta por cento os emolumentos referentes aos seguintes registros:</p>
+<pre><code>  a) relativos ao Programa de Arrendamento Residencial de que trata a Lei nº 10.188, de 12 de fevereiro 
+  de 2001, por força do art. 35, da Lei nº 10.150, de 21 de dezembro de 2000;
+  b) relativos à partilha de bens decorrentes de dissolução da sociedade conjugal (separação judicial 
+  e divórcio) ou da sociedade de fato de natureza familiar;
+  c) relativos à aquisição imobiliária para fins residenciais financiada pelo Sistema Financeiro de 
+  Habitação, independente do percentual do valor financiado, quando do primeiro registro, nos termos do 
+  art. 290, da Lei nº 6.015, de 31 de dezembro de 1973 (Lei dos Registros Públicos).
+</code></pre>
+</li>
+<li>
+<p><em>V</em> - nos atos relacionados com a aquisição imobiliária para fins residenciais oriunda de programas e convênios com a União, Estados e Municípios, para a construção de habitações populares destinadas a famílias de baixa renda, pelo sistema de mutirão e autoconstrução orientada, os emolumentos devidos serão reduzidos para vinte por cento, desde que o imóvel possua área construída de até sessenta e nove metros quadrados e o terreno possua área de até duzentos e cinquenta metros quadrados - (Art. 290, § 4º, da Lei nº 6.015, de 31 de dezembro de 1973).</p>
+</li>
+<li>
+<p><em>VI</em> - nos registros de contrato de locação com prazo determinado, os emolumentos serão calculados com base no valor total do contrato; se com prazo indeterminado, sobre o valor da soma de doze aluguéis mensais vigentes à data do registro.</p>
+</li>
+</ul>
+<h2 id="cap%C3%ADtulo-v---do-registro-da-incorpora%C3%A7%C3%A3o-imobili%C3%A1ria-especifica%C3%A7%C3%A3o-ou-institui%C3%A7%C3%A3o-de-condom%C3%ADnio">CAPÍTULO V - DO REGISTRO DA INCORPORAÇÃO IMOBILIÁRIA, ESPECIFICAÇÃO OU INSTITUIÇÃO DE CONDOMÍNIO</h2>
+<p><strong>Art. 53.</strong> Na aplicação das tabelas referentes ao Registro de Incorporação imobiliária, Especificação ou Instituição de Condomínio serão observados:</p>
+<ul>
+<li><em>I</em> - os emolumentos fixados, por ato, remuneram inclusive a expedição da primeira certidão do registro ou averbação, a qual será entregue ao interessado sem ônus adicionais;</li>
+<li><em>II</em> - para o registro de hipoteca sobre unidade isolada integrante do condomínio, os emolumentos devidos serão calculados de conformidade com os estabelecidos para o Registro Geral de Imóveis;</li>
+<li><em>III</em> - as vagas de garagem, quando acessórios da unidade autônoma, isentas de matricula ou registro, não estão sujeitas ao pagamento de emolumentos, nos termos do art. 32, alínea &quot;p&quot;, combinado com o art. 1º, da Lei nº 4.591/1964, de 16 de dezembro de 1964.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-vi---das-averba%C3%A7%C3%B5es-relativas-%C3%A0-incorpora%C3%A7%C3%A3o-imobili%C3%A1ria-e-ao-condom%C3%ADnio">CAPÍTULO VI - DAS AVERBAÇÕES RELATIVAS À INCORPORAÇÃO IMOBILIÁRIA E AO CONDOMÍNIO</h2>
+<p><strong>Art. 54.</strong> Na aplicação das tabelas referentes às - Averbações Relativas à Incorporação Imobiliária e ao Condomínio serão observados:</p>
+<ul>
+<li>
+<p><em>I</em> - os emolumentos, por ato, remuneram inclusive a expedição da primeira certidão do registro ou averbação, a qual será entregue ao interessado sem ônus adicionais;</p>
+</li>
+<li>
+<p><em>II</em> - serão reduzidos em cinquenta por cento os emolumentos, devidos pela prática dos seguintes atos de averbação:</p>
+<pre><code>  a) desistência da Incorporação Imobiliária, pelo incorporador (art. 34, §§ 4º e 5º, 
+  da Lei nº 4.591/1964), calculados com base no valor global dos terrenos que lhe haviam sido destinados;
+  b) termo de afetação de patrimônio à Incorporação Imobiliária, pelo incorporador 
+  (art. 31-A, § 1º e art. 31-B, da Lei nº 4.591, de 16 de dezembro de 1964), calculados com base 
+  no valor dos bens afetados;
+  c) baixa de ônus ou gravame (hipoteca, alienação fiduciária, etc.) incidente sobre o conjunto de imóveis 
+  dados em garantia pelo incorporador ou instituidor, calculado sobre o valor global dos mesmos.
+</code></pre>
+</li>
+</ul>
+<h2 id="cap%C3%ADtulo-vii---do-registro-de-loteamento-ou-desmembramento-urbano-ou-rural">CAPÍTULO VII - DO REGISTRO DE LOTEAMENTO OU DESMEMBRAMENTO, URBANO OU RURAL</h2>
+<p><strong>Art. 55.</strong> Na aplicação das tabelas referentes ao Registro de Loteamento ou Desmembramento, Urbano ou Rural, serão observados;</p>
+<ul>
+<li><em>I</em> - os emolumentos, por ato, remuneram inclusive a expedição da primeira certidão do registro ou averbação, a qual será entregue ao interessado sem ônus adicionais;</li>
+<li><em>II</em> - O valor dos emolumentos será reduzido em setenta por cento nos registros promovidos pelo Poder Público e seus entes, quando destinados à regularização de desmembramento ou parcelamento do solo urbano ou mal, resultantes ou não de ocupações espontâneas, mas de tal modo consolidadas no tempo e que já se tenham tornado irreversíveis na data desta Lei, como novos bairros, logradouros, redutos e outros.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-viii---da-averba%C3%A7%C3%A3o-em-geral">CAPÍTULO VIII - DA AVERBAÇÃO EM GERAL</h2>
+<p><strong>Art. 56.</strong> Na aplicação das tabelas referentes à Averbação em Geral serão observados:</p>
+<ul>
+<li><em>I</em> - os emolumentos, por ato, remuneram inclusive a expedição da primeira certidão, a qual será entregue ao interessado sem ônus adicionais;</li>
+<li><em>II</em> - consideram-se sem valor declarado, entre outras, as averbações referentes à mudança da denominação e numeração de prédios, alteração de destinação ou situação do imóvel, indisponibilidade, demolição, abertura de vias e logradouros públicos, casamento, separação, divórcio e morte, alteração do nome por casamento, separação ou divórcio, e atualização monetária de dívida;</li>
+<li><em>III</em> - as averbações relativas ao cancelamento do registro de constrições judiciais (arresto, penhora, sequestro e outros), quando no interesse de parte beneficiária de gratuidade de Justiça ou determinadas pela Justiça do Trabalho no interesse de empregado litigante, devem ser praticadas independente do pagamento dos emolumentos; uma vez consolidado o ato, o oficial encaminhará comprovante com valor ao juízo de origem, para inclusão na conta das despesas processuais a serem pagas pela parte vencida ao final do respectivo processo, em valores vigentes à época do pagamento;</li>
+<li><em>IV</em> - as averbações que devam ser procedidas de oficio e as concernentes ao transporte de ônus da matrícula, não estão sujeitas ao pagamento de emolumentos;</li>
+<li><em>V</em> - no Pacto Antenupcial, os emolumentos para o seu registro remuneram inclusive a expedição da primeira certidão do registro, a qual será entregue ao interessado sem ônus adicionais.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-ix---do-registro-de-constri%C3%A7%C3%B5es-judiciais">CAPÍTULO IX - DO REGISTRO DE CONSTRIÇÕES JUDICIAIS</h2>
+<p><strong>Art. 57.</strong> Na aplicação das tabelas referentes ao Registro de Constrições Judiciais serão observados:</p>
+<ul>
+<li><em>I</em> - os registros de constrições judiciais (arresto, penhora, sequestro e outros) devem ser praticados independente do pagamento dos emolumentos, quando realizados no interesse da União, Estados, Municípios e seus respectivos entes, em execução fiscal (Lei nº 6.830/1980), no interesse de parte beneficiária de gratuidade de Justiça ou determinadas pela Justiça do Trabalho no interesse de empregado litigante; uma vez consolidado o ato, o oficial encaminhará comprovante com valor ao juízo de origem, para inclusão na conta das despesas processuais a serem pagas pela parte vencida ao final do respectivo processo, em valores vigentes à época do pagamento;</li>
+<li><em>II</em> - os emolumentos, requeridos ou determinados no interesse de partes não beneficiarias de gratuidade de Justiça, deverão ser previamente pagos pela parte interessada, nos termos do art. 239, da Lei nº 6.015, de 31 de dezembro de 1973.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-x---do-casamento">CAPÍTULO X - DO CASAMENTO</h2>
+<p><strong>Art. 58.</strong> Na aplicação das tabelas referentes ao Casamento serão observados:</p>
+<ul>
+<li>
+<p><em>I</em> - os emolumentos relativos à habilitação para casamento, para os casos de casamentos celebrados perante o mesmo oficial da habilitação, compreendem os seguintes atos:</p>
+<pre><code>  a) autuação e protocolo de documentos apresentados pelos interessados;
+  b) expedição de edital;
+  c) afixação, certificação de publicação e arquivamento de editais;
+  d) emissão de certidão de habilitação, para juntada nos autos da habilitação;
+  e) emissão de certidão de casamento realizado, para juntada nos autos da habilitação 
+  e entrega da primeira via aos nubentes.
+</code></pre>
+</li>
+<li>
+<p>§ 1º As publicações do edital de casamento na imprensa oficial ou privada são de responsabilidade dos nubentes, que arcarão com as despesas respectivas, vedada a cobrança pelos cartórios de quaisquer taxas referentes a este ato.</p>
+</li>
+<li>
+<p>§ 2º Os emolumentos referentes à Certidão de Casamento, somente poderão ser cobrados de forma autônoma quando o casamento celebrado perante um oficial de registro originou-se de processo de habilitação realizado por oficial de outra circunscrição ou município.</p>
+</li>
+<li>
+<p>§ 3º os emolumentos referentes à Certidão de Habilitação, somente poderão ser cobrados de forma autônoma quando o processo de habilitação for devidamente concluído e os nubentes optarem pela celebração do casamento perante oficial de circunscrição diferente.</p>
+</li>
+<li>
+<p>§ 4º os emolumentos referentes à Autuação e Protocolo dos documentos apresentados pelo interessado, somente poderão ser cobrados de forma autônoma quando o processo de habilitação se desenvolveu perante oficial diverso daquele em que o casamento será realizado.</p>
+</li>
+</ul>
+<h2 id="cap%C3%ADtulo-xi---do-registro-de-t%C3%ADtulos-e-documentos">CAPÍTULO XI - DO REGISTRO DE TÍTULOS E DOCUMENTOS</h2>
+<p><strong>Art. 59.</strong> Na aplicação das tabelas referentes ao Registro de Títulos e Documentos serão observados:</p>
+<ul>
+<li><em>I</em> - para cálculo dos preços devidos pelo registro de contratos, títulos e documentos cujos valores venham expressos em moeda estrangeira, far-se-á a conversão em moeda nacional, com utilização do valor de compra do câmbio do dia em que for apresentado o documento;</li>
+<li><em>II</em> - no registro de contratos de alienação fiduciária, a base do cálculo será o valor do crédito principal concedido;</li>
+<li><em>III</em> - no registro de recibos de sinal de venda e compra, a base do cálculo será o valor global da transação;</li>
+<li><em>IV</em> - a base de cálculo do registro de contrato de locação, bem como para os instrumentos de arrendamento com prazo determinado, será o valor da soma das mensalidades; se o prazo for indeterminado, tomar-se-á o valor da soma de doze parcelas mensais;</li>
+<li><em>V</em> - nos contratos de leasing, a base do cálculo incidirá sobre o valor da aquisição do bem objeto do contrato;</li>
+<li><em>VI</em> - nas cessões de crédito, a base de cálculo será o valor total das garantias oferecidas, vedado qualquer outro acréscimo;</li>
+<li><em>VII</em> - nos contratos de prestação de serviço com prazo determinado, o cálculo incidirá sobre a soma das parcelas pactuadas. Se o prazo for indeterminado, tomar-se-á o valor da soma de doze parcelas mensais;</li>
+<li><em>VIII</em> - nos contratos com valores representados por bens ou direitos, a base de cálculo dos emolumentos será a estimativa do valor destes;</li>
+<li>§ 1º Entende-se como contrato de garantia aquele vinculado a instrumentos de liberação de crédito, como os de fiança, caução e depósito.</li>
+<li>§ 2º Quando o contrato de garantia não for vinculado a instrumentos de abertura de crédito, o cálculo para fins de emolumentos será feito considerando-se o valor da fiança, caução ou depósito.</li>
+<li>§ 3º Instrumentos com valores declarados em unidade monetária fora de circulação deverão ser corrigidos para valores em unidade monetária vigente.</li>
+<li>§ 4º Nos contratos onde constem mais de um valor, a base de cálculo será a soma dos mesmos.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-xii---das-dilig%C3%AAncias-para-cumprimento-de-notifica%C3%A7%C3%B5es">CAPÍTULO XII - DAS DILIGÊNCIAS PARA CUMPRIMENTO DE NOTIFICAÇÕES</h2>
+<p><strong>Art. 60.</strong> Na aplicação das tabelas referentes às Diligências para Cumprimento de Notificações serão observados;</p>
+<ul>
+<li><em>I</em> - para o cumprimento do disposto no art. 160, da Lei nº 6.015/1973 (Lei dos Registros Públicos), além dos emolumentos referentes ao registro, serão devidos emolumentos pelas certidões e diligências necessárias ao cumprimento das notificações;</li>
+<li><em>II</em> - as despesas extraordinárias realizadas nas diligências para cumprimento de notificações poderão ser cobradas mediante a apresentação de seus comprovantes.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-xiii---do-registro-civil-das-pessoas-jur%C3%ADdicas">CAPÍTULO XIII - DO REGISTRO CIVIL DAS PESSOAS JURÍDICAS</h2>
+<p><strong>Art. 61.</strong> Na aplicação das tabelas referentes ao Registro Civil das Pessoas Jurídicas serão observados:</p>
+<ul>
+<li><em>I</em> - para fins de cobrança dos emolumentos referentes às averbações, autenticações e certidões considerar-se-ão os atos separadamente, vedada a interpretação extensiva, de forma a justificar a cobrança de emolumentos não previstos nesta Lei;</li>
+<li><em>II</em> - nas averbações serão consideradas as deliberações da Diretoria da Pessoa Jurídica;</li>
+<li><em>III</em> - para a prática dos atos de Averbações, Autenticações e Certidões, deverão ser apresentados os documentos previstos nos arts. 120 e 121 da Lei nº 6.015, de 31 de dezembro de 1973 (Lei dos Registros Públicos) e outros exigíveis por lei;</li>
+<li><em>IV</em> - no caso de requerimento de certidão ou de documentação além das entregues no ato do registro da Pessoa Jurídica, serão devidos emolumentos conforme o ato praticado;
+Parágrafo único. Serão considerados Registros Subsequentes para fins de averbação todos os documentos que alterem o registro das Pessoas Jurídicas, tais como, atas ou convenções de eleição e posse de diretorias; atas ou convenções de alterações estatutárias e quaisquer outros atos com este fim, emanados do corpo dirigente ou de quem o exerça.</li>
+</ul>
+<h2 id="cap%C3%ADtulo-xiv---do-tabelionato">CAPÍTULO XIV - DO TABELIONATO</h2>
+<p><strong>Art. 62.</strong> Na aplicação das tabelas referentes ao Tabelionato serão observados:</p>
+<ul>
+<li><em>I</em> - para o pagamento de títulos, no tríduo legal, será emitida guia de depósito especifica a favor do tabelionato, conforme regulamento da Corregedoria da Justiça;</li>
+<li><em>II</em> - os títulos liquidados no tríduo legal terão seus emolumentos reduzidos em vinte por cento;</li>
+<li><em>III</em> - os títulos retirados, livres de protesto, no prazo legal, terão seus emolumentos reduzidos em cinquenta por cento;</li>
+<li><em>IV</em> - o tabelião poderá solicitar do apresentante do título ou de quem o faça, depósito prévio de cinquenta por cento dos emolumentos correspondentes, a fim de garantir a prática do ato,</li>
+<li><em>V</em> - para fins de cobrança dos emolumentos serão levados em conta os atos a serem praticados separadamente, vedada a interpretação extensiva, de forma justificar a cobrança de emolumentos não previstos nesta Lei;
+Parágrafo único. É vedada a flexibilização dos emolumentos e ocorrendo a cobrança em desacordo com o estabelecido, ficam os agentes delegatários sujeitos às penalidades previstas no art. 31, inciso III, da Lei nº 8.935/1994, de 18 de novembro de 1994.
+TÍTULO IV - DAS DISPOSIÇOES FINAIS</li>
+</ul>
+<p><strong>Art. 63.</strong> O Tribunal de Justiça do Estado do Amapá, por resolução, expedirá as instruções necessárias aos recolhimentos das custas judiciais destinados ao Fundo de Manutenção e Reaparelhamento do Judiciário -FRMJ.</p>
+<p><strong>Art. 64.</strong> Ficam revogadas as Leis nºs 959, de 30 de dezembro de 2005 e 1.151, de 03 de dezembro de 2007.</p>
+<p><strong>Art. 65.</strong> Esta Lei entra em vigor no dia 01 de janeiro de 2010, produzindo efeitos após noventa dias da sua publicação.
+Macapá, 29 de dezembro de 2009
+ANTÔNIO WALDEZ GÓES DA SILVA
+Governador</p>
+
+</body>
+</html>

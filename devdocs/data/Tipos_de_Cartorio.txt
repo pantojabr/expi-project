@@ -1,0 +1,5 @@
+Registro de Imóveis;RI
+Registro Civil de Pessoas Naturais e de Interdições e Tutelas;RCPN
+Registro Civil das Pessoas Jurídicas, De Títulos e Documentos;RTD
+Tabelionato de Notas e Registro de Contratos Marítimos;TAB
+Protesto de Títulos;PROT

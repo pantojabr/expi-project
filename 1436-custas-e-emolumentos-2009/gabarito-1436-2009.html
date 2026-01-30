@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- <title>Gabarito — Lei nº 1.436/2009 (Amapá)</title> -->
+<style>
+  :root{
+    --bg:#0b0e14; --card:#0f1320; --muted:#9aa4b2; --text:#e5e7eb; --line:#1e293b;
+    --accent:#3b82f6; --shadow:rgba(0,0,0,.25);
+    --c-geral:#DCFCE7;        /* verde muito suave */
+    --c-judicial:#E0E7FF;     /* azul muito suave  */
+    --c-extrajudicial:#FFE4E6;/* rosa muito suave  */
+    --t-geral:#166534;        /* verde escuro      */
+    --t-judicial:#1e40af;     /* azul escuro       */
+    --t-extrajudicial:#9f1239;/* vinho escuro      */
+  }
+  * { box-sizing: border-box }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+  header{ padding:24px; border-bottom:1px solid var(--line); position:sticky; top:0; backdrop-filter:saturate(140%) blur(4px); background:color-mix(in hsl, var(--bg) 85%, transparent); z-index:5 }
+  h1{ margin:0 0 6px 0; font-size: clamp(20px, 3vw, 28px); }
+  .hint{ margin:0; color:var(--muted); font-size:14px }
+  .wrap{
+    display:grid; grid-template-columns: 1fr minmax(280px, 360px);
+    gap:16px; padding:16px; max-width:1400px; margin:0 auto;
+  }
+  @media (max-width: 980px){
+    .wrap{ grid-template-columns: 1fr; }
+    #panel{ order:-1; position:sticky; top:76px }
+  }
+  #qaList{
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .qa{
+    background:var(--card); border:1px solid var(--line);
+    border-radius:14px; padding:14px 16px; box-shadow:0 4px 18px var(--shadow);
+  }
+  .q{
+    margin:0; cursor:pointer; font-weight:700;
+    display:flex; align-items:center; gap:10px;
+  }
+  .q .caret{
+    width:10px; height:10px; border:2px solid var(--muted); border-left:0; border-top:0; transform:rotate(45deg);
+    transition: transform .18s ease;
+  }
+  .qa.open .q .caret{ transform: rotate(225deg) }
+  .a{ display:none; margin-top:10px; color:#dbeafe }
+  .qa.open .a{ display:block }
+  .badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px }
+  .badge{
+    font-size:12px; font-weight:700; padding:4px 8px; border-radius:999px;
+    border:1px solid var(--line); user-select:none
+  }
+  .c-geral{ background:var(--c-geral); color:var(--t-geral) }
+  .c-judicial{ background:var(--c-judicial); color:var(--t-judicial) }
+  .c-extrajudicial{ background:var(--c-extrajudicial); color:var(--t-extrajudicial) }
+
+  /* termos clicáveis dentro do texto */
+  .concept{
+    background: color-mix(in hsl, var(--accent) 18%, transparent);
+    border-bottom:1px dashed color-mix(in hsl, var(--accent) 70%, white);
+    padding:0 .15em; border-radius:4px; cursor:pointer; white-space:nowrap;
+  }
+  .concept:hover{ background: color-mix(in hsl, var(--accent) 28%, transparent) }
+  .concept.c-judicial{
+    background:burlywood;
+  }
+  .concept.c-extrajudicial{
+    background:#28ff92bd;
+  }
+  /* Painel lateral (glossário contextual) */
+  #panel{
+    background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px;
+    box-shadow:0 4px 18px var(--shadow); min-height:120px; display:flex; flex-direction:column; gap:10px;
+  }
+  #panel h2{ font-size:16px; margin:0 0 6px 0; color:#e2e8f0 }
+  #panel .empty{ color:var(--muted); font-size:14px }
+  .conceptCard{
+    background:#0b1220; border:1px solid #1f2a44; border-radius:12px; padding:10px 12px; margin-bottom:8px;
+  }
+  .conceptCard h3{ margin:0 0 4px 0; font-size:14px }
+  .conceptCard p{ margin:0; color:#e5e7eb; font-size:14px }
+  .conceptCard .meta{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px }
+  .conceptCard .meta .badge{ border:0 }
+  .panel-actions{ display:flex; justify-content:space-between; align-items:center; }
+  .panel-actions button{
+    border:1px solid var(--line); background:#12192a; color:#e5e7eb; border-radius:8px; padding:6px 10px; cursor:pointer;
+  }
+  .panel-actions button:hover{ filter:brightness(1.1) }
+
+  /* footer tip */
+  footer{ padding:16px; color:var(--muted); text-align:center }
+</style>
+</head>
+<body>
+
+<header>
+  <!-- <h1>Gabarito — Lei nº 1.436/2009 (AP)</h1>
+  <p class="hint">Clique na pergunta para ver a resposta. Clique em <em>termos realçados</em> para abrir suas definições no painel lateral. O glossário é único e reutilizável.</p> -->
+</header>
+
+<div class="wrap">
+  <main id="qaList" aria-label="Lista de perguntas e respostas"></main>
+
+  <aside id="panel" aria-label="Painel de conceitos">
+    <div class="panel-actions">
+      <h2>Conceitos (deste item)</h2>
+      <button id="clearPanel" title="Limpar painel">Limpar</button>
+    </div>
+    <div id="panelList" class="panelList">
+      <p class="empty">Selecione uma pergunta ou clique em um termo realçado para ver o conceito aqui.</p>
+    </div>
+  </aside>
+</div>
+
+<!-- <footer>Glossário e UI reutilizáveis para outras leis. Para adicionar conceitos, edite o objeto <code>GLOSSARIO</code>.</footer> -->
+
+<script>
+/* ===========================================================
+   GLOSSÁRIO ÚNICO (reutilizável)
+   - categoria: 'direito-geral' | 'direito-judicial' | 'direito-extrajudicial'
+   - aliases: variações que também devem disparar o mesmo conceito
+   =========================================================== */
+const GLOSSARIO = {
+  "atos processuais": {
+    categoria: "direito-judicial",
+    definicao: "Atividades ou manifestações formais dentro do processo (petições, citações, intimações, despachos, decisões, recursos etc.), praticadas por partes, advogados, servidores e magistrados sob regras procedimentais.",
+    aliases: ["ato processual","prática de atos processuais"]
+  },
+  "natureza do processo": {
+    categoria: "direito-judicial",
+    definicao: "Qualificação do feito segundo seu tipo e finalidade (ex.: cível, penal, fazendário, juizado especial), que influencia a incidência e o cálculo de custas.",
+    aliases: ["natureza do feito"]
+  },
+  "natureza do recurso": {
+    categoria: "direito-judicial",
+    definicao: "Espécie recursal utilizada (ex.: apelação, agravo, embargos), relevante para o preparo e para o porte de remessa e retorno.",
+    aliases: []
+  },
+  "taxa judiciária": {
+    categoria: "direito-judicial",
+    definicao: "Tributo vinculado ao serviço público de prestação jurisdicional, compondo, junto de outras rubricas, as despesas/custas do processo.",
+    aliases: []
+  },
+  "porte de remessa e retorno": {
+    categoria: "direito-judicial",
+    definicao: "Despesa de envio e devolução dos autos (ou peças) para instâncias superiores, recolhida no ato de interposição de recurso, sob pena de deserção.",
+    aliases: ["porte de remessa","porte de retorno"]
+  },
+  "emolumentos": {
+    categoria: "direito-extrajudicial",
+    definicao: "Remuneração devida pelos atos praticados pelos serviços notariais e de registro, calculados por ato, segundo tabelas e limites legais.",
+    aliases: []
+  },
+  "registro de imóveis": {
+    categoria: "direito-extrajudicial",
+    definicao: "Serviço registral que confere publicidade, autenticidade e eficácia a atos relativos a direitos reais sobre imóveis, com bases de cálculo específicas.",
+    aliases: ["registros imobiliários"]
+  },
+  "regularização fundiária": {
+    categoria: "direito-extrajudicial",
+    definicao: "Conjunto de medidas jurídicas, urbanísticas, ambientais e sociais para integrar assentamentos irregulares ao ordenamento, com gratuidades/reduções previstas.",
+    aliases: []
+  },
+  "juizados especiais": {
+    categoria: "direito-judicial",
+    definicao: "Órgãos da Justiça voltados a causas de menor complexidade e valor, com rito simplificado e, via de regra, sem custas em 1º grau.",
+    aliases: ["juizado especial"]
+  },
+  "gratuidade da justiça": {
+    categoria: "direito-judicial",
+    definicao: "Benefício legal que dispensa o adiantamento de custas/despesas processuais a quem comprova insuficiência de recursos.",
+    aliases: ["justiça gratuita","assistência judiciária gratuita"]
+  },
+  "isenção": {
+    categoria: "direito-geral",
+    definicao: "Dispensa legal do pagamento de custas/emolumentos para determinadas pessoas, órgãos ou atos.",
+    aliases: []
+  },
+  "fundo de estruturação do registro civil (ferc)": {
+    categoria: "direito-extrajudicial",
+    definicao: "Fundo financiado com percentual dos emolumentos para garantir renda mínima a serventias deficitárias e custear atos gratuitos.",
+    aliases: ["ferc","fundo do registro civil"]
+  },
+  "lei dos registros públicos": {
+    categoria: "direito-extrajudicial",
+    definicao: "Lei federal nº 6.015/1973, que disciplina os registros públicos (civil, títulos e documentos, imóveis), frequentemente referida nas bases de cálculo.",
+    aliases: ["lei 6.015/1973","l. 6015/73"]
+  },
+  "deserção": {
+    categoria: "direito-judicial",
+    definicao: "Perda do direito de ver conhecido o recurso por falta de preparo (pagamento de custas/porte) no prazo legal.",
+    aliases: []
+  },
+  "perito": {
+    categoria: "direito-judicial",
+    definicao: "Profissional nomeado pelo juiz para realizar exame técnico; sua remuneração segue critérios legais e tabelas.",
+    aliases: ["perícia","honorários periciais"]
+  }
+};
+
+/* Mapear categorias para classes/cor */
+const CAT_CLASS = {
+  "direito-geral": "c-geral",
+  "direito-judicial": "c-judicial",
+  "direito-extrajudicial": "c-extrajudicial"
+};
+
+/* ===========================================================
+   40 PERGUNTAS & RESPOSTAS
+   Observação: não precisamos inserir crases; o motor abaixo
+   realça termos encontrados via GLOSSARIO (com aliases).
+   =========================================================== */
+const QA = [
+  ["O que são custas judiciais?",
+   "Valores devidos pelos atos processuais na Justiça Estadual, conforme natureza do processo e recurso."],
+  ["O que são emolumentos cartoriais?",
+   "Remuneração por atos notariais e de registro (emolumentos), calculados por ato e dentro de limites legais."],
+  ["Quem define os valores de custas e emolumentos?",
+   "A própria lei e suas tabelas; atualização anual por índice oficial (INPC/IBGE)."],
+  ["Como ocorre a atualização anual dos valores?",
+   "Por índice INPC/IBGE e publicação oficial, observada a anterioridade."],
+  ["Quem fiscaliza a cobrança?",
+   "Corregedoria, juízes e servidores incumbidos, além de notários/registradores em suas atribuições."],
+  ["O que acontece se alguém cobrar valores indevidos?",
+   "Há restituição e multa em dobro, com apuração pela Corregedoria e possibilidade de recurso ao Pleno."],
+  ["Qual a diferença entre custas e taxa judiciária?",
+   "A taxa judiciária compõe as despesas processuais; custas incluem outras rubricas como atos e serviços."],
+  ["Quem paga as custas nos juizados especiais em 1º grau?",
+   "Em regra não há custas no 1º grau dos juizados especiais, salvo hipóteses legais específicas."],
+  ["Em que hipóteses há gratuidade de registros civis?",
+   "Primeiro registro de nascimento e óbito e a primeira certidão, além de hipóteses legais adicionais."],
+  ["Como se comprova o pagamento de custas nos autos?",
+   "Por certificação nos autos e/ou margem do ato, indicando valor, tabela/item e data."],
+
+  ["O que deve conter o painel público nas serventias?",
+   "As tabelas integrais, afixadas em local visível; a falta caracteriza infração grave."],
+  ["Qual a base de cálculo em registros imobiliários?",
+   "Aplica-se o maior entre o valor declarado e o atribuído pelo Poder Público (ITBI/ITCMD); sem valor: IPTU/ITR."],
+  ["Como são calculados os emolumentos em contratos de locação?",
+   "Prazo determinado: soma total; indeterminado: 12 aluguéis vigentes."],
+  ["Qual a regra para contratos em moeda estrangeira?",
+   "Conversão ao câmbio de compra do dia da apresentação."],
+  ["O que significa porte de remessa e retorno?",
+   "Despesa de envio e devolução de autos/peças para instância superior, paga no ato do recurso (sob pena de deserção)."],
+  ["Quem paga despesas de peritos e intérpretes?",
+   "Remuneração fixada pelo juiz conforme tabelas; na ausência, critérios técnicos e complexidade."],
+  ["Em quais situações há isenção para réu em processo penal?",
+   "Réu declarado pobre é isento; custas ao final se condenado em ações públicas/subsidiárias."],
+  ["Quais atos estão dispensados de novas custas na redistribuição?",
+   "Reconhecida incompetência entre juízes estaduais, não há novas custas; sem restituição ao declinar competência a outro órgão."],
+  ["Quando se paga custas no Tribunal de Justiça?",
+   "Via de regra, antes da distribuição/registro, e antes da prática do ato nos demais casos."],
+  ["Como se processa a inscrição em dívida ativa das custas não pagas?",
+   "Notifica-se a parte; persistindo o débito, expede-se certidão para inscrição em dívida ativa antes do arquivamento."],
+
+  ["Quais são as penalidades aplicadas aos delegatários por cobrança em desacordo?",
+   "Incidem sanções da Lei 8.935/94 e é vedada a flexibilização indevida de emolumentos."],
+  ["O que ocorre quando um processo é extinto por desistência?",
+   "Não dispensa o pagamento das custas e não implica restituição."],
+  ["Qual o impacto da gratuidade em regularização fundiária?",
+   "Facilita a titulação e a moradia formal, com gratuidades e reduções para interesse social."],
+  ["Como funciona a redução de 50% na partilha conjugal?",
+   "Averbações/registros decorrentes de dissolução conjugal têm redução de 50%."],
+  ["Quando o valor do contrato de leasing serve de base?",
+   "Quando a base de cálculo dos emolumentos é o valor de aquisição do bem objeto do contrato."],
+  ["Que situações permitem redução em protesto de títulos?",
+   "Pagamento no tríduo legal (-20%) e retirada livre de protesto dentro do prazo (-50%)."],
+  ["Como se define o valor mínimo dos bens em arrolamentos?",
+   "Não inferior ao valor venal utilizado no exercício anterior."],
+  ["Em que casos o ente público é isento, mas ressarce?",
+   "Quando vencido, deve ressarcir a parte vencedora das custas e despesas que suportou."],
+  ["Qual a relação entre custas e execução fiscal?",
+   "Atos podem ser praticados sem preparo quando no interesse da Fazenda Pública, com inclusão ao final."],
+  ["Em que situações o juiz autoriza ato urgente sem preparo?",
+   "Quando imprescindível; o recolhimento comprova-se no 1º dia útil seguinte, sob pena de multa em dobro."],
+
+  ["Como a lei articula justiça gratuita e sustentabilidade?",
+   "Combina gratuidades com financiamento por fundos e percentuais (ex.: FERC) para serventias deficitárias."],
+  ["Quais os efeitos sociais da gratuidade para pobres?",
+   "Reduz sub-registro e assegura direitos básicos (ex.: certidões essenciais)."],
+  ["Qual a importância do FERC?",
+   "Custeia atos gratuitos e garante renda mínima a cartórios do Registro Civil."],
+  ["O que muda quando valor declarado diverge do público?",
+   "O cálculo deve considerar o maior valor entre os dois."],
+  ["Em que hipóteses há redução para 20% em habitação popular?",
+   "Em programas habitacionais de interesse social que atendam requisitos de metragem/finalidade."],
+  ["Como a lei trata erros funcionais?",
+   "Retificações, restaurações e repetição por erro funcional não geram novos emolumentos."],
+  ["Quais inovações tecnológicas cabíveis?",
+   "Simuladores de custas/emolumentos, integração com sistemas processuais e painéis públicos digitais."],
+  ["Como a lei protege contra taxa de urgência?",
+   "Veda a cobrança e impõe dever de eficiência e qualidade ao delegatário."],
+  ["Relação com a Lei 6.015/73?",
+   "A lei estadual remete frequentemente à Lei dos Registros Públicos para base de cálculo/procedimentos."],
+  ["Como reduzir desigualdades regionais?",
+   "Fortalecer fundos, focalizar gratuidades, reduzir custos em habitação social e ampliar transparência."]
+];
+
+/* ===========================================================
+   MOTOR DE REALCE DE CONCEITOS
+   - transforma ocorrências (termo/aliases) em spans .concept
+   - coleta os conceitos presentes por QA para o painel lateral
+   =========================================================== */
+const norm = s => s.normalize("NFD").replace(/\p{Diacritic}/gu,"").toLowerCase();
+
+function buildConceptIndex(glossario){
+  const idx = [];
+  for(const [termo, meta] of Object.entries(glossario)){
+    const base = norm(termo);
+    idx.push({key: termo, needle: base, ...meta});
+    (meta.aliases||[]).forEach(al=>{
+      idx.push({key: termo, needle: norm(al), ...meta});
+    });
+  }
+  /* ordenar por tamanho p/ evitar que “registro” capture dentro de “registro de imóveis” */
+  idx.sort((a,b)=>b.needle.length - a.needle.length);
+  return idx;
+}
+
+const GLOSS_IDX = buildConceptIndex(GLOSSARIO);
+
+/* envolve termo com <span class="concept" data-key="..."> */
+function highlightConcepts(text){
+  let out = text;
+  // para não quebrar HTML simples, escapamos e só depois recolocamos spans
+  out = out.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  // substituição segura usando limites de palavra quando possível
+  GLOSS_IDX.forEach(({key, needle})=>{
+    const re = new RegExp(`\\b(${escapeRegExp(needle)})\\b`,`gi`);
+    out = out.replace(re, (m)=>{
+      const cls = CAT_CLASS[GLOSSARIO[key].categoria] || "";
+      return `<span class="concept ${cls}" data-key="${encodeHtml(key)}">${m}</span>`;
+    });
+  });
+  return out;
+}
+function escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function encodeHtml(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* ===========================================================
+   RENDERIZAÇÃO DE QA + PAINEL
+   =========================================================== */
+const elList = document.querySelector("#qaList");
+const elPanelList = document.querySelector("#panelList");
+const elClear = document.querySelector("#clearPanel");
+
+function renderQA(){
+  QA.forEach((item, i)=>{
+    const [q, a] = item;
+    const wrap = document.createElement("section");
+    wrap.className = "qa";
+    wrap.innerHTML = `
+      <h3 class="q" role="button" aria-expanded="false">
+        <span class="caret"></span>
+        <span>${i+1}) ${q}</span>
+      </h3>
+      <div class="a">
+        <div class="answer-text">${highlightConcepts(a)}</div>
+        <div class="badges" data-badges></div>
+      </div>
+    `;
+    const hx = wrap.querySelector(".q");
+    const ans = wrap.querySelector(".a");
+    const badges = wrap.querySelector("[data-badges]");
+    hx.addEventListener("click", ()=>{
+      const open = wrap.classList.toggle("open");
+      hx.setAttribute("aria-expanded", open ? "true" : "false");
+      if(open){
+        // ao abrir, listar todos os conceitos detectados nessa resposta
+        const keys = collectConceptKeys(ans);
+        badges.innerHTML = "";
+        keys.forEach(k=>{
+          const b = document.createElement("span");
+          b.className = `badge ${CAT_CLASS[GLOSSARIO[k].categoria]||""}`;
+          b.textContent = k;
+          b.title = "Clique para ver no painel";
+          b.addEventListener("click",(ev)=>{ ev.stopPropagation(); showConceptInPanel(k); });
+          badges.appendChild(b);
+        });
+      }
+    });
+
+    // delegação: clique no conceito abre no painel
+    wrap.addEventListener("click", (ev)=>{
+      const node = ev.target.closest(".concept");
+      if(node){
+        const key = node.getAttribute("data-key");
+        showConceptInPanel(key);
+        ev.stopPropagation();
+      }
+    });
+
+    elList.appendChild(wrap);
+  });
+}
+
+function collectConceptKeys(scopeEl){
+  const set = new Set();
+  scopeEl.querySelectorAll(".concept").forEach(el=>{
+    const key = el.getAttribute("data-key");
+    if(GLOSSARIO[key]) set.add(key);
+  });
+  return [...set];
+}
+
+function showConceptInPanel(key){
+  if(!GLOSSARIO[key]) return;
+  const {categoria, definicao} = GLOSSARIO[key];
+  if(elPanelList.querySelector(".empty")) elPanelList.innerHTML = "";
+  const card = document.createElement("div");
+  card.className = "conceptCard";
+  card.innerHTML = `
+    <h3>${key}</h3>
+    <p>${definicao}</p>
+    <div class="meta">
+      <span class="badge ${CAT_CLASS[categoria]||""}">${labelCategoria(categoria)}</span>
+    </div>
+  `;
+  elPanelList.prepend(card);
+  // rolar até o topo do painel em telas pequenas
+  document.querySelector("#panel").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function labelCategoria(cat){
+  switch(cat){
+    case "direito-geral": return "Direito • Geral";
+    case "direito-judicial": return "Direito • Judicial";
+    case "direito-extrajudicial": return "Direito • Extrajudicial";
+    default: return "Categoria";
+  }
+}
+
+elClear.addEventListener("click", ()=>{
+  elPanelList.innerHTML = `<p class="empty">Painel limpo. Clique em um termo realçado para ver o conceito aqui.</p>`;
+});
+
+renderQA();
+</script>
+</body>
+</html>

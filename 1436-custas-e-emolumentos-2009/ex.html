@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; line-height: 1.5; }
+    h1 { margin-top: 0; }
+    .qa { border: 1px solid #ddd; border-radius: 12px; padding: 12px 16px; margin: 10px 0; background: #fafafa; cursor: pointer; }
+    .q { font-weight: 600; margin: 0; }
+    .a { display: none; margin-top: 8px; }
+    .qa.open .a { display: block; }
+    .qa:hover { background: #f3f4f6; }
+    .hint { font-size: 0.9rem; color: #374151; margin: 8px 0 16px; }
+    .hidden {display: none;}
+</style>
+<meta charset="utf-8">
+<!-- <title class="hidden">Gabarito — Lei 1.436/2009 (AP)</title> -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<h1 class="hidden">Gabarito — Lei nº 1.436/2009 (Amapá)</h1>
+<p class="hint hidden">Clique sobre a pergunta para revelar a resposta.</p>
+
+<div id="list"></div>
+
+<script>
+const items = [
+  ["O que são custas judiciais?",
+   "Valores devidos pelos atos processuais na Justiça Estadual, conforme natureza do processo e recurso."],
+  ["O que são emolumentos cartoriais?",
+   "Remuneração por atos notariais/registro, por ato praticado, voltados a custo/adequada remuneração."],
+  ["Quem define os valores de custas e emolumentos?",
+   "A lei e suas tabelas anexas; atualização anual pelo INPC/IBGE."],
+  ["Como ocorre a atualização anual dos valores?",
+   "Pelo INPC/IBGE, com publicação até o último dia do ano, observada a anterioridade."],
+  ["Quem fiscaliza a cobrança?",
+   "Corregedoria, Juízes, Diretor do Dept. Judiciário, Chefes de Contadoria/Secretaria, notários e registradores."],
+  ["O que acontece se alguém cobrar valores indevidos?",
+   "Restituição + multa em dobro ao FMRJ; procedimento na Corregedoria e recurso ao Pleno."],
+  ["Qual a diferença entre custas e taxa judiciária?",
+   "Taxa judiciária é uma parcela das despesas; custas abrangem outras rubricas processuais."],
+  ["Quem paga as custas nos juizados especiais em 1º grau?",
+   "Em regra, não há incidência de custas em 1ª instância (salvas exceções legais)."],
+  ["Em que hipóteses há gratuidade de registros civis?",
+   "Primeiro registro de nascimento e óbito, primeira certidão, e outras previstas em lei."],
+  ["Como se comprova o pagamento de custas nos autos?",
+   "Certificação nos autos (judiciais) e no próprio ato nas serventias, com valor, item de tabela e data."],
+  ["O que deve conter o painel público nas serventias?",
+   "Transcrição integral das tabelas em local visível; a falta configura falta grave."],
+  ["Qual a base de cálculo em registros imobiliários?",
+   "Maior valor entre o declarado e o atribuído pelo Poder Público (ITBI/ITCMD); sem valor: IPTU/ITR."],
+  ["Como são calculados os emolumentos em contratos de locação?",
+   "Prazo determinado: soma do contrato; indeterminado: 12 aluguéis."],
+  ["Qual a regra para contratos em moeda estrangeira?",
+   "Converter ao câmbio de compra do dia da apresentação."],
+  ["O que significa porte de remessa e retorno?",
+   "Despesa de envio/retorno dos autos nos recursos; recolhida no ato de interposição."],
+  ["Quem paga despesas de peritos e intérpretes?",
+   "Fixadas pelo juiz conforme tabelas; na falta, critérios profissionais e complexidade."],
+  ["Em quais situações há isenção para réu em processo penal?",
+   "Réu declarado pobre é isento; custas ao final se condenado em ações penais públicas/subsidiárias."],
+  ["Quais atos estão dispensados de novas custas na redistribuição?",
+   "Reconhecida incompetência entre juízes estaduais: não há novas custas."],
+  ["Quando se paga custas no Tribunal de Justiça?",
+   "Em regra, antes da distribuição/registro e antes da prática de atos."],
+  ["Como se processa a inscrição em dívida ativa das custas não pagas?",
+   "Notificação; persistindo o débito, certidão para inscrição em dívida ativa antes do arquivamento."],
+  ["Quais são as penalidades aplicadas aos delegatários por cobrança em desacordo?",
+   "Sujeição às sanções da Lei 8.935/94; vedada flexibilização de emolumentos."],
+  ["O que ocorre quando um processo é extinto por desistência?",
+   "Não dispensa o pagamento das custas nem implica restituição."],
+  ["Qual o impacto da gratuidade em regularização fundiária?",
+   "Facilita titulação e moradia formal (primeiro registro/averbações sociais gratuitas)."],
+  ["Como funciona a redução de 50% na partilha conjugal?",
+   "Registros ligados à partilha em dissolução conjugal têm redução de 50%."],
+  ["Quando o valor do contrato de leasing serve de base?",
+   "A base é o valor de aquisição do bem objeto do contrato."],
+  ["Que situações permitem redução em protesto de títulos?",
+   "Liquidados no tríduo legal: −20%; retirados livres de protesto no prazo: −50%."],
+  ["Como se define o valor mínimo dos bens em arrolamentos?",
+   "Não inferior ao valor venal do exercício anterior."],
+  ["Em que casos o ente público é isento, mas ressarce?",
+   "Quando vencido, ressarce a parte vencedora pelas custas/despesas suportadas."],
+  ["Qual a relação entre custas e execução fiscal?",
+   "Atos podem ser praticados sem preparo em favor do ente público; inclusão em conta ao final."],
+  ["Em que situações o juiz autoriza ato urgente sem preparo?",
+   "Quando imprescindível; comprovação no 1º dia útil seguinte, pena de multa em dobro."],
+  ["Como a lei articula justiça gratuita e sustentabilidade?",
+   "Com gratuidades e mecanismos como o FERC (5%) para manter serventias deficitárias."],
+  ["Quais os efeitos sociais da gratuidade para pobres?",
+   "Reduz sub-registro e garante acesso a direitos civis básicos."],
+  ["Qual a importância do FERC?",
+   "Financia atos gratuitos e assegura renda mínima às serventias do Registro Civil."],
+  ["O que muda quando valor declarado diverge do público?",
+   "Aplica-se o maior valor para cálculo dos emolumentos."],
+  ["Em que hipóteses há redução para 20% em habitação popular?",
+   "Nos registros de programas habitacionais sociais que atendam os requisitos legais."],
+  ["Como a lei trata erros funcionais?",
+   "Sem novos emolumentos na retificação/restauração/repetição por erro funcional."],
+  ["Quais inovações tecnológicas cabíveis?",
+   "Simuladores de custas, integração a sistemas processuais, painéis digitais de tabelas."],
+  ["Como a lei protege contra taxa de urgência?",
+   "Vedação expressa; dever de eficiência/qualidade do serviço."],
+  ["Relação com a Lei 6.015/73?",
+   "Remissões frequentes para bases de cálculo e procedimentos registrais."],
+  ["Como reduzir desigualdades regionais?",
+   "Fortalecer fundos (FERC), gratuidades focalizadas, redução em habitação social e transparência."]
+];
+
+const container = document.getElementById('list');
+items.forEach((it, i) => {
+  const qa = document.createElement('div'); qa.className = 'qa';
+  const q = document.createElement('div'); q.className = 'q'; q.textContent = (i+1)+") "+it[0];
+  const a = document.createElement('div'); a.className = 'a'; a.innerHTML = it[1];
+  qa.appendChild(q); qa.appendChild(a);
+  qa.addEventListener('click', () => { qa.classList.toggle('open'); });
+  container.appendChild(qa);
+});
+</script>
+</body>
+</html>
