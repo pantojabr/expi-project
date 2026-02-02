@@ -175,7 +175,6 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [ ] despesa depende de solicitacao_esclarecimento.id, está ao contrário, confirmar e ajustar se for o caso
 - [ ] despesa depende de comprovante.id, está ao contrário, confirmar e ajustar se for o caso
 - [ ] regra_despesa não depende de categoria.id, confirmar e remover se for o caso
-- [ ] mudar RULE_ para ROLE_ 
 
 ## UIFixes
 
