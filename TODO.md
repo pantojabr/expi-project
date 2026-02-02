@@ -139,9 +139,9 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 
 ## Atual para aprimoramento III
 
-- [ ] Deve conter a nota da compra em pdf (a despesa não pode ser cadastrada sem esse documento) Obrigatório salvar no banco de dados e retornar em formato que a interface web possa exibir diretamente na tela e não só baixar
-- [ ] Deve conter o comprovante de pagamento BB ou CAIXA (Suporte iniciais) Obrigatório salvar no banco de dados e retornar em formato que a interface web possa exibir diretamente na tela e não só baixar
-- [ ] Checar validação de todas interações (elementos obrigatório e entradas de informação/segurança da informação)
+- [-] Deve conter a nota da compra em pdf (a despesa não pode ser cadastrada sem esse documento) 
+    - [ ] Obrigatório salvar no banco de dados e retornar em formato que a interface web possa exibir diretamente na tela e não só baixar
+- [ ] Deve conter o comprovante de pagamento BB ou CAIXA (Suporte iniciais)
 
 ## Fase 5: Features Futuras
 
@@ -155,17 +155,12 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 ### Login de usuários além do in-memory
 
 - [x] Deve permitir acesso dos usuários na tabela usuario_dominio conforme as ROLEs de lá e os passwords de lá também
-- [ ] Despesas deve ter dois PDFs, um para a nota fiscal e outro para o comprovante de pagamento. No momento, só há para o último. Atualise o teste devdocs/despesa-api-mvp.py e UI
-    - Erro, Popup: Despesa criada com sucesso (ID: 22), mas o upload da nota fiscal falhou. 
-    - Ajuste devdocs/despesa-api-mvp.py para esse novo cenário, onde há nota fiscal e comprovante de pagamento
-    - web console: 
-    1 - File upload failed: TypeError: NetworkError when attempting to fetch resource.
-    2 - Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://localhost:8080/api/comprovantes/upload. (Reason: CORS request did not succeed). Status code: (null).
-
 
 ### UI
 
 - [ ] http://localhost:3001/solicitacoes-categoria tem botão desproporcional e está muito grande.
+- [-] Despesas deve ter dois PDFs, um para a nota fiscal e outro para o comprovante de pagamento. No momento, só há para o último. Atualise o teste devdocs/despesa-api-mvp.py e UI
+
 
 ### Acesso
 
@@ -186,24 +181,15 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 
 - [ ] Em Navbar "Painel" está 'email · RULE_CARTORIO_APOIO'  deve ser 'Serventia · email · RULE_CARTORIO_APOIO' 
 - [x] No menu lateral que chama http://localhost:3001/despesas/nova, subcategorias e categorias também não renderizaram nas listas de seleção
-- [ ] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento ao servidor backend para baixar o mesmo, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário e expõe a URL do servidor, o que é um risco de segurança e de qualquer forma isso não estará disponível fora do ambiente dev. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
+- [ ] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento que está solicitando usuário e senha novamente num popup numa primeira vez na sessão e apesar de não ser impeditivo, deve ser resolvido e entendido o porquê, para domínio do sistema e tecnologia, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
 - [ ] Em http://localhost:3001/despesas deve aparecer mais duas colunas, 'Nt Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos
+- [ ] /despesas/nova está adicionandod apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos e a única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
+    - [ ] Dito isso, então é obrigatório em algum momento ter a opção de adicionar tais documentos, ao clicar em detalhes, na lista de despesas é um bom lugar para esse retorno visual
+    - [ ] Assim, cabe o aprimoramento visual da lista de despesas essa indicaçõe dos estados de tais arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
 
+## Security
 
-
-
-{"path":"/api/comprovantes/upload","error":"Bad Request","message":"For input string: \"upload\"","timestamp":"2026-01-29T16:10:25.789508577Z","status":400}
-
-Despesa criada com sucesso (ID: 22), mas o upload da nota fiscal falhou
-
-path	"/api/comprovantes/upload"
-error	"Bad Request"
-message	'For input string: "upload"'
-timestamp	"2026-01-29T16:11:46.207296096Z"
-status	400
-
-
-
+- [ ] Checar validação de todas interações (elementos obrigatório e entradas de informação/segurança da informação)
 
 
 
