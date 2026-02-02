@@ -48,3 +48,4 @@ despesas-front-mvp
 .**/
 out/
 __pycache__
+devdocs/despesas*.xlsx

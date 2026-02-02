@@ -139,9 +139,9 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 
 ## Atual para aprimoramento III
 
-- [-] Deve conter a nota da compra em pdf (a despesa não pode ser cadastrada sem esse documento) 
+- [ ] Quanto aos arquivos de documentos, ambos devem seguir
     - [ ] Obrigatório salvar no banco de dados e retornar em formato que a interface web possa exibir diretamente na tela e não só baixar
-- [ ] Deve conter o comprovante de pagamento BB ou CAIXA (Suporte iniciais)
+    - [ ] Deve conter o comprovante de pagamento BB ou CAIXA (Suporte iniciais)
 
 ## Fase 5: Features Futuras
 
@@ -158,18 +158,19 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 
 ### UI
 
-- [ ] http://localhost:3001/solicitacoes-categoria tem botão desproporcional e está muito grande.
-- [-] Despesas deve ter dois PDFs, um para a nota fiscal e outro para o comprovante de pagamento. No momento, só há para o último. Atualise o teste devdocs/despesa-api-mvp.py e UI
+- [x] /solicitacoes-categoria tem botão desproporcional e está muito grande.
 
 
 ### Acesso
 
-- [ ] Ao clicar em despesas está vindo de todas as serventias e deveria vir apenas as da serventia do usuário, caso o mesmo tenha acesso
+- [x] Ao clicar em despesas está vindo de todas as serventias e deveria vir apenas as da serventia do usuário, caso o mesmo tenha acesso
+- [x] Em 'Visão Geral' , na rota, /dashboard está vindo de todas as serventias e deveria vir apenas as da serventia do usuário, caso o mesmo tenha acesso
+  - Isso está sendo detectado na UI, então o servidor está falhando nas permissões, pois estou com logado com user com o papel RULE_CARTORIO_TITULAR e verifiquei um com RULE_CARTORIO_APOIO e está acontecendo o mesmo
 
 ## ModelFixes
 
 - [ ] despesa não depende de tipo_cartorio_id, confirmar e remover se for o caso
-- [ ] usuario_dominio poderia ir e voltar, para isso, é preciso ter uma ligação ao invé de acesso direto
+- [ ] usuario_dominio poderia ser demitido e recontratado, para isso, é preciso ter uma ligação ao invé de acesso direto
 - [ ] despesa não depende de categoria_id, subcategoria_id basta
 - [ ] despesa não precisa categoria_id
 - [ ] despesa depende de solicitacao_esclarecimento.id, está ao contrário, confirmar e ajustar se for o caso
@@ -180,15 +181,24 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 
 - [ ] Em Navbar "Painel" está 'email · RULE_CARTORIO_APOIO'  deve ser 'Serventia · email · RULE_CARTORIO_APOIO' 
 - [x] No menu lateral que chama http://localhost:3001/despesas/nova, subcategorias e categorias também não renderizaram nas listas de seleção
-- [ ] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento que está solicitando usuário e senha novamente num popup numa primeira vez na sessão e apesar de não ser impeditivo, deve ser resolvido e entendido o porquê, para domínio do sistema e tecnologia, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
-- [ ] Em http://localhost:3001/despesas deve aparecer mais duas colunas, 'Nt Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos
-- [ ] /despesas/nova está adicionandod apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos e a única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
+- [x] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento que está solicitando usuário e senha novamente num popup numa primeira vez na sessão e apesar de não ser impeditivo, deve ser resolvido e entendido o porquê, para domínio do sistema e tecnologia, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
+- [x] Em /despesas deve aparecer mais duas colunas, 'Nt_Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se houve necessidade de mexher no modelo
+- [ ] /despesas/nova está adicionando apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos e a única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
     - [ ] Dito isso, então é obrigatório em algum momento ter a opção de adicionar tais documentos, ao clicar em detalhes, na lista de despesas é um bom lugar para esse retorno visual
-    - [ ] Assim, cabe o aprimoramento visual da lista de despesas essa indicaçõe dos estados de tais arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
+    - [ ] Assim, cabe o aprimoramento visual da lista de despesas, essas indicações dos estados dos arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
 
 ## Security
 
 - [ ] Checar validação de todas interações (elementos obrigatório e entradas de informação/segurança da informação)
+- [ ] Acesso externo em http://10.1.20.196:3001
 
+## Auditor
+
+- [ ] Visualizar as despesas em listas por dois filtros, inicialmente por mês atual por padrão, paginação padrão de 50 itens e o segundo por status SUBMETIDA
+    - [ ] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
+- [ ] Ao lado de baixar, deve ter uma pequena lupa que abre um modal que ocupa 90% da tela afim de permitir boa manipulação do PDF e ainda comparar as informações das despesas,
+    componete reutilizável composto de duas partes, à esquerda as informações da despesa e à direita o visualizado do PDF.
+- [ ] No 'visão geral' o Dashboard deve ser mais interativo e gerar gráficos, cada card deve ser um link para o filtro indicado no memos
+- Tratar a manipulação de 
 
 

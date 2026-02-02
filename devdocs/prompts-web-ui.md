@@ -338,3 +338,35 @@ def upload_nota_fiscal(despesa_id: int, auth=CARTORIO_TITULAR) -> dict:
 def upload_comprovante_pagamento(despesa_id: int, auth=CARTORIO_TITULAR) -> dict:
     return upload_documento(despesa_id, "COMPROVANTE_PAGAMENTO", auth)
     
+====
+
+Compare 6788ab8635afe em despesa-api-mvp e devdocs/despesa-api-mvp.py e se "devdocs/ADR-001 — Manter _same-origin_ para Web e expor API.md" está completamente atendida.
+
+Separe os casos de testes dessa ADR para serem executado especificamentes via parâmetro e não executar outroos não relacionados
+
+AO clicar 
+
+
+
+Funcinou. Documente todo esse problema em devdocs/ADR-001-Issue.md e inclusive já deixe um TODO ao final para aprimoramento futuro, considerando a segurança que pode ter sido afetada e se a atual configuração é a versão profisional ou pode ser aceita para produção alterando a lista por variáveis de ambiente e porque já não o fez assim.
+
+Commit essa regressão
+
+- [ ] /despesas/nova está adicionandod apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos e a única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
+    - [ ] Dito isso, então é obrigatório em algum momento ter a opção de adicionar tais documentos, ao clicar em detalhes, na lista de despesas é um bom lugar para esse retorno visual
+    - [ ] Assim, cabe o aprimoramento visual da lista de despesas essa indicaçõe dos estados de tais arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
+
+
+======
+
+despesas-front-mvp
+despesa-api-mvp
+
+
+Em /despesas deve aparecer mais duas colunas, 'Nt Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se houve necessidade de mexher no modelo  
+Ao lado de baixar, deve ter uma pequena lupa que abre um modal, componete reutilizável composto de duas partes, à esquerda as informações da despesa e à direita o            │
+│   visualizado do PDF.  
+
+Commit o que foi modificado para "Em /despesas deve aparecer mais duas colunas, 'Nt Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se      │
+│   houve necessidade de mexher no modelo" em despesas-front-mvp e despesa-api-mvp commit em cada diretório próprio do projeto.  
+

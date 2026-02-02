@@ -37,5 +37,7 @@ This directory is intended for research, analysis, and planning. It is used to:
 
 The workflow involves studying the laws in the specified order (`README.md`), analyzing the data (`Report.md`, `tech/sql/`), and designing a system (`tech/DEV.md`).
 
+## About testing
 
+Check 'pytest devdocs/despesa-api-mvp.py -v' to 100% covering test istead src/test/
 
