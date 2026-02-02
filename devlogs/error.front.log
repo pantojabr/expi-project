@@ -1,0 +1,6 @@
+[HMR] connected forward-logs-shared.ts:95:22
+[Fast Refresh] rebuilding forward-logs-shared.ts:95:22
+[Fast Refresh] done in 121ms forward-logs-shared.ts:95:22
+XHR
+POST
+http://localhost:3000/api/despesas

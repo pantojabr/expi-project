@@ -26,6 +26,7 @@ Uso:
 import os
 import io
 import re
+import time
 from pathlib import Path
 import pytest
 import requests
@@ -110,7 +111,6 @@ def gerar_pdf_bytes(titulo: str, linhas: list[str] | None = None) -> bytes:
     out.extend(b"trailer\n")
     out.extend(f"<< /Size {len(objects) + 1} /Root 1 0 R >>\n".encode("ascii"))
     out.extend(b"startxref\n")
-    out.extend(f"{xref_offset}\n".encode("ascii"))
     out.extend(b"%%EOF\n")
     return bytes(out)
 
@@ -264,7 +264,7 @@ def encerrar_tipo_cartorio(serventia_id: int, tipo_id: int, auth=COGEX_ADMIN) ->
 def criar_usuario_dominio(serventia_id: int, auth=COGEX_ADMIN) -> dict:
     payload = {
         "nome": "Usuario Dominio",
-        "email": "usuario.dominio@example.com",
+        "email": f"usuario.dominio.{time.time()}@example.com",
         "role": "RULE_CARTORIO_APOIO",
         "serventiaId": serventia_id,
         "ativo": True,
@@ -589,7 +589,7 @@ class TestServentiasTiposUsuarios:
             self.__class__._usuario_id = uid
         payload = {
             "nome": "Usuario Dominio Atualizado",
-            "email": "usuario.atualizado@exemplo.local",
+            "email": f"usuario.atualizado.{time.time()}@exemplo.local",
             "role": "RULE_CARTORIO_APOIO",
             "serventiaId": get_or_create_serventia_id(),
             "ativo": True,
@@ -939,7 +939,7 @@ class TestRegrasDespesa:
         categoria_id = getattr(self.__class__, "_categoria_regra_id", None)
         subcategoria_id = getattr(self.__class__, "_subcategoria_regra_id", None)
         if serventia_id is None:
-            pytest.skip("Regra não criada")
+            pytest.skip("Regra nao criada")
         if categoria_id is None or subcategoria_id is None:
             pytest.skip("Categoria/subcategoria da regra não definidas")
         r = requests.post(
@@ -955,7 +955,7 @@ class TestRegrasDespesa:
         assert r.status_code in (400, 409, 422, 500)
 
     def test_reabilitar_regra_para_nao_bloquear_outros(self):
-        """Reabilita a regra criada para evitar interferencia em outros testes."""
+        """Reabilitar a regra criada para evitar interferencia em outros testes."""
         skip_se_indisponivel("/api/regras-despesa")
         serventia_id = getattr(self.__class__, "_serventia_regra_id", None)
         categoria_id = getattr(self.__class__, "_categoria_regra_id", None)
@@ -1190,7 +1190,7 @@ class TestFluxoRejeicao:
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FLUXO C: Esclarecimento (ida e volta)
-#   Serventia cria -> submete -> Auditor solicita esclarecimento ->
+#   Serventia cria -> anexa comprovante -> submete -> Auditor solicita esclarecimento ->
 #   Serventia responde -> Auditor aprova
 # ═══════════════════════════════════════════════════════════════════════════
 class TestFluxoEsclarecimento:
@@ -1208,8 +1208,8 @@ class TestFluxoEsclarecimento:
         assert despesa["statusAuditoria"] == "REGISTRADA"
 
         # 1b. POST /api/documentos/upload - anexar documentos
-        upload_nota_fiscal(despesa_id, auth=CARTORIO_TITULAR)
-        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_TITULAR)
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_APOIO)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_APOIO)
 
         # Submeter
         r = requests.post(url(f"/api/despesas/{despesa_id}/workflow/submeter"), auth=CARTORIO_TITULAR)
@@ -1260,7 +1260,7 @@ class TestFluxoEsclarecimento:
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FLUXO D: Esclarecimento com rejeição final
-#   Serventia cria -> submete -> Auditor solicita esclarecimento ->
+#   Serventia cria -> anexa comprovante -> submete -> Auditor solicita esclarecimento ->
 #   Serventia responde -> Auditor rejeita
 # ═══════════════════════════════════════════════════════════════════════════
 class TestFluxoEsclarecimentoComRejeicao:
@@ -1312,7 +1312,7 @@ class TestFluxoEsclarecimentoComRejeicao:
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FLUXO E: Múltiplos ciclos de esclarecimento
-#   Serventia cria -> submete -> Auditor pede esclarecimento ->
+#   Serventia cria -> anexa comprovante -> submete -> Auditor pede esclarecimento ->
 #   Serventia responde -> Auditor pede novamente -> Serventia responde ->
 #   Auditor aprova
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1329,8 +1329,8 @@ class TestFluxoMultiplosEsclarecimentos:
         despesa_id = despesa["id"]
 
         # 1b. POST /api/documentos/upload - anexar documentos
-        upload_nota_fiscal(despesa_id, auth=CARTORIO_TITULAR)
-        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_TITULAR)
+        upload_nota_fiscal(despesa_id, auth=CARTORIO_APOIO)
+        upload_comprovante_pagamento(despesa_id, auth=CARTORIO_APOIO)
 
         # Submeter
         r = requests.post(url(f"/api/despesas/{despesa_id}/workflow/submeter"), auth=CARTORIO_TITULAR)
