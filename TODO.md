@@ -189,8 +189,8 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] No menu lateral que chama http://localhost:3001/despesas/nova, subcategorias e categorias também não renderizaram nas listas de seleção
 - [x] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento que está solicitando usuário e senha novamente num popup numa primeira vez na sessão e apesar de não ser impeditivo, deve ser resolvido e entendido o porquê, para domínio do sistema e tecnologia, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
 - [x] Em /despesas deve aparecer mais duas colunas, 'Nt_Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se houve necessidade de mexher no modelo
-- [ ] /despesas/nova está adicionando apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos com seu tipo
-    - [ ] A única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
+- [@] /despesas/nova está adicionando apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos com seu tipo
+    - [@] A única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
     - [ ] Dito isso, então é obrigatório em algum momento ter a opção de adicionar tais documentos, ao clicar em detalhes, na lista de despesas é um bom lugar para esse retorno visual
     - [x] Assim, cabe o aprimoramento visual da lista de despesas, essas indicações dos estados dos arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
 - [x] Adicionar um ícone de download com label Baixar ao lado do ícone de lupa, adicionar uma pequena distancia entre eles.
@@ -213,9 +213,6 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] Onde se filtra por mês está sendo usado número 1 até 12, deve aparecer o nome do mês com a primeira letra maiúscula
 - [x] Onde se filtra por ano está sendo usado um componente incremental e deve ser usado um calendário para que mostra os anos
 - [x] Unir aos componentes de seleção de mês e ano em um calendário que mostra ambos apenas, sem os dias
-
-
-- [ ] Despesas, lista inicialmente as 50 primeiras dispesas,
 
 ## Security
 
