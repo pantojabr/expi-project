@@ -149,6 +149,12 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [ ] Ícones destacados de Tarefas que indica que há despeas para revisar
 - [ ] Ícones destacados de Tarefas que indica que há despeas para avaliar/auditar/aprovar-rejeitar-pedir_esclarecimento
 - [ ] Qualquer tipo de gastos pode ser bloqueados numa serventia ou en todas, passa a valer no dia seguinte
+- [ ] Mecanismo de confirmação dos dados das despesas
+    - O visualizador tem uma versão alternativa de modo confronto, o usuário deve confirmar se a informação no painel corresponde ao conteúdo do PEF
+    - O número de vezes que é necessário para permitir que a despesa seja livre para ser submetida é configurada pela COGEX, mas a princípio é '1' para todas as serventias
+    - É o ponto principal para aumentar a garantia que uma despesa está de acordo com os documentos, isso faz com que seja possível reduzir o risco prestação errada enviada para a COGEX
+        - Aumentar esta garantia é fundamental para o sistema alcançar sucesso esperado, reduzir o trabalho massante na COGEX
+- [ ] No 'visão geral' o Dashboard deve ser mais interativo e gerar gráficos, cada card deve ser um link para o filtro indicado no memos
 
 ## Bugfixes
 
@@ -183,22 +189,43 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] No menu lateral que chama http://localhost:3001/despesas/nova, subcategorias e categorias também não renderizaram nas listas de seleção
 - [x] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento que está solicitando usuário e senha novamente num popup numa primeira vez na sessão e apesar de não ser impeditivo, deve ser resolvido e entendido o porquê, para domínio do sistema e tecnologia, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
 - [x] Em /despesas deve aparecer mais duas colunas, 'Nt_Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se houve necessidade de mexher no modelo
-- [ ] /despesas/nova está adicionando apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos e a única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
+- [ ] /despesas/nova está adicionando apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos com seu tipo
+    - [ ] A única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
     - [ ] Dito isso, então é obrigatório em algum momento ter a opção de adicionar tais documentos, ao clicar em detalhes, na lista de despesas é um bom lugar para esse retorno visual
-    - [ ] Assim, cabe o aprimoramento visual da lista de despesas, essas indicações dos estados dos arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
+    - [x] Assim, cabe o aprimoramento visual da lista de despesas, essas indicações dos estados dos arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
+- [x] Adicionar um ícone de download com label Baixar ao lado do ícone de lupa, adicionar uma pequena distancia entre eles.
+- [x] Ao lado de baixar, deve ter uma pequena lupa que abre um modal que ocupa 90% da tela afim de permitir boa manipulação do PDF e ainda comparar as informações das despesas,
+    componete reutilizável composto de duas partes, à esquerda as informações da despesa e à direita o visualizado do PDF.
+    - [x] Em visualizar comprovante "IDs de Referência \nServentia: 50\nCat: 1 / Sub: 1" Deve aparecer os nomes completos de Cat e Sub ao invés de ID
+- Iconizar o menu lateral
+## Auditor
+
+- [ ] Ver categorias solicitadas em um menu lateral para quem é auditor
+- [ ] 
+
+### Filtros
+
+- [ ] Visualizar as despesas em lista por dois filtros, inicialmente por mês atual por padrão, e o segundo por status SUBMETIDA; paginação padrão de 50 itens 
+    - [ ] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
+- [x] Em /relatorios as informações da tabela dos status deve ter os 'status+"seu total"' em um elemento e seguindo a cor já usada na lista despesas. Tais elementos deve ficar em um elemento na parte superior do dashboard, log abaixo da navbar.
+     - Assim, todo o espaço deixa de estar dividido em duas colunas "Relatorios" e "Auditoria de despesas", ficando apenas a última com seus elementos internos distribuídos em linha.
+- [@] Onde está 'Relatorios' deve ficar 'Resumo' e este deve ser dinânmico e acompanhar o filtro
+- [x] Onde se filtra por mês está sendo usado número 1 até 12, deve aparecer o nome do mês com a primeira letra maiúscula
+- [x] Onde se filtra por ano está sendo usado um componente incremental e deve ser usado um calendário para que mostra os anos
+- [x] Unir aos componentes de seleção de mês e ano em um calendário que mostra ambos apenas, sem os dias
+
+
+- [ ] Despesas, lista inicialmente as 50 primeiras dispesas,
 
 ## Security
 
 - [ ] Checar validação de todas interações (elementos obrigatório e entradas de informação/segurança da informação)
 - [ ] Acesso externo em http://10.1.20.196:3001
 
-## Auditor
+## Caraga inicial
 
-- [ ] Visualizar as despesas em listas por dois filtros, inicialmente por mês atual por padrão, paginação padrão de 50 itens e o segundo por status SUBMETIDA
-    - [ ] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
-- [ ] Ao lado de baixar, deve ter uma pequena lupa que abre um modal que ocupa 90% da tela afim de permitir boa manipulação do PDF e ainda comparar as informações das despesas,
-    componete reutilizável composto de duas partes, à esquerda as informações da despesa e à direita o visualizado do PDF.
-- [ ] No 'visão geral' o Dashboard deve ser mais interativo e gerar gráficos, cada card deve ser um link para o filtro indicado no memos
-- Tratar a manipulação de 
+- [x] Criar uma variação de 3 a 6 tipos de despesas com status automáticos variados para os primeiros 22 registros da tabela de serventia_extrajudicial. Faça isso em src/main/resources/data.sql de preferencia por script
+- [x] Funcionou, mas não ficou muito legal, pois como a entrada foi feita direto no banco sem levar em consideração regras de negócio como a necessidade de ter arquivo pdf de 'Nota Fiscal' e 'Comprovante de pagamento' antes de poder ter o status de submetida. Avalie o arquivo de testes .py e gere estas entradas corretamente, conforme ocorre por esse arquiv. 
+    - [x] O PDF ficou pontual. Mas deve ser de tamanho A4 com as informações detalhadas da mesma (Serventia, Competência, Categoria, Subcategoria, Descrição, Valor), cada informação por linha. Ajuste populate_data.py
 
 
