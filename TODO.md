@@ -179,7 +179,7 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 
 ## UIFixes
 
-- [ ] Em Navbar "Painel" está 'email · RULE_CARTORIO_APOIO'  deve ser 'Serventia · email · RULE_CARTORIO_APOIO' 
+- [x] Em Navbar "Painel" está 'email · RULE_CARTORIO_APOIO'  deve ser 'Serventia · email · Apoio' e assim pora os outros papeis 
 - [x] No menu lateral que chama http://localhost:3001/despesas/nova, subcategorias e categorias também não renderizaram nas listas de seleção
 - [x] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento que está solicitando usuário e senha novamente num popup numa primeira vez na sessão e apesar de não ser impeditivo, deve ser resolvido e entendido o porquê, para domínio do sistema e tecnologia, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
 - [x] Em /despesas deve aparecer mais duas colunas, 'Nt_Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se houve necessidade de mexher no modelo
