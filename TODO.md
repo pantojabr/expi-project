@@ -155,6 +155,9 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
     - É o ponto principal para aumentar a garantia que uma despesa está de acordo com os documentos, isso faz com que seja possível reduzir o risco prestação errada enviada para a COGEX
         - Aumentar esta garantia é fundamental para o sistema alcançar sucesso esperado, reduzir o trabalho massante na COGEX
 - [ ] No 'visão geral' o Dashboard deve ser mais interativo e gerar gráficos, cada card deve ser um link para o filtro indicado no memos
+- [ ] Em /relatorios, acima de 'Entradas' adicionar dois ícones de exportar: um para o filtrado e outro por serventia
+- [ ] Tipos de arquivos(imagens é mais fácil de manipular), tamanho e tempo de guarda no banco de dados e se será necessário manter por quanto tempo nas serventias tais arquivos
+   - Uma vez as contas aprovadas, tá aprovado
 
 ## Bugfixes
 
@@ -186,12 +189,13 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 ## UIFixes
 
 - [x] Em Navbar "Painel" está 'email · RULE_CARTORIO_APOIO'  deve ser 'Serventia · email · Apoio' e assim pora os outros papeis 
-- [x] No menu lateral que chama http://localhost:3001/despesas/nova, subcategorias e categorias também não renderizaram nas listas de seleção
+- [x] No menu lateral que chama /despesas/nova, subcategorias e categorias também não renderizaram nas listas de seleção
 - [x] Ao clicar no link para baixar o o comprovante está ocorrendo um redirecionanmento que está solicitando usuário e senha novamente num popup numa primeira vez na sessão e apesar de não ser impeditivo, deve ser resolvido e entendido o porquê, para domínio do sistema e tecnologia, e apesar de baixar o arquivo, após fornecer usuário e senha, isso quebra a experiencia do usuário. Isso deve ser corrigido pra ser entregue diretamente pela aplicação web.
 - [x] Em /despesas deve aparecer mais duas colunas, 'Nt_Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se houve necessidade de mexher no modelo
-- [@] /despesas/nova está adicionando apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos com seu tipo
-    - [@] A única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
-    - [ ] Dito isso, então é obrigatório em algum momento ter a opção de adicionar tais documentos, ao clicar em detalhes, na lista de despesas é um bom lugar para esse retorno visual
+- [x] /despesas/nova está adicionando apenas um documento e sem dizer o tipo dele se é Nota ou Comprovante e deve permitir já adicionar dois arquivos com seu tipo
+    - [x] A única verificação é que não sejam do mesmo tipo e nem o mesmo arquivo. A despesa pode ser criada inicialmente sem tais arquivos
+    - [x] Dito isso, então é obrigatório em algum momento ter a opção de adicionar tais documentos, ao clicar em detalhes, na lista de despesas é um bom lugar para esse retorno visual
+      - [x] Mas também é preciso dizer o tipo de documento que está sendo enviado em detales, no momento, mesmo enviando dois arquivos por lá, ambos são enviados como COMPROVANTE_PAGAMENTO
     - [x] Assim, cabe o aprimoramento visual da lista de despesas, essas indicações dos estados dos arquivos para alertar sobre a necessidade e a tarefa antess que a mesma fique pronta para submeter, este controle já existe e exige ambos ao tentar submeter, a propósito. 
 - [x] Adicionar um ícone de download com label Baixar ao lado do ícone de lupa, adicionar uma pequena distancia entre eles.
 - [x] Ao lado de baixar, deve ter uma pequena lupa que abre um modal que ocupa 90% da tela afim de permitir boa manipulação do PDF e ainda comparar as informações das despesas,
@@ -228,12 +232,16 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] Em /relatorios, na lista de seleção 'Tipo de cartorio' as 5 primeiras e Todos
 - [x] Em /relatorios, 'Auditoria de despesas' a seleção de 'Período' está larga demais, deve ficar do tamanho das outras
 - [x] Em /relatorios, um filtro de 'Status' deve estar disponível ao lado de 'Período'
-- [ ] Em /relatorios, 'Auditoria de despesas' ao lado de 'Entradas' deve aparecer o total da soma da coluna 'Valor' considerando todos os filtros ativos, talvez seja necessário um novo endpoint na API para dar suporte, ambos devem ter o valor alinhados a direita
+- [x] Em /relatorios, 'Auditoria de despesas' ao lado de 'Entradas' deve aparecer o total da soma da coluna 'Valor' considerando todos os filtros ativos, talvez seja necessário um novo endpoint na API para dar suporte, ambos devem ter o valor alinhados a direita
 - [x] Filtro imediato para os STATUS em botoês com Label dos tipos possíveis, 'PENDENTE DE ESCLARECIMENTO' deve ficar apenas PENDENTE e as cores deve seguir o padrão já em uso. Pode ficar após o Botão 'Limpar' com um divisor vertical. Assim 'Total de entradas: XX' poderia subir e ficar no lugar do componete que mostra o Status e sua caixa de seleção.
    - [x] Aumentar o destaque do botão de filtro ativado para o Status
    - [x] Somente o botão de filtro ficou bom o destaque e sua borda está maior que as outras quando não está selecionado. Unificar os destaques
-- [ ] Somente das 22 primeiras Serventias deve ser mostradas
-- [ ] 'Entradas' e 'Valor Total' deve estar separados um abaixo do outro
+- [x] Somente das 22 primeiras Serventias deve ser mostradas
+- [x] Em /relatorios, 'Entradas' e 'Valor Total' deve estar separados um abaixo do outro
+- [x] __Em /relatorios, filtro por 'Período' não está funcionando__ Está ok. É que as amostras são todas de 2025, na carga automática 
+- [x] Agora que há filtros para o STATUS, o componente em /dashboard pode ter um link para relatório o filtro de status aplicado, respeitando os outros filtros já salvos
+   - [x] O mesmo deve ser ajustado em /admin
+   - [x] Mas os cards não estão respeitando o padrão de cores para os STATUS, ajustar conforme
 
 ## Security
 
