@@ -197,7 +197,15 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] Ao lado de baixar, deve ter uma pequena lupa que abre um modal que ocupa 90% da tela afim de permitir boa manipulação do PDF e ainda comparar as informações das despesas,
     componete reutilizável composto de duas partes, à esquerda as informações da despesa e à direita o visualizado do PDF.
     - [x] Em visualizar comprovante "IDs de Referência \nServentia: 50\nCat: 1 / Sub: 1" Deve aparecer os nomes completos de Cat e Sub ao invés de ID
-- Iconizar o menu lateral
+- [ ] Iconizar o menu lateral
+- [x] Em 'Buscar por ID' em /admin após clicar em 'Categorias', no formulário de busca, o botão 'Buscar' está desproporcional e grende
+- [x] Em 'Buscar por ID' em /admin após clicar em 'Categorias', no formulário de busca, ao invés de usar 'ID', deve usar nome da Categoria ou Subcategoria num input que case parcialmente a partir da segunda letra
+   - [x] Assim a tabela nesta tela deve ser atualizada conforme a busca parcial é executada
+   - [x] O componente que mostra o texto 'Encontrado' não é mais necessário
+   - [x] A mesma deve icar mais abaixo próxima da tabela categoria
+   - [?] O filtro deve ter a capacidade de ignorar acentos e ç
+- [x] Em "Nova subcategoria" o input 'Categoria pai (ID)' deve ser uma seleção com as categorias já registradas
+
 ## Auditor
 
 - [ ] Ver categorias solicitadas em um menu lateral para quem é auditor
@@ -209,15 +217,23 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
     - [ ] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
 - [x] Em /relatorios as informações da tabela dos status deve ter os 'status+"seu total"' em um elemento e seguindo a cor já usada na lista despesas. Tais elementos deve ficar em um elemento na parte superior do dashboard, log abaixo da navbar.
      - Assim, todo o espaço deixa de estar dividido em duas colunas "Relatorios" e "Auditoria de despesas", ficando apenas a última com seus elementos internos distribuídos em linha.
-- [@] Onde está 'Relatorios' deve ficar 'Resumo' e este deve ser dinânmico e acompanhar o filtro
+- [x] Onde está 'Relatorios' deve ficar 'Resumo' e este deve ser dinânmico e acompanhar o filtro
 - [x] Onde se filtra por mês está sendo usado número 1 até 12, deve aparecer o nome do mês com a primeira letra maiúscula
 - [x] Onde se filtra por ano está sendo usado um componente incremental e deve ser usado um calendário para que mostra os anos
 - [x] Unir aos componentes de seleção de mês e ano em um calendário que mostra ambos apenas, sem os dias
-- [ ] Em http://localhost:3001/relatorios na mesma linha onde fica o botão 'Aplicar' e 'Limpar', mas à direita, deve aparece o total de entradas que o filtro retornou, e o total o clicar em 'Limpar'
-- [ ] Na tabela http://localhost:3001/relatorios a coluna "Serventia" Está mostrando ID, deve mostrar Label ou Nome
-- [ ] Antes da coluna Descrição, deve aparcer Categoria e depois Subcategoria
-- [ ] Na lista de seleção Serventia, deve aparecer somente as 22 primeiras e Todos
-- [ ] Na lista de seleção 'Tipo de cartorio' as 5 primeiras e Todos
+- [x] Em /relatorios, na mesma linha onde fica o botão 'Aplicar' e 'Limpar', mas à direita, deve aparece o total de entradas que o filtro retornou, e o total o clicar em 'Limpar'
+- [x] Em /relatorios, na tabela a coluna "Serventia" Está mostrando ID, deve mostrar Label ou Nome
+- [x] Em /relatorios, antes da coluna Descrição, deve aparcer Categoria e depois Subcategoria
+- [x] Em /relatorios, na lista de seleção Serventia, deve aparecer somente as 22 primeiras e Todos
+- [x] Em /relatorios, na lista de seleção 'Tipo de cartorio' as 5 primeiras e Todos
+- [x] Em /relatorios, 'Auditoria de despesas' a seleção de 'Período' está larga demais, deve ficar do tamanho das outras
+- [x] Em /relatorios, um filtro de 'Status' deve estar disponível ao lado de 'Período'
+- [ ] Em /relatorios, 'Auditoria de despesas' ao lado de 'Entradas' deve aparecer o total da soma da coluna 'Valor' considerando todos os filtros ativos, talvez seja necessário um novo endpoint na API para dar suporte, ambos devem ter o valor alinhados a direita
+- [x] Filtro imediato para os STATUS em botoês com Label dos tipos possíveis, 'PENDENTE DE ESCLARECIMENTO' deve ficar apenas PENDENTE e as cores deve seguir o padrão já em uso. Pode ficar após o Botão 'Limpar' com um divisor vertical. Assim 'Total de entradas: XX' poderia subir e ficar no lugar do componete que mostra o Status e sua caixa de seleção.
+   - [x] Aumentar o destaque do botão de filtro ativado para o Status
+   - [x] Somente o botão de filtro ficou bom o destaque e sua borda está maior que as outras quando não está selecionado. Unificar os destaques
+- [ ] Somente das 22 primeiras Serventias deve ser mostradas
+- [ ] 'Entradas' e 'Valor Total' deve estar separados um abaixo do outro
 
 ## Security
 
