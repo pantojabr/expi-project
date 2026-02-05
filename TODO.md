@@ -213,6 +213,11 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] Onde se filtra por mês está sendo usado número 1 até 12, deve aparecer o nome do mês com a primeira letra maiúscula
 - [x] Onde se filtra por ano está sendo usado um componente incremental e deve ser usado um calendário para que mostra os anos
 - [x] Unir aos componentes de seleção de mês e ano em um calendário que mostra ambos apenas, sem os dias
+- [ ] Em http://localhost:3001/relatorios na mesma linha onde fica o botão 'Aplicar' e 'Limpar', mas à direita, deve aparece o total de entradas que o filtro retornou, e o total o clicar em 'Limpar'
+- [ ] Na tabela http://localhost:3001/relatorios a coluna "Serventia" Está mostrando ID, deve mostrar Label ou Nome
+- [ ] Antes da coluna Descrição, deve aparcer Categoria e depois Subcategoria
+- [ ] Na lista de seleção Serventia, deve aparecer somente as 22 primeiras e Todos
+- [ ] Na lista de seleção 'Tipo de cartorio' as 5 primeiras e Todos
 
 ## Security
 
@@ -224,5 +229,15 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] Criar uma variação de 3 a 6 tipos de despesas com status automáticos variados para os primeiros 22 registros da tabela de serventia_extrajudicial. Faça isso em src/main/resources/data.sql de preferencia por script
 - [x] Funcionou, mas não ficou muito legal, pois como a entrada foi feita direto no banco sem levar em consideração regras de negócio como a necessidade de ter arquivo pdf de 'Nota Fiscal' e 'Comprovante de pagamento' antes de poder ter o status de submetida. Avalie o arquivo de testes .py e gere estas entradas corretamente, conforme ocorre por esse arquiv. 
     - [x] O PDF ficou pontual. Mas deve ser de tamanho A4 com as informações detalhadas da mesma (Serventia, Competência, Categoria, Subcategoria, Descrição, Valor), cada informação por linha. Ajuste populate_data.py
+
+
+## Dev
+
+### Commands
+
+- [ ] .`.venv/bin/pytest devdocs/despesa-api-mvp.py -v` ou `./.venv/bin/pytest devdocs/despesa-api-mvp.py -v`
+- [ ] python3 devdocs/populate_data.py
+- [ ] sleep 10 && curl -u cogex_admin:password http://localhost:8080/api/relatorios/despesas/estatisticas
+
 
 

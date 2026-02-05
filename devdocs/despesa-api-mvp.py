@@ -756,7 +756,10 @@ class TestAuditoriaFiltros:
     def test_listar_auditoria_sem_filtro(self):
         r = requests.get(url("/api/auditoria/despesas"), auth=COGEX_AUDITOR)
         assert r.status_code == 200
-        assert isinstance(r.json(), list)
+        # O endpoint agora retorna um objeto Page do Spring Data (JSON com campo 'content')
+        data = r.json()
+        assert "content" in data
+        assert isinstance(data["content"], list)
 
     def test_listar_auditoria_com_filtros(self):
         serventia_id = getattr(TestServentiasTiposUsuarios, "_serventia_id", None)
@@ -770,8 +773,10 @@ class TestAuditoriaFiltros:
         params["ano"] = 2025
         r = requests.get(url("/api/auditoria/despesas"), params=params, auth=COGEX_AUDITOR)
         assert r.status_code == 200
-        assert isinstance(r.json(), list)
-        assert isinstance(r.json(), list)
+        # O endpoint agora retorna um objeto Page do Spring Data (JSON com campo 'content')
+        data = r.json()
+        assert "content" in data
+        assert isinstance(data["content"], list)
 
     def test_buscar_despesa_por_id(self):
         did = getattr(self.__class__, "_despesa_id", None)

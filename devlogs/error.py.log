@@ -1,131 +1,42 @@
-========================================================================== FAILURES ==========================================================================
-________________________________________________ TestServentiasTiposUsuarios.test_vinculo_requer_aplicado_por ________________________________________________
+===================================================================================== FAILURES ======================================================================================
+_______________________________________________________________ TestAuditoriaFiltros.test_listar_auditoria_sem_filtro _______________________________________________________________
 
-self = <despesa-api-mvp.TestServentiasTiposUsuarios object at 0x73f22d4dd1c0>
+self = <despesa-api-mvp.TestAuditoriaFiltros object at 0x743a15cfc830>
 
-    def test_vinculo_requer_aplicado_por(self):
-        sid = getattr(self.__class__, "_serventia_id", None)
-        tid = getattr(self.__class__, "_tipo_id", None)
-        if sid is None or tid is None:
-            pytest.skip("Serventia ou tipo nao criado")
-        payload = {"tipoCartorioId": str(tid), "aplicadoPor": "1", "dataInicio": "2025-06-01", "motivo": "Teste sem aplicadoPor"}
-        files = {"comprovante": arquivo_pdf("Comprovante Vinculo", [f"Serventia {sid}", f"Tipo {tid}"])}
-        r = requests.post(url(f"/api/serventias/{sid}/tipos"), data=payload, files=files, auth=COGEX_ADMIN)
->       assert r.status_code in (400, 422)
-E       assert 201 in (400, 422)
-E        +  where 201 = <Response [201]>.status_code
-
-devdocs/despesa-api-mvp.py:471: AssertionError
-___________________________________________________ TestServentiasTiposUsuarios.test_criar_usuario_dominio ___________________________________________________
-
-self = <despesa-api-mvp.TestServentiasTiposUsuarios object at 0x73f22d4dea50>
-
-    def test_criar_usuario_dominio(self):
-        sid = getattr(self.__class__, "_serventia_id", None)
-        if sid is None:
-            pytest.skip("Serventia nao criada")
->       data = criar_usuario_dominio(sid)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-devdocs/despesa-api-mvp.py:564: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-serventia_id = 23, auth = ('cogex_admin', 'password')
-
-    def criar_usuario_dominio(serventia_id: int, auth=COGEX_ADMIN) -> dict:
-        payload = {
-            "nome": "Usuario Dominio",
-            "email": "usuario.dominio@example.com",
-            "role": "ROLE_CARTORIO_APOIO",
-            "serventiaId": serventia_id,
-            "ativo": True,
-        }
-        r = requests.post(url("/api/usuarios-dominio"), json=payload, auth=auth)
->       assert r.status_code == 201, f"Falha ao criar usuario dominio: {r.status_code} {r.text}"
-E       AssertionError: Falha ao criar usuario dominio: 400 {"timestamp":"2026-02-02T07:56:05.754+00:00","status":400,"error":"Bad Request","path":"/api/usuarios-dominio"}
-E       assert 400 == 201
-E        +  where 400 = <Response [400]>.status_code
-
-devdocs/despesa-api-mvp.py:272: AssertionError
-_______________________________________________ TestServentiasTiposUsuarios.test_buscar_usuario_dominio_por_id _______________________________________________
-
-self = <despesa-api-mvp.TestServentiasTiposUsuarios object at 0x73f22d4deff0>
-
-    def test_buscar_usuario_dominio_por_id(self):
-        uid = getattr(self.__class__, "_usuario_id", None)
-        if uid is None:
->           data = criar_usuario_dominio(get_or_create_serventia_id())
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-devdocs/despesa-api-mvp.py:576: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-serventia_id = 26, auth = ('cogex_admin', 'password')
-
-    def criar_usuario_dominio(serventia_id: int, auth=COGEX_ADMIN) -> dict:
-        payload = {
-            "nome": "Usuario Dominio",
-            "email": "usuario.dominio@example.com",
-            "role": "ROLE_CARTORIO_APOIO",
-            "serventiaId": serventia_id,
-            "ativo": True,
-        }
-        r = requests.post(url("/api/usuarios-dominio"), json=payload, auth=auth)
->       assert r.status_code == 201, f"Falha ao criar usuario dominio: {r.status_code} {r.text}"
-E       AssertionError: Falha ao criar usuario dominio: 400 {"timestamp":"2026-02-02T07:56:06.213+00:00","status":400,"error":"Bad Request","path":"/api/usuarios-dominio"}
-E       assert 400 == 201
-E        +  where 400 = <Response [400]>.status_code
-
-devdocs/despesa-api-mvp.py:272: AssertionError
-_________________________________________________ TestServentiasTiposUsuarios.test_atualizar_usuario_dominio _________________________________________________
-
-self = <despesa-api-mvp.TestServentiasTiposUsuarios object at 0x73f22d4df2c0>
-
-    def test_atualizar_usuario_dominio(self):
-        uid = getattr(self.__class__, "_usuario_id", None)
-        if uid is None:
->           data = criar_usuario_dominio(get_or_create_serventia_id())
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-devdocs/despesa-api-mvp.py:586: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-serventia_id = 27, auth = ('cogex_admin', 'password')
-
-    def criar_usuario_dominio(serventia_id: int, auth=COGEX_ADMIN) -> dict:
-        payload = {
-            "nome": "Usuario Dominio",
-            "email": "usuario.dominio@example.com",
-            "role": "ROLE_CARTORIO_APOIO",
-            "serventiaId": serventia_id,
-            "ativo": True,
-        }
-        r = requests.post(url("/api/usuarios-dominio"), json=payload, auth=auth)
->       assert r.status_code == 201, f"Falha ao criar usuario dominio: {r.status_code} {r.text}"
-E       AssertionError: Falha ao criar usuario dominio: 400 {"timestamp":"2026-02-02T07:56:06.491+00:00","status":400,"error":"Bad Request","path":"/api/usuarios-dominio"}
-E       assert 400 == 201
-E        +  where 400 = <Response [400]>.status_code
-
-devdocs/despesa-api-mvp.py:272: AssertionError
-____________________________________________________________ TestExport.test_export_despesas_xlsx ____________________________________________________________
-
-self = <despesa-api-mvp.TestExport object at 0x73f22d4ddfd0>
-
-    def test_export_despesas_xlsx(self):
-        skip_se_indisponivel("/api/export/despesas.xlsx")
-        r = requests.get(url("/api/export/despesas.xlsx"), auth=COGEX_ADMIN)
+    def test_listar_auditoria_sem_filtro(self):
+        r = requests.get(url("/api/auditoria/despesas"), auth=COGEX_AUDITOR)
         assert r.status_code == 200
->       assert r.content.startswith(b"%PK")
+>       assert isinstance(r.json(), list)
 E       AssertionError: assert False
-E        +  where False = <built-in method startswith of bytes object at 0x61f2605d4810>(b'%PK')
-E        +    where <built-in method startswith of bytes object at 0x61f2605d4810> = b'PK\x03\x04\x14\x00\x08\x08\x08\x00\x08?B\\\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x13\x00\x00\x00[Content_Types].xml\xb5S\xcbn\xc20\x10\xfc\x95\xc8\xd7*6\xf4PU\x15\x81C\x1f\xc7\x16\xa9\xf4\x03\\{\x93X\xf8%\xaf\xa1\xf0\xf7]\x078\x94R\x89\nq\xf2cfgfW\xf6d\xb6q\xb6ZCB\x13|\xc3\xc6|\xc4*\xf0*h\xe3\xbb\x86},^\xea{Va\x96^K\x1b<4\xcc\x076\x9bN\x16\xdb\x08XQ\xa9\xc7\x86\xf59\xc7\x07!P\xf5\xe0$\xf2\x10\xc1\x13\xd2\x86\xe4d\xa6c\xeaD\x94j);\x10\xb7\xa3\xd1\x9dP\xc1g\xf0\xb9\xceE\x83M\'O\xd0\xca\x95\xcd\xd5\xe3\xee\xbeH7L\xc6h\x8d\x92\x99R\x89\xb5\xd7G\xa2\xf5^\x90\'\xb0\x03\x07{\x13\xf1\x86\x08\xacz\xde\x90\xca\xae\x1bB\x91\x893\x1c\x8e\x0b\xcb\x99\xea\xdeh.\xc9h\xf8W\xb4\xd0\xb6F\x81\x0ej\xe5\xa8\x84CQ\xd5\xa0\xeb\x98\x88\x98\xb2\x81}\xce\xb9L\xf9U:\x12\x14D\x9e\x13\x8a\x82\xa4\xf9%\xde\x87\xb1\xa8\x90\xe0,\xc3B\xbc\xc8\xf1\xa8[\x8c\t\xa4\xc6\x1e ;\xcb\xb1\x97\t\xf4{N\xf4\x98~\x87\xd8X\xf1\x83p\xc5\x1cykOL\xa1\x04\x18\x90kN\x80V\xee\xa4\xf1\xa7\xdc\xbfBZ~\x86\xb0\xbc\x9e\x7fq\x18\xf6\x7f\xd9\x0f \x8aa\x19\x1fr\x88\xe1{O\xbf\x01PK\x07\x08z\x94\xcaq;\x01\x00\x00\x1c\x04\x00\x00PK\x03\x04\x14\x00\x08\x08\x08\x00\x08?B\\\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\x00\x00\x...00\x00\x00\x98\x02\x00\x00docProps/app.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\xc0U\xa1X\x05\x01\x00\x00\xb0\x01\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00g\x03\x00\x00docProps/core.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\x02?W\x0f\x1e\x01\x00\x00S\x02\x00\x00\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xab\x04\x00\x00xl/sharedStrings.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\xa91X@C\x01\x00\x00\xa2\x02\x00\x00\r\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\x06\x00\x00xl/styles.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\xb8\xf7\x07j\xda\x00\x00\x00_\x01\x00\x00\x0f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x89\x07\x00\x00xl/workbook.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\x86\x03;\x91\xd4\x00\x00\x003\x02\x00\x00\x1a\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x08\x00\x00xl/_rels/workbook.xml.relsPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\h`\n\xc6\xf4\x01\x00\x00\xfd\x07\x00\x00\x18\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xbc\t\x00\x00xl/worksheets/sheet1.xmlPK\x05\x06\x00\x00\x00\x00\t\x00\t\x00?\x02\x00\x00\xf6\x0b\x00\x00\x00\x00'.startswith
-E        +      where b'PK\x03\x04\x14\x00\x08\x08\x08\x00\x08?B\\\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x13\x00\x00\x00[Content_Types].xml\xb5S\xcbn\xc20\x10\xfc\x95\xc8\xd7*6\xf4PU\x15\x81C\x1f\xc7\x16\xa9\xf4\x03\\{\x93X\xf8%\xaf\xa1\xf0\xf7]\x078\x94R\x89\nq\xf2cfgfW\xf6d\xb6q\xb6ZCB\x13|\xc3\xc6|\xc4*\xf0*h\xe3\xbb\x86},^\xea{Va\x96^K\x1b<4\xcc\x076\x9bN\x16\xdb\x08XQ\xa9\xc7\x86\xf59\xc7\x07!P\xf5\xe0$\xf2\x10\xc1\x13\xd2\x86\xe4d\xa6c\xeaD\x94j);\x10\xb7\xa3\xd1\x9dP\xc1g\xf0\xb9\xceE\x83M\'O\xd0\xca\x95\xcd\xd5\xe3\xee\xbeH7L\xc6h\x8d\x92\x99R\x89\xb5\xd7G\xa2\xf5^\x90\'\xb0\x03\x07{\x13\xf1\x86\x08\xacz\xde\x90\xca\xae\x1bB\x91\x893\x1c\x8e\x0b\xcb\x99\xea\xdeh.\xc9h\xf8W\xb4\xd0\xb6F\x81\x0ej\xe5\xa8\x84CQ\xd5\xa0\xeb\x98\x88\x98\xb2\x81}\xce\xb9L\xf9U:\x12\x14D\x9e\x13\x8a\x82\xa4\xf9%\xde\x87\xb1\xa8\x90\xe0,\xc3B\xbc\xc8\xf1\xa8[\x8c\t\xa4\xc6\x1e ;\xcb\xb1\x97\t\xf4{N\xf4\x98~\x87\xd8X\xf1\x83p\xc5\x1cykOL\xa1\x04\x18\x90kN\x80V\xee\xa4\xf1\xa7\xdc\xbfBZ~\x86\xb0\xbc\x9e\x7fq\x18\xf6\x7f\xd9\x0f \x8aa\x19\x1fr\x88\xe1{O\xbf\x01PK\x07\x08z\x94\xcaq;\x01\x00\x00\x1c\x04\x00\x00PK\x03\x04\x14\x00\x08\x08\x08\x00\x08?B\\\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\x00\x00\x...00\x00\x00\x98\x02\x00\x00docProps/app.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\xc0U\xa1X\x05\x01\x00\x00\xb0\x01\x00\x00\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00g\x03\x00\x00docProps/core.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\x02?W\x0f\x1e\x01\x00\x00S\x02\x00\x00\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xab\x04\x00\x00xl/sharedStrings.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\xa91X@C\x01\x00\x00\xa2\x02\x00\x00\r\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0b\x06\x00\x00xl/styles.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\xb8\xf7\x07j\xda\x00\x00\x00_\x01\x00\x00\x0f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x89\x07\x00\x00xl/workbook.xmlPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\\x86\x03;\x91\xd4\x00\x00\x003\x02\x00\x00\x1a\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xa0\x08\x00\x00xl/_rels/workbook.xml.relsPK\x01\x02\x14\x00\x14\x00\x08\x08\x08\x00\x08?B\\h`\n\xc6\xf4\x01\x00\x00\xfd\x07\x00\x00\x18\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xbc\t\x00\x00xl/worksheets/sheet1.xmlPK\x05\x06\x00\x00\x00\x00\t\x00\t\x00?\x02\x00\x00\xf6\x0b\x00\x00\x00\x00' = <Response [200]>.content
+E        +  where False = isinstance({'content': [{'categoriaId': 1, 'categoriaNome': 'Material de Consumo', 'dataCompetencia': '2025-06-01', 'dataLancamento': '2025-06-01', ...}], 'empty': False, 'first': True, 'last': True, ...}, list)
+E        +    where {'content': [{'categoriaId': 1, 'categoriaNome': 'Material de Consumo', 'dataCompetencia': '2025-06-01', 'dataLancamento': '2025-06-01', ...}], 'empty': False, 'first': True, 'last': True, ...} = json()
+E        +      where json = <Response [200]>.json
 
-devdocs/despesa-api-mvp.py:1012: AssertionError
-================================================================== short test summary info ===================================================================
-FAILED devdocs/despesa-api-mvp.py::TestServentiasTiposUsuarios::test_vinculo_requer_aplicado_por - assert 201 in (400, 422)
-FAILED devdocs/despesa-api-mvp.py::TestServentiasTiposUsuarios::test_criar_usuario_dominio - AssertionError: Falha ao criar usuario dominio: 400 {"timestamp":"2026-02-02T07:56:05.754+00:00","status":400,"error":"Bad Request","path":"/api/usuarios...
-FAILED devdocs/despesa-api-mvp.py::TestServentiasTiposUsuarios::test_buscar_usuario_dominio_por_id - AssertionError: Falha ao criar usuario dominio: 400 {"timestamp":"2026-02-02T07:56:06.213+00:00","status":400,"error":"Bad Request","path":"/api/usuarios...
-FAILED devdocs/despesa-api-mvp.py::TestServentiasTiposUsuarios::test_atualizar_usuario_dominio - AssertionError: Falha ao criar usuario dominio: 400 {"timestamp":"2026-02-02T07:56:06.491+00:00","status":400,"error":"Bad Request","path":"/api/usuarios...
-FAILED devdocs/despesa-api-mvp.py::TestExport::test_export_despesas_xlsx - AssertionError: assert False
-========================================================== 5 failed, 85 passed, 2 skipped in 30.05s ==========================================================
+devdocs/despesa-api-mvp.py:759: AssertionError
+______________________________________________________________ TestAuditoriaFiltros.test_listar_auditoria_com_filtros _______________________________________________________________
+
+self = <despesa-api-mvp.TestAuditoriaFiltros object at 0x743a15cdfd70>
+
+    def test_listar_auditoria_com_filtros(self):
+        serventia_id = getattr(TestServentiasTiposUsuarios, "_serventia_id", None)
+        tipo_id = getattr(TestServentiasTiposUsuarios, "_tipo_id", None)
+        params = {}
+        if serventia_id is not None:
+            params["serventiaId"] = serventia_id
+        if tipo_id is not None:
+            params["tipoCartorioId"] = tipo_id
+        params["mes"] = 6
+        params["ano"] = 2025
+        r = requests.get(url("/api/auditoria/despesas"), params=params, auth=COGEX_AUDITOR)
+        assert r.status_code == 200
+>       assert isinstance(r.json(), list)
+E       AssertionError: assert False
+E        +  where False = isinstance({'content': [{'categoriaId': 1, 'categoriaNome': 'Material de Consumo', 'dataCompetencia': '2025-06-01', 'dataLancamento': '2025-06-01', ...}], 'empty': False, 'first': True, 'last': True, ...}, list)
+E        +    where {'content': [{'categoriaId': 1, 'categoriaNome': 'Material de Consumo', 'dataCompetencia': '2025-06-01', 'dataLancamento': '2025-06-01', ...}], 'empty': False, 'first': True, 'last': True, ...} = json()
+E        +      where json = <Response [200]>.json
+
+devdocs/despesa-api-mvp.py:773: AssertionError
+============================================================================== short test summary info ==============================================================================
+FAILED devdocs/despesa-api-mvp.py::TestAuditoriaFiltros::test_listar_auditoria_sem_filtro - AssertionError: assert False
+FAILED devdocs/despesa-api-mvp.py::TestAuditoriaFiltros::test_listar_auditoria_com_filtros - AssertionError: assert False
+===================================================================== 2 failed, 88 passed, 2 skipped in 20.20s ======================================================================

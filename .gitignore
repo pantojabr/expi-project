@@ -42,10 +42,9 @@ next-env.d.ts
 
 
 ## subprojects
-tech
-despesa-api-mvp
-despesas-front-mvp
-.**/
+# tech
+# despesa-api-mvp
+# despesas-front-mvp
 out/
 __pycache__
 devdocs/despesas*.xlsx

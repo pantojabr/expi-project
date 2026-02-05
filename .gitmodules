@@ -1,0 +1,6 @@
+[submodule "despesa-api-mvp"]
+	path = despesa-api-mvp
+	url = https://github.com/pantojabr/despesa-api-mvp.git
+[submodule "despesas-front-mvp"]
+	path = despesas-front-mvp
+	url = https://github.com/pantojabr/despesas-front-mvp.git
