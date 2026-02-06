@@ -209,6 +209,8 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
    - [x] A mesma deve icar mais abaixo próxima da tabela categoria
    - [?] O filtro deve ter a capacidade de ignorar acentos e ç
 - [x] Em "Nova subcategoria" o input 'Categoria pai (ID)' deve ser uma seleção com as categorias já registradas
+- [ ] Em /despesas para o estatus "PENDENTE DE ESCLARECIMENTO" aparece o botão responder que abre um modal que deve mostrar o questionamento enviado pelo auditor para leitura
+   - [ ] Em /despesas/xx deve aparecer também o o questionamento enviado pelo auditor para leitura e o botão responder para abrir o modal de resposta também
 
 ## Auditor
 
@@ -262,6 +264,5 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [ ] .`.venv/bin/pytest devdocs/despesa-api-mvp.py -v` ou `./.venv/bin/pytest devdocs/despesa-api-mvp.py -v`
 - [ ] python3 devdocs/populate_data.py
 - [ ] sleep 10 && curl -u cogex_admin:password http://localhost:8080/api/relatorios/despesas/estatisticas
-
-
+Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
 
