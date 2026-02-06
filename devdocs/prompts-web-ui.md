@@ -370,3 +370,55 @@ Ao lado de baixar, deve ter uma pequena lupa que abre um modal, componete reutil
 Commit o que foi modificado para "Em /despesas deve aparecer mais duas colunas, 'Nt Fiscal' e 'Comprovante' e as entradas possuem links para seu arquivos. Informe se se      │
 │   houve necessidade de mexher no modelo" em despesas-front-mvp e despesa-api-mvp commit em cada diretório próprio do projeto.  
 
+============
+
+
+http://10.1.20.196:3001/despesas
+Todos os botões de ação não estão funcionando
+
+XHR
+POST
+http://10.1.20.196:3001/api/despesas/87/workflow/solicitar-esclarecimento
+[HTTP/1.1 403 Forbidden 5ms]
+
+Password fields present on an insecure (http://) page. This is a security risk that allows user login credentials to be stolen. login
+XHR
+POST
+http://10.1.20.196:3001/api/despesas/87/workflow/pendente
+[HTTP/1.1 403 Forbidden 3ms]
+
+XHR
+POST
+http://10.1.20.196:3001/api/despesas/88/workflow/pendente
+
+Response:
+HTTP/1.1 403 Forbidden
+vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-xss-protection: 0
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+pragma: no-cache
+expires: 0
+x-frame-options: DENY
+transfer-encoding: chunked
+date: Fri, 06 Feb 2026 11:23:36 GMT
+connection: close
+
+Request:
+POST /api/despesas/88/workflow/pendente HTTP/1.1
+Host: 10.1.20.196:3001
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0
+Accept: */*
+Accept-Language: en-US,en;q=0.9
+Accept-Encoding: gzip, deflate
+Referer: http://10.1.20.196:3001/despesas
+Authorization: Basic Y29nZXhfYXVkaXRvcjpwYXNzd29yZA==
+Origin: http://10.1.20.196:3001
+Connection: keep-alive
+Cookie: JSESSIONID=136EE2C36DC9CC87342CDE15A509BDA5
+Priority: u=0
+Content-Length: 0
+
+Mas as chamadas devem ser feitas pela /api.ts do frontend apenas.
+
+- [ ] EM http://localhost:3001/despesas para o estatus "PENDENTE DE ESCLARECIMENTO" aparece o botão responder que abre um modal que deve mostrar o questionamento enviado pelo auditor para leitura
