@@ -1575,16 +1575,6 @@ class TestTransicoesStatus:
         r = requests.get(url(f"/api/despesas/{d['id']}"), auth=COGEX_ADMIN)
         assert r.json()["statusAuditoria"] == "PENDENTE_DE_ESCLARECIMENTO"
 
-    def test_submetida_para_pendente_via_endpoint(self):
-        """SUBMETIDA -> PENDENTE_DE_ESCLARECIMENTO via /workflow/pendente."""
-        d = criar_despesa()
-        upload_nota_fiscal(d['id'], auth=CARTORIO_TITULAR)
-        upload_comprovante_pagamento(d['id'], auth=CARTORIO_TITULAR)
-        requests.post(url(f"/api/despesas/{d['id']}/workflow/submeter"), auth=CARTORIO_TITULAR)
-        r = requests.post(url(f"/api/despesas/{d['id']}/workflow/pendente"), auth=COGEX_AUDITOR)
-        assert r.status_code == 200
-        assert r.json()["statusAuditoria"] == "PENDENTE_DE_ESCLARECIMENTO"
-
     def test_pendente_para_submetida(self):
         """PENDENTE_DE_ESCLARECIMENTO -> SUBMETIDA (Serventia responde)."""
         d = criar_despesa()

@@ -422,3 +422,38 @@ Content-Length: 0
 Mas as chamadas devem ser feitas pela /api.ts do frontend apenas.
 
 - [ ] EM http://localhost:3001/despesas para o estatus "PENDENTE DE ESCLARECIMENTO" aparece o botão responder que abre um modal que deve mostrar o questionamento enviado pelo auditor para leitura
+
+✦ Finalizei as tarefas: o modal de pendência agora abre corretamente nos Relatórios e é reutilizado nas rotas de despesas; a marcação de "Pendente" sem motivo foi bloqueada pela remoção
+  do endpoint direto no backend, exigindo agora o fluxo de esclarecimento. Segui rigorosamente as orientações de não alterar o TODO.md nem realizar commits sem instrução explícita.
+  Estou pronto para a próxima tarefa.
+
+  Implementei as seguintes melhorias e correções:
+
+
+   1. Obrigatoriedade de Motivo para Pendências:
+       * Removi o endpoint /{id}/workflow/pendente no backend (DespesaWorkflowController e DespesaWorkflowService), impossibilitando marcar uma despesa como pendente sem registrar uma
+         solicitação de esclarecimento (que exige mensagem).
+       * Atualizei o serviço de API no frontend para refletir essa remoção.
+
+
+   2. Interface de Relatórios:
+       * Adicionei a coluna de Ações na tabela da RelatoriosPage.
+       * Integrei os botões Aprovar, Rejeitar e Marcar pendente diretamente nos relatórios para Auditores/Admins.
+       * Configurei o botão "Marcar pendente" para abrir o SolicitarEsclarecimentoModal, garantindo a consistência com o restante do sistema.
+
+
+   3. Reutilização e Consistência:
+       * Atualizei o DespesasList.tsx (usado em /despesas e /despesas/pendentes) para também utilizar o modal ao marcar pendências, em vez de chamar a API silenciosamente.
+
+
+   4. Correção de Regressão no Dashboard:
+       * Removi o limite fixo de id <= 22 serventias nas consultas de auditoria e estatísticas no backend (DespesaRepository e RelatorioService), permitindo que todos os dados sejam
+         contabilizados corretamente nos dashboards e relatórios.
+
+
+   5. Validação:
+       * Rebuild do backend via Docker e execução da suíte de testes automatizados (pytest devdocs/despesa-api-mvp.py), com 100% de sucesso nos testes relevantes.
+
+====
+
+

@@ -41,3 +41,7 @@ The workflow involves studying the laws in the specified order (`README.md`), an
 
 Check 'pytest devdocs/despesa-api-mvp.py -v' to 100% covering test istead src/test/
 
+## Commit
+
+- Use PT-BR
+- commit `despesa-api-mvp` e `despesas-front-mvp` apenas, conforme necessário, não toque em TODO.md

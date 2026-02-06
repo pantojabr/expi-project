@@ -299,7 +299,6 @@ Testes unitários para cada transição individual do diagrama de estados:
 | `test_submetida_para_aprovada`                | `SUBMETIDA → APROVADA`                           |
 | `test_submetida_para_rejeitada`               | `SUBMETIDA → REJEITADA`                          |
 | `test_submetida_para_pendente_esclarecimento` | `SUBMETIDA → PENDENTE_DE_ESCLARECIMENTO`         |
-| `test_submetida_para_pendente_via_endpoint`   | `SUBMETIDA → PENDENTE_DE_ESCLARECIMENTO`         |
 | `test_pendente_para_submetida`                | `PENDENTE_DE_ESCLARECIMENTO → SUBMETIDA`         |
 
 ---
@@ -327,7 +326,6 @@ Testes unitários para cada transição individual do diagrama de estados:
 | `/api/despesas/{id}/workflow/submeter`                                | POST     | `TestTransicoesStatus`, fluxos         |
 | `/api/despesas/{id}/workflow/aprovar`                                 | POST     | `TestTransicoesStatus`, fluxos         |
 | `/api/despesas/{id}/workflow/rejeitar`                                | POST     | `TestTransicoesStatus`, fluxos         |
-| `/api/despesas/{id}/workflow/pendente`                                | POST     | `TestTransicoesStatus`                 |
 | `/api/despesas/{despesaId}/workflow/solicitar-esclarecimento`         | POST     | `TestTransicoesStatus`, fluxos         |
 | `/api/despesas/solicitacoes-esclarecimento/{solId}/responder`         | POST     | `TestTransicoesStatus`, fluxos         |
 | `/api/comprovantes`                                                   | GET      | `TestComprovantes`                     |

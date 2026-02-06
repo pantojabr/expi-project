@@ -91,8 +91,6 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [ ] **Implantação (Deployment):**
    - [ ] Preparar e documentar o processo de implantação da API e do Frontend.
 
-popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`), para garantir a padronização.
-
 ## Atual para aprimoramento I
 
 - [x] Ocultar o painel lateral se não estiver logado
@@ -137,14 +135,11 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
     - [x] Indicar a categoria
     - [x] Seguir a heurística em todo o sistema web, se emcontrar uma possível case, relatar
 
-## Atual para aprimoramento III
+## Fase 5: Features Futuras
 
 - [ ] Quanto aos arquivos de documentos, ambos devem seguir
     - [ ] Obrigatório salvar no banco de dados e retornar em formato que a interface web possa exibir diretamente na tela e não só baixar
     - [ ] Deve conter o comprovante de pagamento BB ou CAIXA (Suporte iniciais)
-
-## Fase 5: Features Futuras
-
 - [ ] Criar classes que precisam de aprovação prévia da COGEX para serem empenhadas, de tal modo que terá que ser apresentada, via link no próprio sistema do processo aprovado (solicitação e ok, algo simples por clicks) Exigirá então uma página própria e uma fluxo próprio, não será possível o gasto sem permissão inicial.
 - [ ] Ícones destacados de Tarefas que indica que há despeas para revisar
 - [ ] Ícones destacados de Tarefas que indica que há despeas para avaliar/auditar/aprovar-rejeitar-pedir_esclarecimento
@@ -209,18 +204,37 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
    - [x] A mesma deve icar mais abaixo próxima da tabela categoria
    - [?] O filtro deve ter a capacidade de ignorar acentos e ç
 - [x] Em "Nova subcategoria" o input 'Categoria pai (ID)' deve ser uma seleção com as categorias já registradas
-- [ ] Em /despesas para o estatus "PENDENTE DE ESCLARECIMENTO" aparece o botão responder que abre um modal que deve mostrar o questionamento enviado pelo auditor para leitura
-   - [ ] Em /despesas/xx deve aparecer também o o questionamento enviado pelo auditor para leitura e o botão responder para abrir o modal de resposta também
+- [x] Em /despesas, o botão 'Submeter' deve aparecer depis do botão 'Detalhes' não está seguindo o padrão de cores para estatus, corrigir
+- [x] No menu lateral não deve aparecer "Com Pendência" Para quem é do cartório, a rota /despesas/pendentes não deve ser permitida, inclusive
+- [x] Em /despesas, o filtro 'Tipo de cartorio' para quem é do cartório não está funcionando . O filtro período também está falhando. Só STATUS está ok. Para cogex_auditor está ok e assim deve ficar, não mude isso.
+- [x] Em /despesas para o estatus "PENDENTE DE ESCLARECIMENTO" aparece o botão responder que abre um modal que deve mostrar o questionamento enviado pelo auditor para leitura
+   - [x] Em /despesas/xx deve aparecer também o questionamento enviado pelo auditor para leitura e o botão responder para abrir o modal de resposta também, ambos devem aparecer abaixo do conteúdo existente.
+- [ ] Em /despesas/xx O segundo container, 'Comprovantes' precisa ser mais robusto, podendo visualizar o documento, remover e adicionar outro.
+   - [ ] Nesse sentido, realizar apload deve ficar desbloqueado após os dois tipos de documentos terem sido enviados, volta se pelo menos um for apagado. Adicionar um à tabela no fim de cada linha
 
 ## Auditor
 
-- [ ] Ver categorias solicitadas em um menu lateral para quem é auditor
-- [ ] 
+- [x] Ver categorias solicitadas em um menu lateral para quem é auditor
+   - [ ] Aprimorar
+- [x] Para auditor, em /despesas, retirar o botão 'Esclarecimento'
+- [x] Para auditor, em /despesas, ver o botão 'Marcar como Pendente' não estã seguindo o padrão de cores para estatus, corrigir
+- [x] A despesa 89 teve pedido "PENDENTE DE ESCLARECIMENTO" e foi esclarecido e ficou com STATUS SUBMETIDA, mas não apareceu novamente em Despesas; para o auditor, só Relatórios aparece corretamente com status também correto de SUBMETIDA.
+   - [x] Deve continuar mostrando em ordem de ID, pois do jeito que está ela foi pro fim da paginação.
+- [x] Uma entrada no menu, onde mostra acompanhar com pendencias que aparecem. Label: "Com Pendencias"
+   - [x] Mesmo as que já estão com outros STATUS devem aparecer lá, pois são as que deram alguma necessidade de atenção e por isso é importante estarem ali com um acompanhamento mais de perto.
+- [x] Não está abrindo o modal para indicar o motivo da pendência em Relatórios deve ser adicionado em despesas o componente ser reutilizável em /despesas e em /despesas/pendentes
+   - [x] Não pode ser possível marcar como 'Pendente' sem sem pôr motivo, pois não faz sentido
+   - [x] Em despesas/pendentes, retirar a coluna ACOES
+      - [x] O mesmo em /relatorios
+- [x] Um sistema de filtro baseado nos mesmos existentes em Relatórios deve ser adicionado em despesas o componente ser reutilizável em /despesas e em /despesas/pendentes
+- [x] Para auditor, em /relatorios, a coluna serventia está mostrando além das 22 primeiras na tabela, corrigir
+- [ ] __Para auditor, em /despesas, não está aparecendo dados apesar de já estar aparecendo os filtros__
+- [x] Em /admin, ao clicar em 'Categorias' o botaão excluir falha.
 
 ### Filtros
 
-- [ ] Visualizar as despesas em lista por dois filtros, inicialmente por mês atual por padrão, e o segundo por status SUBMETIDA; paginação padrão de 50 itens 
-    - [ ] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
+- [@] Visualizar as despesas em lista por dois filtros, inicialmente por mês atual por padrão, e o segundo por status SUBMETIDA; paginação padrão de 50 itens 
+    - [@] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
 - [x] Em /relatorios as informações da tabela dos status deve ter os 'status+"seu total"' em um elemento e seguindo a cor já usada na lista despesas. Tais elementos deve ficar em um elemento na parte superior do dashboard, log abaixo da navbar.
      - Assim, todo o espaço deixa de estar dividido em duas colunas "Relatorios" e "Auditoria de despesas", ficando apenas a última com seus elementos internos distribuídos em linha.
 - [x] Onde está 'Relatorios' deve ficar 'Resumo' e este deve ser dinânmico e acompanhar o filtro
@@ -236,6 +250,7 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 - [x] Em /relatorios, um filtro de 'Status' deve estar disponível ao lado de 'Período'
 - [x] Em /relatorios, 'Auditoria de despesas' ao lado de 'Entradas' deve aparecer o total da soma da coluna 'Valor' considerando todos os filtros ativos, talvez seja necessário um novo endpoint na API para dar suporte, ambos devem ter o valor alinhados a direita
 - [x] Filtro imediato para os STATUS em botoês com Label dos tipos possíveis, 'PENDENTE DE ESCLARECIMENTO' deve ficar apenas PENDENTE e as cores deve seguir o padrão já em uso. Pode ficar após o Botão 'Limpar' com um divisor vertical. Assim 'Total de entradas: XX' poderia subir e ficar no lugar do componete que mostra o Status e sua caixa de seleção.
+   - [x] Houve regressão em "- [x] Filtro imediato para os STATUS em botoês com Label dos tipos possíveis, 'PENDENTE DE ESCLARECIMENTO' deve ficar apenas PENDENTE e as cores deve seguir o padrão já em uso. Pode ficar após o Botão 'Limpar' com um divisor vertical. Assim 'Total de entradas: XX' poderia subir e ficar no lugar do componete que mostra o Status e sua caixa de seleção." Em /relatorios , para auditor isso deve continuar como estava. EM algum momento recente você retirou. Retorne como antes, pois era de melhor usabilidade.
    - [x] Aumentar o destaque do botão de filtro ativado para o Status
    - [x] Somente o botão de filtro ficou bom o destaque e sua borda está maior que as outras quando não está selecionado. Unificar os destaques
 - [x] Somente das 22 primeiras Serventias deve ser mostradas
@@ -258,6 +273,12 @@ popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`
 
 
 ## Dev
+
+- [ ] Teste automatizados de UI por User Estories
+
+## Preset
+
+-[x] popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`), para garantir a padronização.
 
 ### Commands
 
