@@ -299,6 +299,7 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
 ### Carol
 
 - [ ] /relatorios deve ser adaptado para aparecer para quem não é da COGEX
+- [ ] Datas das despesas
 
 ### Alcione
 
