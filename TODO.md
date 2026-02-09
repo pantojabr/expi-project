@@ -209,8 +209,15 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [x] Em /despesas, o filtro 'Tipo de cartorio' para quem é do cartório não está funcionando . O filtro período também está falhando. Só STATUS está ok. Para cogex_auditor está ok e assim deve ficar, não mude isso.
 - [x] Em /despesas para o estatus "PENDENTE DE ESCLARECIMENTO" aparece o botão responder que abre um modal que deve mostrar o questionamento enviado pelo auditor para leitura
    - [x] Em /despesas/xx deve aparecer também o questionamento enviado pelo auditor para leitura e o botão responder para abrir o modal de resposta também, ambos devem aparecer abaixo do conteúdo existente.
-- [ ] Em /despesas/xx O segundo container, 'Comprovantes' precisa ser mais robusto, podendo visualizar o documento, remover e adicionar outro.
-   - [ ] Nesse sentido, realizar apload deve ficar desbloqueado após os dois tipos de documentos terem sido enviados, volta se pelo menos um for apagado. Adicionar um à tabela no fim de cada linha
+- [x] Em /despesas/xx O segundo container, 'Comprovantes' precisa ser mais robusto, podendo visualizar o documento, remover e adicionar outro outro documento.
+   - [x] Nesse sentido, realizar upload deve ficar desbloqueado após os dois tipos de documentos terem sido enviados, desbloquea se pelo menos um for apagado. Adicionar um X à tabela no fim de cada linha para para retirar um documento
+- [x] Em menu, subistitua 'Comprovantes' por 'Documentos'
+   - [x] Faça o mesmo no container 'Comprovantes' em /despesas/xx
+   - [ ] /comprovantes deve mudar também, deve se tornar /documentos
+- [x] Aplicar devdocs/cogex.png ao topo do menu, para todos os usuários no lugar de um pequeno quadrado atual, ao lado de 'Exofi Despesas'
+   - [x] Substitua 'Exofi Despesas' por 'Despesas' apenas
+- [ ] Adicionar Gráficos
+- [x] /comprovantes deve mostrar apenas os da serventia atual para quem não é da cogex, no momento está mostrando todos
 
 ## Auditor
 
@@ -287,3 +294,13 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [ ] sleep 10 && curl -u cogex_admin:password http://localhost:8080/api/relatorios/despesas/estatisticas
 Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
 
+## Solicitado 02/09
+
+### Carol
+
+- [ ] /relatorios deve ser adaptado para aparecer para quem não é da COGEX
+
+### Alcione
+
+- [ ] Algum modo de adicionar a despesa como aprovada, mas com glosa => Coluna com valor aprovado
+   - [ ] Um relatório ou visualização desse total de glosa, Valor Total sem Glosas
