@@ -266,6 +266,9 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [x] Agora que há filtros para o STATUS, o componente em /dashboard pode ter um link para relatório o filtro de status aplicado, respeitando os outros filtros já salvos
    - [x] O mesmo deve ser ajustado em /admin
    - [x] Mas os cards não estão respeitando o padrão de cores para os STATUS, ajustar conforme
+- [ ] Toda vez que um 'select' de filtro diferente do inicial está ativado, uma cor de destaque para o fundo do select
+- [ ] A despesa deve ter um contador que incrementa a cada vez que o auditor a pôe como pendente, de tal forma que será possível rastrear as que foram demasiadas problemáticas @feature
+   - [ ] Isso implica novas telas para suporte, avaliar quais seriam e criá-las
 
 ## Security
 
@@ -287,6 +290,7 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 
 -[x] popular as tabelas `Categoria` e `Subcategoria` do nosso sistema (via `data.sql`), para garantir a padronização.
 
+
 ### Commands
 
 - [ ] .`.venv/bin/pytest devdocs/despesa-api-mvp.py -v` ou `./.venv/bin/pytest devdocs/despesa-api-mvp.py -v`
@@ -296,12 +300,36 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
 
 ## Solicitado 02/09
 
+### Ambos
+
+- [x] Uma lista de Categorias numa coluna e em outra suas subcategorias. Enquanto listas as subcategorias, da mesma categoria, apenas a primeira linha deve aprecer com o nome da categoria, as demais em branco.
+- [ ] Entender melhor a questão de como deve ser o número de documentos neceários para o titular submeter
+   - [ ] Anomenclatura correta para esses arquivos
+- [ ] Como funciona o processo de novos colaboradores? Qual a melhor forma de integrar com esse sistemas quanto a adimissão/demissão? Titular é o Responsável ou a COGEX?
+
 ### Carol
 
-- [ ] /relatorios deve ser adaptado para aparecer para quem não é da COGEX
+- [ ] /relatorios deve ser adaptado para aparecer para quem não é da COGEX, mas deve poder ver apenas informações da serventia a qual pertence o usuário.
 - [ ] Datas das despesas
 
 ### Alcione
 
 - [ ] Algum modo de adicionar a despesa como aprovada, mas com glosa => Coluna com valor aprovado
    - [ ] Um relatório ou visualização desse total de glosa, Valor Total sem Glosas
+
+### Dev
+
+- [x] Em admin -> Categorias, 'Editar' deve lançar uma modal
+- [x] Em admin -> Categorias, 'Excluir' está abrindo a menssagem em alert() do navegador e deve ser modal com retirada da entrada da tabela, mas sem mover a janela pro início nem scroll, deve ser suave a retirada 
+- [x] Em admin -> Categorias, ao lado de 'Categorias' deve aparecer 'Categorias Aninhadas', deveria estar ao lado dos 3 botões superiores e com página exclusiva
+   - [x] Uma lista de Categorias numa coluna e em outra suas subcategorias. Enquanto listas as subcategorias, da mesma categoria, apenas a primeira linha deve aprecer com o nome da categoria, as demais em branco.
+   - [x] Deve haver um botão que para exibir só as categorias e outro para todas. Para esses botões, use o mesmo padrão do STATUS em /relatorios
+   - [x] O filtro 'Filtrar por nome (Categoria ou Subcategoria)' deve funcionar aqui também. Assim há duas experiencias de visualização.
+
+### Questões pra estudo
+
+- [x] Em 'Categorias Aninhadas', Como seria o SQL para produzir a mesma tabela?
+   - Crie um tutorial abaixo sobre os conceitos necessários para entender a query de forma natural. Seja bem didático, proponha queries intermediárias como exemplo e o que mais achar necessário para alcançar o objetivo. Realce os níveis de conhecimento para cada parte (básico, médio e avançado) Use emojis
+- [ ] Seria uma melhor forma de tratar o delete de uma categoria, considerando caso já exista despesas anotadas com ela, o que fazer? COmo impacta em todo o sistema e possíveis gráficos? E da tela de Categorias, como deveria aparecer conforme opções acima?
+
+
