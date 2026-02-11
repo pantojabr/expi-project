@@ -196,7 +196,9 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [x] Ao lado de baixar, deve ter uma pequena lupa que abre um modal que ocupa 90% da tela afim de permitir boa manipulação do PDF e ainda comparar as informações das despesas,
     componete reutilizável composto de duas partes, à esquerda as informações da despesa e à direita o visualizado do PDF.
     - [x] Em visualizar comprovante "IDs de Referência \nServentia: 50\nCat: 1 / Sub: 1" Deve aparecer os nomes completos de Cat e Sub ao invés de ID
-- [ ] Iconizar o menu lateral
+- [x] Iconizar o menu lateral
+- [ ] Icones melhores/mais bonitos/coloridos no menu lateral
+- [ ] Diferenciar os ícones de 'Admin' e 'Solicitações de Categoria'
 - [x] Em 'Buscar por ID' em /admin após clicar em 'Categorias', no formulário de busca, o botão 'Buscar' está desproporcional e grende
 - [x] Em 'Buscar por ID' em /admin após clicar em 'Categorias', no formulário de busca, ao invés de usar 'ID', deve usar nome da Categoria ou Subcategoria num input que case parcialmente a partir da segunda letra
    - [x] Assim a tabela nesta tela deve ser atualizada conforme a busca parcial é executada
@@ -213,11 +215,11 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
    - [x] Nesse sentido, realizar upload deve ficar desbloqueado após os dois tipos de documentos terem sido enviados, desbloquea se pelo menos um for apagado. Adicionar um X à tabela no fim de cada linha para para retirar um documento
 - [x] Em menu, subistitua 'Comprovantes' por 'Documentos'
    - [x] Faça o mesmo no container 'Comprovantes' em /despesas/xx
-   - [ ] /comprovantes deve mudar também, deve se tornar /documentos
+   - [x] /comprovantes deve mudar também, deve se tornar /documentos
 - [x] Aplicar devdocs/cogex.png ao topo do menu, para todos os usuários no lugar de um pequeno quadrado atual, ao lado de 'Exofi Despesas'
    - [x] Substitua 'Exofi Despesas' por 'Despesas' apenas
-- [ ] Adicionar Gráficos
 - [x] /comprovantes deve mostrar apenas os da serventia atual para quem não é da cogex, no momento está mostrando todos
+- [ ] Adicionar Gráficos
 
 ## Auditor
 
@@ -269,6 +271,15 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [ ] Toda vez que um 'select' de filtro diferente do inicial está ativado, uma cor de destaque para o fundo do select
 - [ ] A despesa deve ter um contador que incrementa a cada vez que o auditor a pôe como pendente, de tal forma que será possível rastrear as que foram demasiadas problemáticas @feature
    - [ ] Isso implica novas telas para suporte, avaliar quais seriam e criá-las
+- [x] Ao clicar em 'Documentos', no menu lateral, para 'Auditor' é preciso retirar as 'Ações' Editar e Excluir
+   - [x] Adicionar 'Detalhes' no lugar
+   - [ ] Avaliar no backend, como está a permissão para 'Editar' e 'Excluir', que só pode ser feita via suporte com documentação específica @suporte
+   - [ ] Adicionar o nome da Serventia, se o usuário for da COGEX
+   - [ ] Adicionar limite de paginação. Incluir padrão de 50 itens
+   - [ ] Retirar os caontainers 'Upload' e 'Criar via JSON'
+   - [ ] Desabilitar o link nos nomes dos arquivos e adicionar antes do nosmes, os mesmos ícones de Download e Visualização que aparecem em /despesas
+- [ ] Informar tamanho do arquivo
+- [ ] Data de upload do arquivo deve ser automática no banco de dados
 
 ## Security
 
