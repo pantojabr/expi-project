@@ -306,7 +306,7 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
 - [x] Entender melhor a questão de como deve ser o número de documentos necessários para o titular submeter
    - São dois mesmo que podem ter vários nomes para o que hoje está como NT_Fiscal e a partir de agora serão chamados de 'Documento Financeiro'
    - [x] A nomenclatura correta para esses arquivos. Será 'Documento Financeiro'
-- [ ] Como funciona o processo de novos colaboradores? Qual a melhor forma de integrar com esse sistemas quanto a adimissão/demissão? Delegatário é o Responsável ou a COGEX?
+- [x] Como funciona o processo de novos colaboradores? Qual a melhor forma de integrar com esse sistemas quanto a adimissão/demissão? Delegatário é o Responsável ou a COGEX?
    - Passa pela COGEX, mas não integrará o sistema. Disso tirou-se apenas que caberá ao Delegatário adicionar e removar o acesso aos seus colaboradores. O sistema considera que todos os trâmites na COGEX já foram realizados e é permitido ao Delegatário adicionar o colaborador. Sendo sua única e exclusiva responsabilidade por isso.
    - [ ] Implementar essa Gerência de Usuários das Serventias
 
