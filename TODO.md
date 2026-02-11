@@ -303,9 +303,12 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
 ### Ambos
 
 - [x] Uma lista de Categorias numa coluna e em outra suas subcategorias. Enquanto listas as subcategorias, da mesma categoria, apenas a primeira linha deve aprecer com o nome da categoria, as demais em branco.
-- [ ] Entender melhor a questão de como deve ser o número de documentos neceários para o titular submeter
-   - [ ] Anomenclatura correta para esses arquivos
-- [ ] Como funciona o processo de novos colaboradores? Qual a melhor forma de integrar com esse sistemas quanto a adimissão/demissão? Titular é o Responsável ou a COGEX?
+- [x] Entender melhor a questão de como deve ser o número de documentos necessários para o titular submeter
+   - São dois mesmo que podem ter vários nomes para o que hoje está como NT_Fiscal e a partir de agora serão chamados de 'Documento Financeiro'
+   - [x] A nomenclatura correta para esses arquivos. Será 'Documento Financeiro'
+- [ ] Como funciona o processo de novos colaboradores? Qual a melhor forma de integrar com esse sistemas quanto a adimissão/demissão? Delegatário é o Responsável ou a COGEX?
+   - Passa pela COGEX, mas não integrará o sistema. Disso tirou-se apenas que caberá ao Delegatário adicionar e removar o acesso aos seus colaboradores. O sistema considera que todos os trâmites na COGEX já foram realizados e é permitido ao Delegatário adicionar o colaborador. Sendo sua única e exclusiva responsabilidade por isso.
+   - [ ] Implementar essa Gerência de Usuários das Serventias
 
 ### Carol
 
@@ -315,6 +318,8 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
 ### Alcione
 
 - [ ] Algum modo de adicionar a despesa como aprovada, mas com glosa => Coluna com valor aprovado
+   - [ ] Após Reunião com Carol, informei minha ideia de como implementar isso no fluxo já existentes como 'Pendencia'. Onde o Delegatário deve contabilizar corretamente e adicionar a diferença entre o valor pago e o valor próprio.
+   - Assim fica destacado o valor que foi pago, mas também separado para contabilidade o valor devido a ser aprovado.
    - [ ] Um relatório ou visualização desse total de glosa, Valor Total sem Glosas
 
 ### Dev
