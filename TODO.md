@@ -273,8 +273,9 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
    - [ ] Isso implica novas telas para suporte, avaliar quais seriam e criá-las
 - [x] Ao clicar em 'Documentos', no menu lateral, para 'Auditor' é preciso retirar as 'Ações' Editar e Excluir
    - [x] Adicionar 'Detalhes' no lugar
-   - [ ] Avaliar no backend, como está a permissão para 'Editar' e 'Excluir', que só pode ser feita via suporte com documentação específica @suporte
-   - [ ] Adicionar o nome da Serventia, se o usuário for da COGEX
+   - [x] Avaliar no backend, como está a permissão para 'Editar' e 'Excluir', que só pode ser feita via suporte por cogex_admin, com documentação específica @suporte
+- [ ] Em /documentos , para Auditor
+   - [ ] Adicionar o nome da Serventia do documento na tabela, se o usuário for da COGEX
    - [ ] Adicionar limite de paginação. Incluir padrão de 50 itens
    - [ ] Retirar os caontainers 'Upload' e 'Criar via JSON'
    - [ ] Desabilitar o link nos nomes dos arquivos e adicionar antes do nosmes, os mesmos ícones de Download e Visualização que aparecem em /despesas
@@ -296,6 +297,7 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 ## Dev
 
 - [ ] Teste automatizados de UI por User Estories
+- [ ] Fazer essa padronização ajustando o SecurityConfig para usar o mesmo esquema do RestExceptionHandler (incluindo timestamp e errors quando aplicável).
 
 ## Preset
 
