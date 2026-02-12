@@ -153,6 +153,8 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [ ] Em /relatorios, acima de 'Entradas' adicionar dois ícones de exportar: um para o filtrado e outro por serventia
 - [ ] Tipos de arquivos(imagens é mais fácil de manipular), tamanho e tempo de guarda no banco de dados e se será necessário manter por quanto tempo nas serventias tais arquivos
    - Uma vez as contas aprovadas, tá aprovado
+- [ ] Habilitar 'Documentos' em menu para Serventias
+   - [ ] Unificar componentes se possível
 
 ## Bugfixes
 
@@ -173,6 +175,14 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 
 ## ModelFixes
 
+- Total Refactor:
+   - [ ] Iniciar Flyway
+   - [ ] Todas as tabelas que possuem campos do tipo xx_id deve ser modificadas para id_xx 
+   - [ ] serventia_id está 'public.serventia_extrajudicial(id)', mas id_serventia é quem deve fazer essa referência
+      - [ ] serventia_id deve ser retirada do modelo public.despesa
+      - [ ] Isso deve refletir na nova devdocs/populate_data.py, testes em devdocs/despesa-api-mvp.py e despesa-api-mvp/src/test
+      - [ ] ATENÇÃO só depois da de cima qualquer tabela do tipo id_xx se não tiver referência para uma tabela em sua definição então deve ser apagada
+- [ ] despesa_id deve mudar para id_despesa
 - [ ] despesa não depende de tipo_cartorio_id, confirmar e remover se for o caso
 - [ ] usuario_dominio poderia ser demitido e recontratado, para isso, é preciso ter uma ligação ao invé de acesso direto
 - [ ] despesa não depende de categoria_id, subcategoria_id basta
@@ -203,7 +213,7 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [x] Em 'Buscar por ID' em /admin após clicar em 'Categorias', no formulário de busca, ao invés de usar 'ID', deve usar nome da Categoria ou Subcategoria num input que case parcialmente a partir da segunda letra
    - [x] Assim a tabela nesta tela deve ser atualizada conforme a busca parcial é executada
    - [x] O componente que mostra o texto 'Encontrado' não é mais necessário
-   - [x] A mesma deve icar mais abaixo próxima da tabela categoria
+   - [x] A mesma deve ficar mais abaixo próxima da tabela categoria
    - [?] O filtro deve ter a capacidade de ignorar acentos e ç
 - [x] Em "Nova subcategoria" o input 'Categoria pai (ID)' deve ser uma seleção com as categorias já registradas
 - [x] Em /despesas, o botão 'Submeter' deve aparecer depis do botão 'Detalhes' não está seguindo o padrão de cores para estatus, corrigir
@@ -219,7 +229,17 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [x] Aplicar devdocs/cogex.png ao topo do menu, para todos os usuários no lugar de um pequeno quadrado atual, ao lado de 'Exofi Despesas'
    - [x] Substitua 'Exofi Despesas' por 'Despesas' apenas
 - [x] /comprovantes deve mostrar apenas os da serventia atual para quem não é da cogex, no momento está mostrando todos
+- [x] Em /despesas a tabela deve mostrar Categoria e Subcategoria antes de Descrição
+- [ ] Responder Pendente não deve ser aceito sem "Resposta", Vazio/Espaços e outros do tipo não valem
+- [x] Ampliar o caontainer para ocupar mais espaço lateral na tela
+- [x] A tabela deve aparecerzebrada e responder ao mouse
+- [ ] Em 'Questionamentos do Auditor' de '/despesas/89' 'Sua Resposta:' deve aparecer indentada na solicitação a qual pertence
 - [ ] Adicionar Gráficos
+- [ ] Em /relatorios, 'Resumo' deve mostrar a estatistica de todas as entradas
+- [ ] Para consistência, Entradas: xx e Valor Total:R$ xx, deve aparecer também em 'Resumo' é para todas as entradas
+- [ ] Em /relatorios, 'Resumo' deve mostrar a estatistica de paginação atual logo acima da tabela com 'Resumo desta tela' de forma discreta
+- [ ] Desabilitar 'Documentos' em menu para a serventia
+- [ ] O filtros de STATUS estão com estilos inconsistentes conforme cliques variados
 
 ## Auditor
 
@@ -243,7 +263,7 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 ### Filtros
 
 - [@] Visualizar as despesas em lista por dois filtros, inicialmente por mês atual por padrão, e o segundo por status SUBMETIDA; paginação padrão de 50 itens 
-    - [@] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
+    - [x] Assim decorre que esse filtro fique salvo até que nova combinação seja feita e passe a valer até que o usuário troque novamente
 - [x] Em /relatorios as informações da tabela dos status deve ter os 'status+"seu total"' em um elemento e seguindo a cor já usada na lista despesas. Tais elementos deve ficar em um elemento na parte superior do dashboard, log abaixo da navbar.
      - Assim, todo o espaço deixa de estar dividido em duas colunas "Relatorios" e "Auditoria de despesas", ficando apenas a última com seus elementos internos distribuídos em linha.
 - [x] Onde está 'Relatorios' deve ficar 'Resumo' e este deve ser dinânmico e acompanhar o filtro
@@ -274,11 +294,14 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [x] Ao clicar em 'Documentos', no menu lateral, para 'Auditor' é preciso retirar as 'Ações' Editar e Excluir
    - [x] Adicionar 'Detalhes' no lugar
    - [x] Avaliar no backend, como está a permissão para 'Editar' e 'Excluir', que só pode ser feita via suporte por cogex_admin, com documentação específica @suporte
-- [ ] Em /documentos , para Auditor
-   - [ ] Adicionar o nome da Serventia do documento na tabela, se o usuário for da COGEX
-   - [ ] Adicionar limite de paginação. Incluir padrão de 50 itens
-   - [ ] Retirar os caontainers 'Upload' e 'Criar via JSON'
-   - [ ] Desabilitar o link nos nomes dos arquivos e adicionar antes do nosmes, os mesmos ícones de Download e Visualização que aparecem em /despesas
+- [@] Em /documentos, para Auditor e Admin
+   - [x] Retirar os caontainers 'Upload' e 'Criar via JSON'
+   - [x] Garantir que Auditor e Admin não possam criar documentos via 'Upload' e 'Criar via JSON', mesmo diretamente por API @security @DDD
+   - [x] Bloquear upload e create quando a despesa não for da serventia do usuário (validação extra no service) @DDD
+   - [x] Em /documentos, baixa o PDF, mas não visualiza ao clicar na 'Lupa'. Retornou isso: {"path":"/api/documentos/files/29c37617-1ee1-4a8c-86d1-1569304d78e1_comprovante_pagamento.pdf","error":"Unauthorized","message":"Nao autenticado","errors":{},"timestamp":"2026-02-12T15:42:35.534993550Z","status":401} 
+   - [x] Em /documentos, Adicionar o nome da Serventia do documento na tabela, se o usuário for da COGEX
+   - [x] Em /documentos, Adicionar limite de paginação. Incluir padrão de 50 itens
+   - [x] Em /documentos, Desabilitar o link nos nomes dos arquivos e adicionar antes dos nomes e adicionar os mesmos ícones de Download e Visualização que aparecem em /despesas
 - [ ] Informar tamanho do arquivo
 - [ ] Data de upload do arquivo deve ser automática no banco de dados
 
@@ -323,18 +346,35 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
    - Passa pela COGEX, mas não integrará o sistema. Disso tirou-se apenas que caberá ao Delegatário adicionar e removar o acesso aos seus colaboradores. O sistema considera que todos os trâmites na COGEX já foram realizados e é permitido ao Delegatário adicionar o colaborador. Sendo sua única e exclusiva responsabilidade por isso.
    - [ ] Implementar essa Gerência de Usuários das Serventias
 
+### Dra
+
+- [ ] Encontrar maneira de não permitir que os valores sobre o qual o delegatário presta contas venha de Associação ou Cooperativa
+   - Sugestão: Usar obrigatoriamente BB ou Caixa (De acordo com análise prévia) Isso também permite uma forma de conectar valores pagos com recebido, veja na análise
+   - Carol irá ver essa possibilidade com as Serventias
+
 ### Carol
 
-- [ ] /relatorios deve ser adaptado para aparecer para quem não é da COGEX, mas deve poder ver apenas informações da serventia a qual pertence o usuário.
-- [ ] Datas das despesas
+- [x] /relatorios deve ser adaptado para aparecer para quem não é da COGEX, mas deve poder ver apenas informações da serventia a qual pertence o usuário.
+- [x] Datas da 'Competencia das despesas' deve aparecer nas tabelas
+- [ ] Ajustar o resumo/estatísticas para usar o endpoint de /api/relatorios (caso queira estatísticas globais mesmo para cartório).
+- [ ] Esconder filtros que não façam sentido para serventia (ex.: tipo de cartório).
+- [ ] Pagamento em dinheiro só tem um recibo, o qual seria o único documento, criar uma forma de adaptar a esta realidade.
+   - Há uma msg no zap com proposta de estabelecer um limite, será discutido com as COGEX mais adiante
 
 ### Alcione
 
 - [ ] Algum modo de adicionar a despesa como aprovada, mas com glosa => Coluna com valor aprovado
-   - [ ] Após Reunião com Carol, informei minha ideia de como implementar isso no fluxo já existentes como 'Pendencia'. Onde o Delegatário deve contabilizar corretamente e adicionar a diferença entre o valor pago e o valor próprio.
-   - Assim fica destacado o valor que foi pago, mas também separado para contabilidade o valor devido a ser aprovado.
-   - [ ] Um relatório ou visualização desse total de glosa, Valor Total sem Glosas
+   - Após Reunião com Carol, informei minha ideia de como implementar isso no fluxo já existentes como 'Pendencia'. Onde o Delegatário deve contabilizar corretamente e adicionar a diferença entre o valor pago e o valor próprio.
+   - Assim fica destacado o valor que foi pago, mas também separado para contabilidade o valor devido a ser aprovado. É responsabilidade do delegatario a prestação de contas correta. Uma vez passado o prazo de pagamento, pode haver cobrança de adicional e o comprovante era enviado com o valor atualizado, mas só cabe o aceite ao valor inicial. Isso gera necessidade de conferência em cada nota para ver se isso não ocrreu. Não havia uma forma de controlar essa especificação de forma granular e deixar a responsabilidade de informar a quem cabe. Tal situação gera maior carga cognitiva para todas as notas, o que será evitado conforme tais ocorrencias @feature @conceito
+   - [ ] Valor, Em 'Nova Despesa', agora 'Valor no Vencimento' + 'Multas + Juros'
+      - [ ] Não informar 'Multas + Juros' impede o cadastro de 'Nova Despesa' com modal informativo
+   - [ ] Tal informação deve ficar no formulário de 'Nova Despesa'
+   - [ ] Um relatório ou visualização desse total de glosa, Valor Total sem Glosas, decorre naturalmente do novo campo
 
+### Márcio
+
+- [ ] Voltar em alguns momentos, ex: após clicar em detalhes
+ 
 ### Dev
 
 - [x] Em admin -> Categorias, 'Editar' deve lançar uma modal
@@ -343,6 +383,16 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
    - [x] Uma lista de Categorias numa coluna e em outra suas subcategorias. Enquanto listas as subcategorias, da mesma categoria, apenas a primeira linha deve aprecer com o nome da categoria, as demais em branco.
    - [x] Deve haver um botão que para exibir só as categorias e outro para todas. Para esses botões, use o mesmo padrão do STATUS em /relatorios
    - [x] O filtro 'Filtrar por nome (Categoria ou Subcategoria)' deve funcionar aqui também. Assim há duas experiencias de visualização.
+- [ ] Em devdocs/populate_data.py, aprimorar para variar os 'Tipo de cartorio', pois no momento está sendo feito apenas para 'Registro de imóveis'
+   - [ ] Adicionar o dados para os anos de 2025 e 2026, até o dia atual da execução do script
+   - [ ] O Script não deve adicionar 'Tipos de cartorio' além dos 5 que já existem como inicias
+   - [ ] O Script não deve adicionar 'Serventias' além dos 22 que já existem como inicias
+   - [ ] 'Regras de despesa' deve ser apenas sobre as 'Serventias' além dos 22 que já existem como inicias
+- [ ] Em /admin/serventias, os containers devem ocupar todo espaço disponível, pois há e estão se sobrepondo
+- [ ] Em /admin/usuarios, os containers devem ocupar todo espaço disponível, pois há e estão se sobrepondo
+
+"Se quiser, posso também garantir que NF e Comprovante sejam obrigatórios antes do envio da despesa (validação já existe no fluxo, mas posso reforçar no backend)"
+Não está lá? Verifique, nenhuma validação pode ser só no frontend. Primeiro sempre no backend
 
 ### Questões pra estudo
 
