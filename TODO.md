@@ -143,9 +143,9 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
 - [ ] Criar classes que precisam de aprovação prévia da COGEX para serem empenhadas, de tal modo que terá que ser apresentada, via link no próprio sistema do processo aprovado (solicitação e ok, algo simples por clicks) Exigirá então uma página própria e uma fluxo próprio, não será possível o gasto sem permissão inicial.
 - [ ] Ícones destacados de Tarefas que indica que há despeas para revisar
 - [ ] Ícones destacados de Tarefas que indica que há despeas para avaliar/auditar/aprovar-rejeitar-pedir_esclarecimento
-- [ ] Qualquer tipo de gastos pode ser bloqueados numa serventia ou en todas, passa a valer no dia seguinte
+- [ ] Qualquer tipo de gastos pode ser bloqueados numa serventia ou em todas, passa a valer no dia seguinte
 - [ ] Mecanismo de confirmação dos dados das despesas
-    - O visualizador tem uma versão alternativa de modo confronto, o usuário deve confirmar se a informação no painel corresponde ao conteúdo do PEF
+    - O visualizador tem uma versão alternativa de modo confronto, o usuário deve confirmar se a informação no painel corresponde ao conteúdo do PDF
     - O número de vezes que é necessário para permitir que a despesa seja livre para ser submetida é configurada pela COGEX, mas a princípio é '1' para todas as serventias
     - É o ponto principal para aumentar a garantia que uma despesa está de acordo com os documentos, isso faz com que seja possível reduzir o risco prestação errada enviada para a COGEX
         - Aumentar esta garantia é fundamental para o sistema alcançar sucesso esperado, reduzir o trabalho massante na COGEX
@@ -295,7 +295,7 @@ Objetivo: Assegurar a qualidade, a clareza e a prontidão do módulo.
    - [x] Adicionar 'Detalhes' no lugar
    - [x] Avaliar no backend, como está a permissão para 'Editar' e 'Excluir', que só pode ser feita via suporte por cogex_admin, com documentação específica @suporte
 - [@] Em /documentos, para Auditor e Admin
-   - [x] Retirar os caontainers 'Upload' e 'Criar via JSON'
+   - [x] Retirar os containers 'Upload' e 'Criar via JSON'
    - [x] Garantir que Auditor e Admin não possam criar documentos via 'Upload' e 'Criar via JSON', mesmo diretamente por API @security @DDD
    - [x] Bloquear upload e create quando a despesa não for da serventia do usuário (validação extra no service) @DDD
    - [x] Em /documentos, baixa o PDF, mas não visualiza ao clicar na 'Lupa'. Retornou isso: {"path":"/api/documentos/files/29c37617-1ee1-4a8c-86d1-1569304d78e1_comprovante_pagamento.pdf","error":"Unauthorized","message":"Nao autenticado","errors":{},"timestamp":"2026-02-12T15:42:35.534993550Z","status":401} 
@@ -387,9 +387,11 @@ Avalie o significado no sistema para os tipos de STATUS, principalmente pendente
    - [ ] Adicionar o dados para os anos de 2025 e 2026, até o dia atual da execução do script
    - [ ] O Script não deve adicionar 'Tipos de cartorio' além dos 5 que já existem como inicias
    - [ ] O Script não deve adicionar 'Serventias' além dos 22 que já existem como inicias
-   - [ ] 'Regras de despesa' deve ser apenas sobre as 'Serventias' além dos 22 que já existem como inicias
+   - [ ] 'Regras de despesa' deve ser apenas sobre as 'Serventias' dos 22 que já existem como inicias
 - [ ] Em /admin/serventias, os containers devem ocupar todo espaço disponível, pois há e estão se sobrepondo
 - [ ] Em /admin/usuarios, os containers devem ocupar todo espaço disponível, pois há e estão se sobrepondo
+despesa-api-mvp/src/main/resources/application.properties
+e pom.xml
 
 "Se quiser, posso também garantir que NF e Comprovante sejam obrigatórios antes do envio da despesa (validação já existe no fluxo, mas posso reforçar no backend)"
 Não está lá? Verifique, nenhuma validação pode ser só no frontend. Primeiro sempre no backend

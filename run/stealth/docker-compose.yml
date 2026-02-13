@@ -1,0 +1,86 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.116.1
+    container_name: despesa_otel_collector_stealth
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml:ro
+    ports:
+      - "14318:4318"
+      - "14317:4317"
+
+  db:
+    image: postgres:16-alpine
+    container_name: despesa_db_stealth
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data_stealth:/var/lib/postgresql/data
+    ports:
+      - "${HOST_DB_PORT}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ${STEALTH_WORKDIR}/despesa-api-mvp
+      dockerfile: Dockerfile.stealth
+    container_name: despesa_api_stealth
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
+    ports:
+      - "${HOST_API_PORT}:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      - SPRING_SQL_INIT_MODE=${SQL_INIT_MODE}
+      - OTEL_SERVICE_NAME=${OTEL_SERVICE_NAME_API}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_PROTOCOL=${OTEL_EXPORTER_OTLP_PROTOCOL}
+      - OTEL_RESOURCE_ATTRIBUTES=${OTEL_RESOURCE_ATTRIBUTES_API}
+      - OTEL_METRICS_EXPORTER=${OTEL_METRICS_EXPORTER}
+      - OTEL_LOGS_EXPORTER=${OTEL_LOGS_EXPORTER}
+      - JAVA_OPTS=${JAVA_OPTS}
+    volumes:
+      - ${STEALTH_WORKDIR}/despesa-api-mvp/uploads:/app/uploads:rw
+
+  front:
+    image: node:20-alpine
+    container_name: despesa_front_stealth
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    working_dir: /app
+    depends_on:
+      - api
+      - otel-collector
+    ports:
+      - "${HOST_FRONT_PORT}:3000"
+    environment:
+      - NEXT_TELEMETRY_DISABLED=1
+      - FRONT_API_REWRITE_BASE_URL=${FRONT_API_REWRITE_BASE_URL}
+      - OTEL_SERVICE_NAME=${OTEL_SERVICE_NAME_FRONT}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_PROTOCOL=${OTEL_EXPORTER_OTLP_PROTOCOL}
+      - OTEL_RESOURCE_ATTRIBUTES=${OTEL_RESOURCE_ATTRIBUTES_FRONT}
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:${HOST_API_PORT}
+    volumes:
+      - ${STEALTH_WORKDIR}/despesas-front-mvp:/app
+    command: >
+      sh -lc "npm ci &&
+              npm install --no-save @vercel/otel &&
+              npm run dev -- --hostname 0.0.0.0 --port 3000"
+
+volumes:
+  postgres_data_stealth:
